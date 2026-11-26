@@ -1,0 +1,19 @@
+{
+  "fixtureId": "f14000-unprocessed-834",
+  "version": "1.0.0",
+  "businessDate": "20260810",
+  "membershipRecords": [],
+  "recent834Records": [
+    [
+      "111223333",
+      "20260101",
+      "20261231",
+      "N"
+    ]
+  ],
+  "priorRcnaRecords": [],
+  "expected": {
+    "ruleId": "F14000",
+    "code": "AE501"
+  }
+}

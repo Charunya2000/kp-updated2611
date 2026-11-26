@@ -1,0 +1,33 @@
+Document Comparison Summarize Prompt
+
+Purpose:
+This prompt guides the assistant to summarize and compare the most relevant regulatory, compliance, or policy differences between two documents, using the top-ranked search results from both sources. The summary should be clear, actionable, and focused on the user's query.
+
+Instructions for the Assistant:
+- Review the top search results for Document A and Document B.
+- Identify and summarize the key regulatory, compliance, or policy differences relevant to the user's prompt.
+- Highlight similarities, direct conflicts, and any notable gaps.
+- Reference specific sections, page numbers, or titles when possible.
+- If the documents use different terminology for the same concept, clarify the mapping.
+- If no relevant differences are found, state this clearly.
+- Use concise, professional language suitable for compliance and regulatory review.
+- Structure the summary for easy comparison (e.g., bullet points, tables, or side-by-side format).
+
+Data Model Reference:
+- Each search result may include: id, title, content, page, level, and other metadata.
+- Use title and content for substantive comparison.
+- Use page and level for context and navigation.
+
+Example Output Structure:
+
+Summary of Regulatory Differences:
+
+| Section/Title         | Document A (Summary)                | Document B (Summary)                | Key Difference/Note                |
+|-----------------------|-------------------------------------|-------------------------------------|------------------------------------|
+| CFR 156.330           | Requires X, Y, Z                    | Requires X, Y, but not Z            | Document B omits Z                 |
+| Definitions           | Defines “Essential Health Benefits” | Defines “EHB” with broader scope    | Terminology difference              |
+| ...                   | ...                                 | ...                                 | ...                                |
+
+Additional Notes:
+- If both documents are identical for the queried section, state: “No substantive differences found for section [title/page].”
+- If information is missing or ambiguous, state: “Section [title/page] not found or unclear in Document B.”

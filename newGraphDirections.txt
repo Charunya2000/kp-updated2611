@@ -1,0 +1,152 @@
+Background:
+
+Technical:
+- Use langchain langgraph to do the following
+- leverage the nodejs api of langchain
+- leverage existing source files of:
+  - app/services/chatCompletionService2';
+  - app/services/searchVectorDataService';
+  - app/services/vectorizeDataService';
+  - app/services/smartNoteService';
+
+Functional:
+- There is a role with name 'KPMC Assistant'
+- There is a persona for the above role of 'DBA'
+- Users having role of 'KPMC Assistant' can select the persona of 'DBA' in the KPIT AI Portal
+- When users have selected the persona of 'DBA' they are asking for help writing queries.
+- When the assistant responds it can lever the following 3 things:
+  - (1) The Azure OpenAI foundational model which will have knowledge of SQL including Oracle SQL
+  - (2) The 'smart-database-001' Azure AI Search index that has the following fields:
+    - database_name (searchable, filterable)
+    - schema_name (searchable, filterable)
+    - table_name (searchable, filterable)
+    - content containing JSON of:
+      - table_schem: which is the schema the table is in
+      - table_name: which is the name of the table
+      - columns: an array of columns which include: column_name, type_name, ordinal_position, whether the column is nullable, the column_size and more
+      - primaryKeys: an array of pk columns (e.g. a primary key can be a compound primary key with more than one column), the primary key name, etc.
+      - foreignKeys: an array of foreign keys pointing to this table each of which includes:
+        - fk_name: the name of the foreign key
+        - fktable_schem: the schema of the other talble whose foreign key points to this table
+        - fktable_name: the name of the other table
+        - fkcolumn_name: the name of the corresponding column pointing to the primary column of this table
+        - key_seq: the ordinal position of this foreign key column in the other table
+      - The information in smart-database-001 was retrieved via JDBC database metadata.
+  - (3) The following tips for constructing the query:
+    - This should be captured as context for the assistant to use in the langchain graph.
+    - First analyze the query to determine the tables and or columns of interest
+    - Then query the index (multiple times if needed) to capture all the azure ai search documents needed to contruct the query
+    - Example: User asks give me a query to find person name and date of birth for persons whose coverage date starts
+                 June 1st 2023
+      - Assistant approach:
+        - Query for tables that might include a partial name that includes 'person'
+        - Or use a the prompt embedding to search content for table columns that include person name or date of birth or coverage start date
+        - Once tables have been found:
+          - review content JSON to see the relationships between multiple tables found by looking at the foreignKeys entry in content JSON
+        - Repeat index search multiple times if needed
+        - Once sure of having all the table information you need use foundational knowledge of SQL (including Oracle SQL) to
+          construct query meeting user expectations.
+
+Here's an exmple of the content JSON:
+{
+  "table_schem": "MEMBER_OWNER",
+  "table_name": "TAP_PERSON",
+  "columns": [
+    {
+      "decimal_digits": null,
+      "column_size": 255,
+      "is_nullable": "NO",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "PERSON_ID",
+      "nullable": 0,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 1
+    },
+    {
+      "decimal_digits": null,
+      "column_size": 255,
+      "is_nullable": "YES",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "COMMUNITY_ID",
+      "nullable": 1,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 2
+    },
+    {
+      "decimal_digits": null,
+      "column_size": 13,
+      "is_nullable": "YES",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "MPID",
+      "nullable": 1,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 3
+    },
+    {
+      "decimal_digits": null,
+      "column_size": 255,
+      "is_nullable": "YES",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "FULL_NAME",
+      "nullable": 1,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 4
+    },
+    {
+      "decimal_digits": null,
+      "column_size": 255,
+      "is_nullable": "YES",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "FIRST_NAME",
+      "nullable": 1,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 5
+    },
+    {
+      "decimal_digits": null,
+      "column_size": 255,
+      "is_nullable": "YES",
+      "buffer_length": 0,
+      "num_prec_radix": 10,
+      "column_name": "MIDDLE_NAME",
+      "nullable": 1,
+      "type_name": "VARCHAR2",
+      "ordinal_position": 6
+    }
+  ],
+  "primaryKeys": [
+    {
+      "pk_name": "TAP_PERSON_PK",
+      "key_seq": 1,
+      "column_name": "PERSON_ID"
+    }
+  ],
+  "foreignKeys": [
+    {
+      "fk_name": "TAP_COVERAGE_EDIT_HISTORY_FK_TAP_PERSON_R_688",
+      "fktable_schem": "MEMBER_OWNER",
+      "fktable_name": "TAP_COVERAGE_EDIT_HISTORY",
+      "fkcolumn_name": "PERSON_ID",
+      "key_seq": 1
+    },
+    {
+      "fk_name": "TAP_COVERAGE_ORIGINAL_ENROLL_VALUE_FK_TAP_PERSON_R_699",
+      "fktable_schem": "MEMBER_OWNER",
+      "fktable_name": "TAP_COVERAGE_ORIGINAL_ENROLL_VALUE",
+      "fkcolumn_name": "PERSON_ID",
+      "key_seq": 1
+    },
+    {
+      "fk_name": "TAP_COVERAGE_OUTSTANDING_ACTION_FK_TAP_PERSON_R_704",
+      "fktable_schem": "MEMBER_OWNER",
+      "fktable_name": "TAP_COVERAGE_OUTSTANDING_ACTION",
+      "fkcolumn_name": "EXTERNAL_PERSON_ID",
+      "key_seq": 1
+    }
+  ]
+}

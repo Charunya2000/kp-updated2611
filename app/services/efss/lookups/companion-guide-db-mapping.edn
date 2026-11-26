@@ -1,0 +1,728 @@
+{:source-guide "TrentonSystemsInc_GA_CompanionDoc_5010a1-2025-12-29.edn"
+ :ddl-source "MEMBER_OWNER_DDL.sql"
+ :generated-on #inst "2026-03-02T00:00:00.000-00:00"
+ ;; :specs is the flat lookup schema consumed by efss (build-lookup-index / evaluate-lookup).
+ ;; It is derived from :mappings below, scoped to member/subscriber loops (2000/2100A/2200/2300/2320)
+ ;; and to tables the Oracle executor can query. The index is keyed by [loop segment-id segment-ref],
+ ;; so a few refs that share a key are collapsed (see NOTE comments) and cannot be represented separately.
+ :specs
+ [;; ---- Loop 2000: Member Level Detail ----
+  {:id "2000-INS01" :loop "2000" :segment-id "INS" :segment-ref "INS01" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "PERSON_TYPE_CODE" :notes "Y=Subscriber maps to SUB/DEP indicator."}
+  {:id "2000-INS02" :loop "2000" :segment-id "INS" :segment-ref "INS02" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "PERSON_REL_TO_SUBSCRIBER_CODE" :notes "Individual relationship."}
+  {:id "2000-INS03" :loop "2000" :segment-id "INS" :segment-ref "INS03" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "MAINTENANCE_TYPE_CODE" :notes "Maintenance type (001/021/024/030)."}
+  {:id "2000-INS04" :loop "2000" :segment-id "INS" :segment-ref "INS04" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "MAINTENANCE_REASON_CODE" :notes "Reason (XN/AI)."}
+  {:id "2000-INS05" :loop "2000" :segment-id "INS" :segment-ref "INS05" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "BENEFIT_STATUS_CODE" :notes "A/C/S/T codes."}
+  {:id "2000-INS06" :loop "2000" :segment-id "INS" :segment-ref "INS06" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "MEDICARE_PLAN_CODE" :notes "Medicare indicator (D/E)."}
+  {:id "2000-INS07" :loop "2000" :segment-id "INS" :segment-ref "INS07" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "LATE_ENROLLMENT_IND" :notes "COBRA qualifying indicator."}
+  {:id "2000-INS08" :loop "2000" :segment-id "INS" :segment-ref "INS08" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "SUBSCRIBER_EMPLOYMENT_STATUS_CODE" :notes "Employment status for subscribers."}
+  {:id "2000-INS09" :loop "2000" :segment-id "INS" :segment-ref "INS09" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "PERSON_COVERAGE_ATTRIBUTE" :notes "Student status attribute."}
+  {:id "2000-INS10" :loop "2000" :segment-id "INS" :segment-ref "INS10" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "ATTRIBUTE_COMMENT" :notes "Handicap indicator captured as comment."}
+  {:id "2000-INS11" :loop "2000" :segment-id "INS" :segment-ref "INS11" :enabled? false :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "DATE_OF_DEATH" :notes "INS11 is the date-time format qualifier (D8), not a date value; the death date is validated by INS12. Disabled to avoid comparing a qualifier code to a DATE column."}
+  {:id "2000-INS12" :loop "2000" :segment-id "INS" :segment-ref "INS12" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "DATE_OF_DEATH" :notes "Death date value."}
+  {:id "2000-INS17" :loop "2000" :segment-id "INS" :segment-ref "INS17" :enabled? true :lookup-kind :db-column :table "TAP_STAGING_COMPANION" :column "PERSON_LINE_NB_INDEX" :notes "Birth sequence number."}
+  ;; NOTE: loop 2000 REF02 appears 5x by qualifier (SSN/group/client/subgroup/bill). The [loop seg ref]
+  ;; index can hold only one; the subscriber SSN anchor is kept. Others cannot be represented here.
+  {:id "2000-REF02-SSN" :loop "2000" :segment-id "REF" :segment-ref "REF02" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE" :column "SUBSCRIBER_SSN" :notes "SSN tied to qualifier 0F (subscriber anchor)."}
+  {:id "2000-DTP01" :loop "2000" :segment-id "DTP" :segment-ref "DTP01" :enabled? false :lookup-kind :db-column :table "TAP_COVERAGE" :column "SUBSCRIBER_EMPLOYMENT_DATE" :notes "DTP01 is the date-time qualifier (336), not a date value; the hire date is validated by DTP03. Disabled to avoid comparing a qualifier code to a DATE column."}
+  {:id "2000-DTP03" :loop "2000" :segment-id "DTP" :segment-ref "DTP03" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE" :column "SUBSCRIBER_EMPLOYMENT_DATE" :notes "Actual hire date value."}
+
+  ;; ---- Loop 2100A: Member Name / Demographics ----
+  {:id "2100A-NM103" :loop "2100A" :segment-id "NM1" :segment-ref "NM103" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "LAST_NAME" :notes "Last name."}
+  {:id "2100A-NM104" :loop "2100A" :segment-id "NM1" :segment-ref "NM104" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "FIRST_NAME" :notes "First name."}
+  {:id "2100A-NM105" :loop "2100A" :segment-id "NM1" :segment-ref "NM105" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "MIDDLE_NAME" :notes "Middle initial."}
+  {:id "2100A-NM106" :loop "2100A" :segment-id "NM1" :segment-ref "NM106" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "PREFIX" :notes "Name prefix."}
+  {:id "2100A-NM107" :loop "2100A" :segment-id "NM1" :segment-ref "NM107" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "SUFFIX" :notes "Name suffix."}
+  {:id "2100A-NM108" :loop "2100A" :segment-id "NM1" :segment-ref "NM108" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_EXTERNAL_IDENTIFIER" :column "IDENTIFICATION_TYPE_CODE" :notes "Identification qualifier (34)."}
+  {:id "2100A-NM109" :loop "2100A" :segment-id "NM1" :segment-ref "NM109" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_EXTERNAL_IDENTIFIER" :column "IDENTIFICATION_VALUE" :notes "SSN or other identifier."}
+  {:id "2100A-PER03" :loop "2100A" :segment-id "PER" :segment-ref "PER03" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_PHONE" :column "PHONE_TYPE_CODE" :notes "Phone qualifier (TE/CP)."}
+  {:id "2100A-PER04" :loop "2100A" :segment-id "PER" :segment-ref "PER04" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_PHONE" :column "PHONE_NUMBER" :notes "10-digit phone."}
+  {:id "2100A-PER05" :loop "2100A" :segment-id "PER" :segment-ref "PER05" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_EMAIL" :column "EMAIL_TYPE_CODE" :notes "EM qualifier."}
+  {:id "2100A-PER06" :loop "2100A" :segment-id "PER" :segment-ref "PER06" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_EMAIL" :column "EMAIL_ADDRESS" :notes "Member email."}
+  {:id "2100A-N301" :loop "2100A" :segment-id "N3" :segment-ref "N301" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "ADDRESS_LINE_1" :notes "Address line 1."}
+  {:id "2100A-N302" :loop "2100A" :segment-id "N3" :segment-ref "N302" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "ADDRESS_LINE_2" :notes "Address line 2."}
+  {:id "2100A-N401" :loop "2100A" :segment-id "N4" :segment-ref "N401" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "CITY" :notes "City."}
+  {:id "2100A-N402" :loop "2100A" :segment-id "N4" :segment-ref "N402" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "STATE_CODE" :notes "State."}
+  {:id "2100A-N403" :loop "2100A" :segment-id "N4" :segment-ref "N403" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "POSTAL_CODE" :notes "Postal code."}
+  {:id "2100A-N404" :loop "2100A" :segment-id "N4" :segment-ref "N404" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_ADDRESS" :column "COUNTRY_CODE" :notes "Country when not USA."}
+  {:id "2100A-DMG02" :loop "2100A" :segment-id "DMG" :segment-ref "DMG02" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "BIRTH_DATE" :notes "Birth date."}
+  {:id "2100A-DMG03" :loop "2100A" :segment-id "DMG" :segment-ref "DMG03" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "LEGAL_SEX_CODE" :notes "Gender code."}
+  {:id "2100A-DMG04" :loop "2100A" :segment-id "DMG" :segment-ref "DMG04" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "MARITAL_STATUS_CODE" :notes "Marital status when sent."}
+  {:id "2100A-DMG05" :loop "2100A" :segment-id "DMG" :segment-ref "DMG05" :enabled? true :lookup-kind :db-column :table "TAP_PERSON" :column "RACE_CODE" :notes "Race or ethnicity."}
+  {:id "2100A-LUI01" :loop "2100A" :segment-id "LUI" :segment-ref "LUI01" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_LANGUAGE" :column "LANGUAGE_TYPE_CODE" :notes "Language qualifier (LD/LE)."}
+  {:id "2100A-LUI02" :loop "2100A" :segment-id "LUI" :segment-ref "LUI02" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_LANGUAGE" :column "LANGUAGE_CODE" :notes "Language code."}
+  {:id "2100A-LUI04" :loop "2100A" :segment-id "LUI" :segment-ref "LUI04" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_LANGUAGE" :column "PRIMARY_SECONDARY_CODE" :notes "Use indicator (5/6/7/8)."}
+
+  ;; ---- Loop 2200: Disability Information ----
+  {:id "2200-DSB01" :loop "2200" :segment-id "DSB" :segment-ref "DSB01" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_COVERAGE_ATTRIBUTE" :column "PERSON_COVERAGE_ATTRIBUTE" :notes "Disability type code."}
+  {:id "2200-DSB08" :loop "2200" :segment-id "DSB" :segment-ref "DSB08" :enabled? true :lookup-kind :db-column :table "TAP_PERSON_COVERAGE_ATTRIBUTE" :column "ATTRIBUTE_COMMENT" :notes "Optional medical code narrative."}
+
+  ;; ---- Loop 2300: Health Coverage ----
+  {:id "2300-HD01" :loop "2300" :segment-id "HD" :segment-ref "HD01" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE" :column "COVERAGE_TYPE_CODE" :notes "Maintenance type for coverage."}
+  {:id "2300-HD05" :loop "2300" :segment-id "HD" :segment-ref "HD05" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE" :column "COVERAGE_STATUS_CODE" :notes "Coverage level / tier."}
+  {:id "2300-HD03" :loop "2300" :segment-id "HD" :segment-ref "HD03" :enabled? true :lookup-kind :db-column :table "TAP_BENEFIT_PLAN" :column "PLAN_TYPE_CODE" :notes "Insurance line code (DEN/HMO)."}
+  {:id "2300-HD04" :loop "2300" :segment-id "HD" :segment-ref "HD04" :enabled? true :lookup-kind :db-column :table "TAP_BENEFIT_PLAN" :column "BENEFIT_PLAN_NAME" :notes "Plan coverage description."}
+  ;; NOTE: 2300 DTP01 maps to both COVERAGE_START_DATE (348) and COVERAGE_END_DATE (349); only one fits
+  ;; the [loop seg ref] key. Start date is kept.
+  {:id "2300-DTP01" :loop "2300" :segment-id "DTP" :segment-ref "DTP01" :enabled? false :lookup-kind :db-column :table "TAP_COVERAGE" :column "COVERAGE_START_DATE" :notes "DTP01 is the date-time qualifier (348/349), not a date value; the actual date is validated by DTP03. Disabled to avoid comparing a qualifier code to a DATE column."}
+  {:id "2300-DTP03" :loop "2300" :segment-id "DTP" :segment-ref "DTP03" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE" :column "COVERAGE_START_DATE" :notes "Actual date value for start/end depending on qualifier."}
+
+  ;; ---- Loop 2320: Coordination of Benefits ----
+  {:id "2320-COB01" :loop "2320" :segment-id "COB" :segment-ref "COB01" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE_THIRD_PARTY_PAYER" :column "TPP_STATE_EXCHANGE_CODE" :notes "Payer responsibility sequence."}
+  {:id "2320-COB02" :loop "2320" :segment-id "COB" :segment-ref "COB02" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE_THIRD_PARTY_PAYER" :column "TPP_EXTERNAL_ID" :notes "Policy number / other payer id."}
+  {:id "2320-COB03" :loop "2320" :segment-id "COB" :segment-ref "COB03" :enabled? true :lookup-kind :db-column :table "TAP_COVERAGE_THIRD_PARTY_PAYER" :column "TPP_NAME" :notes "Coordination of benefits descriptive name."}]
+ :mappings
+ [{:loop "Header"
+   :segments
+   [{:segment-id "ISA"
+     :segment-description "Interchange Control Header"
+     :targets
+     [{:table "TAP_IDENTIFIER"
+       :business-object :trading-partner
+       :elements
+       [{:segment-ref "ISA05"
+         :column "INTERCHANGE_ID_QUALIFIER"
+         :data-type "VARCHAR2(40 BYTE)"
+         :context :sender
+         :notes "EDI sender qualifier (carrier expects tax-id based qualifier)."}
+        {:segment-ref "ISA06"
+         :column "INTERCHANGE_ID"
+         :data-type "VARCHAR2(40 BYTE)"
+         :context :sender
+         :notes "Interchange sender id supplied by TPA or sponsor."}
+        {:segment-ref "ISA07"
+         :column "INTERCHANGE_ID_QUALIFIER"
+         :data-type "VARCHAR2(40 BYTE)"
+         :context :receiver
+         :notes "Receiver qualifier maintained for the Kaiser trading partner."}
+        {:segment-ref "ISA08"
+         :column "INTERCHANGE_ID"
+         :data-type "VARCHAR2(40 BYTE)"
+         :context :receiver
+         :notes "Receiver id (076011108LGAP) bound to the carrier row."}]}
+      {:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "ISA09"
+         :column "INFO_RECEIVED_INSTANT_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Date component of interchange creation."}
+        {:segment-ref "ISA10"
+         :column "INFO_RECEIVED_INSTANT_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Time component of interchange creation (same row as ISA09)."}
+        {:segment-ref "ISA13"
+         :column "RUN_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Unique interchange control number."}
+        {:segment-ref "ISA14"
+         :column "ALLOW_EXTERNAL_ERROR_HANDLING"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Y/N flag when ISA14 requests 997/999 acknowledgments."}
+        {:segment-ref "ISA15"
+         :column "SPECIAL_PROCESSING_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Production/Test indicator copied directly from ISA15."}
+        {:segment-ref "ISA16"
+         :column "INITIAL_GROUPER_SETTING"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Persist component element separator for audit/debug."}]}]}
+    {:segment-id "GS"
+     :segment-description "Functional Group Header"
+     :targets
+     [{:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "GS02"
+         :column "TRADING_PARTNER_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Sender's Federal Tax ID."}
+        {:segment-ref "GS03"
+         :column "TRADING_PARTNER_FILE_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Application receiver code (GGATRTNSYSINPTY)."}
+        {:segment-ref "GS04"
+         :column "INFO_RECEIVED_INSTANT_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Date portion for the functional group."}
+        {:segment-ref "GS05"
+         :column "INFO_RECEIVED_INSTANT_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Time portion for the functional group."}
+        {:segment-ref "GS06"
+         :column "BATCH_RUN_NUMBER"
+         :data-type "NUMBER"
+         :notes "Group control number mirrored into the run record."}
+        {:segment-ref "GS07"
+         :column "REVIEW_GROUP_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Responsible agency (X) captured for downstream validation."}
+        {:segment-ref "GS08"
+         :column "MANUAL_TRANSACTION_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Version/Release identifier (005010X220A1)."}]}]}
+    {:segment-id "ST"
+     :segment-description "Transaction Set Header"
+     :targets
+     [{:table "TAP_STAGING_COMPANION"
+       :business-object :transaction
+       :elements
+       [{:segment-ref "ST01"
+         :column "TRANSACTION_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "834 transaction indicator."}
+        {:segment-ref "ST02"
+         :column "TRANSACTION_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Transaction set control number."}
+        {:segment-ref "ST03"
+         :column "SUBTYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Implementation reference kept for validation."}]}]}
+    {:segment-id "BGN"
+     :segment-description "Beginning Segment"
+     :targets
+     [{:table "TAP_STAGING_COMPANION"
+       :business-object :transaction
+       :elements
+       [{:segment-ref "BGN01"
+         :column "FILING_STATUS_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Transaction purpose (00 original)."}
+        {:segment-ref "BGN02"
+         :column "TRANSACTION_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Tie-back to ST02 for uniqueness."}
+        {:segment-ref "BGN03"
+         :column "APPLICATION_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Creation date."}
+        {:segment-ref "BGN04"
+         :column "APPLICATION_TIMESTAMP"
+         :data-type "TIMESTAMP(6)"
+         :notes "Creation time component."}]}
+      {:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "BGN08"
+         :column "IS_FULL_FILE_IND"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Map 2=Change, 4=Verify, RX=Replace to downstream run type."}]}]}
+    {:segment-id "SE"
+     :segment-description "Transaction Set Trailer"
+     :targets
+     [{:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "SE01"
+         :column "TOTAL_RECORDS"
+         :data-type "NUMBER"
+         :notes "Number of segments counted for auditing."}
+        {:segment-ref "SE02"
+         :column "INITIAL_OUTSTANDING_CLEAN_COUNT"
+         :data-type "NUMBER"
+         :notes "Mirror ST02 to maintain segment totals per run."}]}]}
+    {:segment-id "GE"
+     :segment-description "Functional Group Trailer"
+     :targets
+     [{:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "GE01"
+         :column "TOTAL_APPLIED_CLEAN"
+         :data-type "NUMBER"
+         :notes "Count of ST transactions in the group."}
+        {:segment-ref "GE02"
+         :column "BATCH_RUN_NUMBER"
+         :data-type "NUMBER"
+         :notes "Must match GS06 for balancing."}]}]}
+    {:segment-id "IEA"
+     :segment-description "Interchange Control Trailer"
+     :targets
+     [{:table "TAP_INFORMATION_LOAD"
+       :business-object :file-run
+       :elements
+       [{:segment-ref "IEA01"
+         :column "TOTAL_RECORDS"
+         :data-type "NUMBER"
+         :notes "Functional group count for the interchange."}
+        {:segment-ref "IEA02"
+         :column "RUN_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Must equal ISA13."}]}]}]}
+  {:loop "1000A"
+   :segments
+   [{:segment-id "N1"
+     :segment-description "Sponsor"
+     :targets
+     [{:table "TAP_PLAN_GROUP"
+       :business-object :plan-group
+       :elements
+       [{:segment-ref "N102"
+         :column "PLAN_GROUP_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Client or sponsor name."}
+        {:segment-ref "N103"
+         :column "GROUP_ID_TYPE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Identification qualifier (FI)."}
+        {:segment-ref "N104"
+         :column "PLAN_GROUP_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Sponsor tax id / identifier."}]}]}]}
+  {:loop "1000B"
+   :segments
+   [{:segment-id "N1"
+     :segment-description "Payer"
+     :targets
+     [{:table "TAP_CARRIER"
+       :business-object :carrier
+       :elements
+       [{:segment-ref "N102"
+         :column "CARRIER_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Insurer name (Kaiser Permanente)."}
+        {:segment-ref "N103"
+         :column "CARRIER_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Qualifier (FI) captured as type."}
+        {:segment-ref "N104"
+         :column "CARRIER_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Carrier tax id."}]}]}]}
+  {:loop "1000C"
+   :segments
+   [{:segment-id "N1"
+     :segment-description "Third Party Administrator"
+     :targets
+     [{:table "TAP_STAGING_COMPANION_TPA_BROKER"
+       :business-object :tpa
+       :elements
+       [{:segment-ref "N102"
+         :column "TPA_BROKER_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "TPA legal name."}
+        {:segment-ref "N103"
+         :column "TPA_BROKER_ID_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Identification qualifier (FI)."}
+        {:segment-ref "N104"
+         :column "TPA_BROKER_ID"
+         :data-type "VARCHAR2(40 BYTE)"
+         :notes "TPA tax id."}]}]}]}
+  {:loop "2000"
+   :segments
+   [{:segment-id "INS"
+     :segment-description "Member Level Detail"
+     :targets
+     [{:table "TAP_STAGING_COMPANION"
+       :business-object :member-staging
+       :elements
+       [{:segment-ref "INS01"
+         :column "PERSON_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Y=Subscriber maps to SUB/DEP indicator."}
+        {:segment-ref "INS02"
+         :column "PERSON_REL_TO_SUBSCRIBER_CODE"
+         :data-type "VARCHAR2(40 BYTE)"
+         :notes "Individual relationship."}
+        {:segment-ref "INS03"
+         :column "MAINTENANCE_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Maintenance type (001/021/024/030)."}
+        {:segment-ref "INS04"
+         :column "MAINTENANCE_REASON_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Reason (XN/AI)."}
+        {:segment-ref "INS05"
+         :column "BENEFIT_STATUS_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "A/C/S/T codes."}
+        {:segment-ref "INS06"
+         :column "MEDICARE_PLAN_CODE"
+         :data-type "VARCHAR2(40 BYTE)"
+         :notes "Medicare indicator (D/E)."}
+        {:segment-ref "INS07"
+         :column "LATE_ENROLLMENT_IND"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "COBRA qualifying indicator."}
+        {:segment-ref "INS08"
+         :column "SUBSCRIBER_EMPLOYMENT_STATUS_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Employment status for subscribers."}
+        {:segment-ref "INS09"
+         :column "PERSON_COVERAGE_ATTRIBUTE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Map student status to attribute record."}
+        {:segment-ref "INS10"
+         :column "ATTRIBUTE_COMMENT"
+         :data-type "VARCHAR2(4000 BYTE)"
+         :notes "Handicap indicator captured as comment."}
+        {:segment-ref "INS11"
+         :column "DATE_OF_DEATH"
+         :data-type "DATE"
+         :notes "Qualifier D8 implies CCYYMMDD."}
+        {:segment-ref "INS12"
+         :column "DATE_OF_DEATH"
+         :data-type "DATE"
+         :notes "Death date value."}
+        {:segment-ref "INS17"
+         :column "PERSON_LINE_NB_INDEX"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Birth sequence number."}]}]}
+    {:segment-id "REF"
+     :segment-description "Subscriber SSN"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "REF02"
+         :column "SUBSCRIBER_SSN"
+         :data-type "VARCHAR2(50 BYTE)"
+         :notes "SSN tied to qualifier 0F."}]}]}
+    {:segment-id "REF"
+     :segment-description "Group Number / Purchaser ID"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "REF02"
+         :column "EMPLOYER_GROUP_NUMBER"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Group number with qualifier 1L."}]}]}
+    {:segment-id "REF"
+     :segment-description "Client Number"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "REF02"
+         :column "EMPLOYEE_ID"
+         :data-type "VARCHAR2(40 BYTE)"
+         :notes "Employee ID (qualifier 23)."}]}]}
+    {:segment-id "REF"
+     :segment-description "Subgroup Number"
+     :targets
+     [{:table "TAP_PLAN_GROUP"
+       :business-object :plan-group
+       :elements
+       [{:segment-ref "REF02"
+         :column "ELIGIBILITY_SUBGROUP_ID"
+         :data-type "VARCHAR2(8 BYTE)"
+         :notes "Subgroup DX qualifier."}]}]}
+    {:segment-id "REF"
+     :segment-description "Bill Group"
+     :targets
+     [{:table "TAP_PLAN_GROUP"
+       :business-object :plan-group
+       :elements
+       [{:segment-ref "REF02"
+         :column "PPG_GROUP_SUBGROUP"
+         :data-type "VARCHAR2(60 BYTE)"
+         :notes "Billing group (qualifier ZZ)."}]}]}
+    {:segment-id "DTP"
+     :segment-description "Member Level Dates"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "DTP01"
+         :column "SUBSCRIBER_EMPLOYMENT_DATE"
+         :data-type "DATE"
+         :notes "Date qualifier 336 captured as hire date."}
+        {:segment-ref "DTP03"
+         :column "SUBSCRIBER_EMPLOYMENT_DATE"
+         :data-type "DATE"
+         :notes "Actual hire date value."}]}]}]}
+  {:loop "2100A"
+   :segments
+   [{:segment-id "NM1"
+     :segment-description "Member Name"
+     :targets
+     [{:table "TAP_PERSON"
+       :business-object :person
+       :elements
+       [{:segment-ref "NM103"
+         :column "LAST_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Last name."}
+        {:segment-ref "NM104"
+         :column "FIRST_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "First name."}
+        {:segment-ref "NM105"
+         :column "MIDDLE_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Middle initial."}
+        {:segment-ref "NM106"
+         :column "PREFIX"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Name prefix."}
+        {:segment-ref "NM107"
+         :column "SUFFIX"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Name suffix."}]}
+      {:table "TAP_PERSON_EXTERNAL_IDENTIFIER"
+       :business-object :person-id
+       :elements
+       [{:segment-ref "NM108"
+         :column "IDENTIFICATION_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Identification qualifier (34)."}
+        {:segment-ref "NM109"
+         :column "IDENTIFICATION_VALUE"
+         :data-type "VARCHAR2(40 BYTE)"
+         :notes "SSN or other identifier."}]}]}
+    {:segment-id "PER"
+     :segment-description "Member Communications"
+     :targets
+     [{:table "TAP_PERSON_PHONE"
+       :business-object :person-phone
+       :elements
+       [{:segment-ref "PER03"
+         :column "PHONE_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Phone qualifier (TE/CP)."}
+        {:segment-ref "PER04"
+         :column "PHONE_NUMBER"
+         :data-type "VARCHAR2(192 BYTE)"
+         :notes "10-digit phone."}]}
+      {:table "TAP_PERSON_EMAIL"
+       :business-object :person-email
+       :elements
+       [{:segment-ref "PER05"
+         :column "EMAIL_TYPE_CODE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "EM qualifier."}
+        {:segment-ref "PER06"
+         :column "EMAIL_ADDRESS"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Member email."}]}]}
+    {:segment-id "N3"
+     :segment-description "Member Street Address"
+     :targets
+     [{:table "TAP_PERSON_ADDRESS"
+       :business-object :person-address
+       :elements
+       [{:segment-ref "N301"
+         :column "ADDRESS_LINE_1"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Address line 1."}
+        {:segment-ref "N302"
+         :column "ADDRESS_LINE_2"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Address line 2."}]}]}
+    {:segment-id "N4"
+     :segment-description "Member City/State/Zip"
+     :targets
+     [{:table "TAP_PERSON_ADDRESS"
+       :business-object :person-address
+       :elements
+       [{:segment-ref "N401"
+         :column "CITY"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "City."}
+        {:segment-ref "N402"
+         :column "STATE_CODE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "State."}
+        {:segment-ref "N403"
+         :column "POSTAL_CODE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Postal code."}
+        {:segment-ref "N404"
+         :column "COUNTRY_CODE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Country when not USA."}]}]}
+    {:segment-id "DMG"
+     :segment-description "Member Demographics"
+     :targets
+     [{:table "TAP_PERSON"
+       :business-object :person
+       :elements
+       [{:segment-ref "DMG02"
+         :column "BIRTH_DATE"
+         :data-type "DATE"
+         :notes "Birth date."}
+        {:segment-ref "DMG03"
+         :column "LEGAL_SEX_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Gender code."}
+        {:segment-ref "DMG04"
+         :column "MARITAL_STATUS_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Marital status when sent."}
+        {:segment-ref "DMG05"
+         :column "RACE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Race or ethnicity."}]}]}
+    {:segment-id "LUI"
+     :segment-description "Member Language"
+     :targets
+     [{:table "TAP_PERSON_LANGUAGE"
+       :business-object :person-language
+       :elements
+       [{:segment-ref "LUI01"
+         :column "LANGUAGE_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Language qualifier (LD/LE)."}
+        {:segment-ref "LUI02"
+         :column "LANGUAGE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Language code."}
+        {:segment-ref "LUI04"
+         :column "PRIMARY_SECONDARY_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Use indicator (5/6/7/8)."}]}]}]}
+  {:loop "2200"
+   :segments
+   [{:segment-id "DSB"
+     :segment-description "Disability Information"
+     :targets
+     [{:table "TAP_PERSON_COVERAGE_ATTRIBUTE"
+       :business-object :coverage-attribute
+       :elements
+       [{:segment-ref "DSB01"
+         :column "PERSON_COVERAGE_ATTRIBUTE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Disability type code."}
+        {:segment-ref "DSB08"
+         :column "ATTRIBUTE_COMMENT"
+         :data-type "VARCHAR2(4000 BYTE)"
+         :notes "Optional medical code narrative."}]}]}]}
+  {:loop "2300"
+   :segments
+   [{:segment-id "HD"
+     :segment-description "Health Coverage"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "HD01"
+         :column "COVERAGE_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Maintenance type for coverage."}
+        {:segment-ref "HD05"
+         :column "COVERAGE_STATUS_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Coverage level / tier (maps to KP codes)."}]}
+      {:table "TAP_BENEFIT_PLAN"
+       :business-object :benefit-plan
+       :elements
+       [{:segment-ref "HD03"
+         :column "PLAN_TYPE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Insurance line code (DEN/HMO)."}
+        {:segment-ref "HD04"
+         :column "BENEFIT_PLAN_NAME"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Plan coverage description."}]}]}
+    {:segment-id "DTP"
+     :segment-description "Health Coverage Dates"
+     :targets
+     [{:table "TAP_COVERAGE"
+       :business-object :coverage
+       :elements
+       [{:segment-ref "DTP01"
+         :column "COVERAGE_START_DATE"
+         :data-type "DATE"
+         :notes "348 = benefit begin."}
+        {:segment-ref "DTP01"
+         :column "COVERAGE_END_DATE"
+         :data-type "DATE"
+         :notes "349 = benefit end."}
+        {:segment-ref "DTP03"
+         :column "COVERAGE_START_DATE"
+         :data-type "DATE"
+         :notes "Actual date value for start/end depending on qualifier."}]}]}]}
+  {:loop "2320"
+   :segments
+   [{:segment-id "COB"
+     :segment-description "Coordination of Benefits"
+     :targets
+     [{:table "TAP_COVERAGE_THIRD_PARTY_PAYER"
+       :business-object :third-party-payer
+       :elements
+       [{:segment-ref "COB01"
+         :column "TPP_STATE_EXCHANGE_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Payer responsibility sequence."}
+        {:segment-ref "COB02"
+         :column "TPP_EXTERNAL_ID"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Policy number / other payer id."}
+        {:segment-ref "COB03"
+         :column "TPP_NAME"
+         :data-type "VARCHAR2(160 BYTE)"
+         :notes "Coordination of benefits indicator (set descriptive name)."}]}]}]}
+  {:loop "2700"
+   :segments
+   [{:segment-id "LS"
+     :segment-description "Additional Reporting Categories"
+     :targets
+     [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+       :business-object :reporting
+       :elements
+       [{:segment-ref "LS01"
+         :column "CATEGORY_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Use constant 2700 to open reporting category."}]}]}]}
+  {:loop "2750"
+   :segments
+   [{:segment-id "N1"
+     :segment-description "Reporting Category"
+     :targets
+     [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+       :business-object :reporting
+       :elements
+       [{:segment-ref "N102"
+         :column "CATEGORY_VALUE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Category label (e.g., New Hire)."}]}]}
+    {:segment-id "REF"
+     :segment-description "Reporting Category Reference"
+     :targets
+     [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+       :business-object :reporting
+       :elements
+       [{:segment-ref "REF01"
+         :column "CATEGORY_CODE"
+         :data-type "VARCHAR2(20 BYTE)"
+         :notes "Client reporting category qualifier (17)."}
+        {:segment-ref "REF02"
+         :column "CATEGORY_VALUE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Code value (e.g., 20)."}]}]}
+    {:segment-id "DTP"
+     :segment-description "Reporting Category Date"
+     :targets
+     [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+       :business-object :reporting
+       :elements
+       [{:segment-ref "DTP03"
+         :column "CATEGORY_VALUE"
+         :data-type "VARCHAR2(255 BYTE)"
+         :notes "Effective date stored with code 007 context."}]}]}]}
+ {:loop "2710"
+  :segments
+  [{:segment-id "LX"
+    :segment-description "Reporting Category Member Iteration"
+    :targets
+    [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+      :business-object :reporting
+      :elements
+      [{:segment-ref "LX01"
+        :column "LINE_NUMBER"
+        :data-type "NUMBER"
+        :notes "Sequential number for reporting rows."}]}]}]}
+ {:loop "2700-LE"
+  :segments
+  [{:segment-id "LE"
+    :segment-description "Reporting Category Loop Close"
+    :targets
+    [{:table "TAP_STAGING_COMPANION_SCRATCH_ITEM"
+      :business-object :reporting
+      :elements
+      [{:segment-ref "LE01"
+        :column "CATEGORY_CODE"
+        :data-type "VARCHAR2(20 BYTE)"
+        :notes "Use 2700 to mark loop termination."}]}]}]}]}

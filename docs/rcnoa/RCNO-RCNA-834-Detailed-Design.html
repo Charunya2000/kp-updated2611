@@ -1,0 +1,4049 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RCNO-RCNA-834-Detailed-Design</title>
+  <style>
+    :root {
+      --text: #1d2433;
+      --muted: #5d677a;
+      --line: #d9dfeb;
+      --panel: #f7f9fc;
+      --accent: #0f5ea8;
+    }
+
+    body {
+      margin: 0;
+      background: #eef2f8;
+      color: var(--text);
+      font-family: "Segoe UI", Calibri, "Trebuchet MS", sans-serif;
+      line-height: 1.55;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 24px auto;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 26px rgba(20, 39, 71, 0.08);
+      border-radius: 10px;
+      padding: 32px 36px;
+    }
+
+    h1, h2, h3, h4 {
+      color: #12233f;
+      margin-top: 1.2em;
+      margin-bottom: 0.45em;
+      line-height: 1.25;
+      page-break-after: avoid;
+    }
+
+    h1 {
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.3em;
+    }
+
+    p, li {
+      font-size: 14px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #f3f6fb;
+      border: 1px solid #e1e7f2;
+      border-radius: 4px;
+      padding: 0.1em 0.3em;
+      font-size: 0.92em;
+    }
+
+    pre {
+      background: #0f1724;
+      color: #e8edf6;
+      border-radius: 8px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      page-break-inside: avoid;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--panel);
+      text-align: left;
+    }
+
+    blockquote {
+      margin: 1em 0;
+      border-left: 4px solid #c8d4e8;
+      background: #f8fbff;
+      color: var(--muted);
+      padding: 10px 14px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 24px 0;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        max-width: none;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      a {
+        color: #000000;
+        text-decoration: underline;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+<h1>PSHB RCNO to RCNA to X12 834 Detailed Business and Technical Design</h1>
+<h2>1. Document purpose</h2>
+<p>This document defines the deterministic process for:</p>
+<ol>
+<li>receiving one Office of Personnel Management (OPM) Postal Service Health Benefits (PSHB) RCNO database row as a service input argument;</li>
+<li>reconciling that RCNO row against explicitly supplied KP membership, recent enrollment-transaction, and prior-RCNA database records;</li>
+<li>returning one internal working RCNA record and one outbound RCNA record; and</li>
+<li>transforming one supplied RCNA database row into validated ASC X12N 834 member segments that an orchestrator assembles into a complete 834 interchange.</li>
+</ol>
+<p>The intended audiences are business analysts, reconciliation analysts, developers, testers, data engineers, and operations teams.</p>
+<blockquote>
+<p><strong>Important:</strong> Business responses in <code>textDocs/AI834.csv</code> and <code>textDocs/rcno_to_rcna_answers.txt</code> resolve several RCNA and X12 decisions, including key envelope constants, recent-834 matching, date handling, address line 3, relationship values, and output-file partitioning. Some 834 intent mappings and identifiers remain incomplete or explicitly marked <code>TBD</code>. Section 19 distinguishes resolved, partially resolved, and outstanding questions. The implementation must fail validation rather than invent any remaining value.</p>
+</blockquote>
+<hr>
+<h2>2. Governing sources and conflict policy</h2>
+<h3>2.1 Source precedence</h3>
+<p>Conflicts are resolved in the following order:</p>
+<table>
+<thead>
+<tr>
+<th align="right">Precedence</th>
+<th>Source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td><code>UserStory_PSHP_RCNA_draft_0724.txt</code></td>
+<td>Governing RCNA catalog, canonical rule IDs, priority, PSHB code, and description intent</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td><code>Epic_PSHB_RCNO.md</code></td>
+<td>Governing scope, cardinality, internal draft RCNA versus outbound RCNA distinction</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td><code>PSHB_RCNO_ASSIST_code_working_0715.txt</code></td>
+<td>Detailed rule predicates where the user story is not specific</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td><code>HEADERValues.csv</code></td>
+<td>X12 834 structure, usage, constants, examples, and element constraints</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td><code>pshbColumns.txt</code> and <code>supplementalResource.txt</code></td>
+<td>RCNA-to-834 field mapping and code lists</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td><code>Review 834 mapping.txt</code></td>
+<td>Meeting-derived business context and mapping intent</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td><code>textDocs/AI834.csv</code> and <code>textDocs/rcno_to_rcna_answers.txt</code></td>
+<td>Business responses to the outstanding RCNA and 834 design questions</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td><code>PSHB_RCNO_ASSIST_code.txt</code> and <code>PSHB_RCNO_ASSIST_20260410.txt</code></td>
+<td>Historical context only</td>
+</tr>
+</tbody></table>
+<p><code>myCopy.csv</code> and <code>SegmentDesc.csv</code> are byte-identical copies. They provide the base companion-guide descriptions but do not contain the populated value/sample column added in <code>HEADERValues.csv</code>.</p>
+<h3>2.2 Applied conflict resolutions</h3>
+<table>
+<thead>
+<tr>
+<th>Conflict</th>
+<th>Governing decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rule A was variously defined as <code>M</code>, <code>M or Z</code>, priority <code>2</code>, code <code>ZM</code>, or priority <code>5</code>, code <code>MM</code></td>
+<td>Use user story: <code>column 4 = M</code>; priority <code>5</code>; code <code>MM</code>; description &quot;Matches (no action required)&quot;</td>
+</tr>
+<tr>
+<td>Rule B either copied aging unchanged or incremented it</td>
+<td>Use user story: copy prior priority/code/description and increment Aging Months by 1</td>
+</tr>
+<tr>
+<td>RCNA was described as 76, 77, or 78 columns</td>
+<td>Use the approved 78-column contract for both internal working and newly generated outbound RCNA records; continue accepting legacy 76-column or current 78-column uploaded RCNA records</td>
+</tr>
+<tr>
+<td>Working code contains malformed IDs such as <code>F109000</code>, <code>F110000</code>, <code>F132000</code>, <code>F143000</code></td>
+<td>Use canonical user-story IDs <code>F10000</code>, <code>F11000</code>, <code>F13000</code>, and <code>F14000</code></td>
+</tr>
+<tr>
+<td>Rule N12 code appears as <code>AE???</code>, <code>AE???KICKO</code>, or an unresolved manual code</td>
+<td>Preserve it as unresolved; do not emit a fabricated production code</td>
+</tr>
+<tr>
+<td>Older implementation applies only A, B, F1, and Default</td>
+<td>Use all 51 scenarios in the July 24 user story</td>
+</tr>
+<tr>
+<td>Source artifacts describe spreadsheet/file ingestion</td>
+<td>The production service boundary is row-at-a-time and database-backed; file names remain source-system aliases only</td>
+</tr>
+<tr>
+<td>Recent-834 rules alternate among member and subscriber SSNs and date sources</td>
+<td>Match recent 834 evidence by subscriber SSN; use PSHBS coverage dates for F rules and MENR coverage dates for I and N rules</td>
+</tr>
+<tr>
+<td>F1-F3 identify cancelled coverage by comparing coverage end to coverage start</td>
+<td>Use the run&#39;s current business date to determine whether PSHBS coverage has ended</td>
+</tr>
+<tr>
+<td>Address line 3 has no approved X12 destination</td>
+<td>Omit address line 3 from the 834; do not append it to N302</td>
+</tr>
+</tbody></table>
+<h3>2.3 Database-backed row-processing decision</h3>
+<p>The transformation services do not open files, query databases, or persist outputs. Each service invocation receives all data required to process one primary row as explicit arguments.</p>
+<table>
+<thead>
+<tr>
+<th>Responsibility</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Query RCNO, membership, recent enrollment, and prior RCNA data</td>
+<td>External repository/orchestration layer</td>
+</tr>
+<tr>
+<td>Establish a consistent database snapshot or business-effective query boundary</td>
+<td>External repository/orchestration layer</td>
+</tr>
+<tr>
+<td>Supply one RCNO row and its lookup candidates</td>
+<td>RCNO processing orchestrator</td>
+</tr>
+<tr>
+<td>Select one deterministic RCNA disposition</td>
+<td>RCNO-to-RCNA transformation service</td>
+</tr>
+<tr>
+<td>Persist working and outbound RCNA records</td>
+<td>External repository/orchestration layer</td>
+</tr>
+<tr>
+<td>Supply one selected RCNA row and approved 834 configuration</td>
+<td>834 processing orchestrator</td>
+</tr>
+<tr>
+<td>Validate/map one RCNA row into an 834 member-loop representation</td>
+<td>RCNA-to-834 transformation service</td>
+</tr>
+<tr>
+<td>Group subscribers/dependents, order rows, calculate counts, assign control numbers, and write the interchange</td>
+<td>834 batch/interchange orchestrator</td>
+</tr>
+</tbody></table>
+<p>This separation keeps the services deterministic and unit-testable. Database retries, pagination, transactions, connection management, and output delivery are infrastructure concerns outside the transformation classes.</p>
+<hr>
+<h2>3. Business background</h2>
+<p>KP receives OPM enrollment transactions and enrolls members in the KP membership system. KP reports membership to OPM through the monthly MENR process. OPM compares MENR to its records and returns an RCNO file that identifies whether:</p>
+<ul>
+<li>both organizations have the member and the data matches;</li>
+<li>OPM expects a member that KP does not have;</li>
+<li>KP has a member that OPM does not have; or</li>
+<li>both have the member but one or more values differ.</li>
+</ul>
+<p>The automated reconciliation process evaluates the RCNO record against KP membership, 834 transactions from the preceding 30 days, and prior RCNA evidence stored for the current reconciliation cycle. It assigns a disposition that identifies ownership and the next action. The resulting RCNA closes the OPM reconciliation loop. The member attributes can also be rendered as an X12 834 for downstream enrollment processing.</p>
+<pre><code class="language-mermaid">flowchart LR
+    OPM834[OPM 834 enrollment] --&gt; KPFS[KP membership / FS]
+    KPFS --&gt; MENR[Monthly MENR report]
+    MENR --&gt; OPM[OPM validation]
+    OPM --&gt; DB[(External database)]
+    KPFS --&gt; DB
+    RECENT834[Last 30 days of enrollment transactions] --&gt; DB
+    PRIOR[Prior RCNA records] --&gt; DB
+    DB --&gt; ORCH[Repository / orchestration layer]
+    ORCH --&gt;|One RCNO row + lookup arguments| RECON[RCNO-to-RCNA service]
+    RECON --&gt;|One working + outbound record| ORCH
+    ORCH --&gt;|One selected RCNA row| MAP834[RCNA-to-834 row service]
+    MAP834 --&gt;|Validated member segments| ASSEMBLER[834 interchange assembler]
+    ASSEMBLER --&gt; X12834[ASC X12N 834]
+</code></pre>
+<h3>3.1 Goals</h3>
+<ul>
+<li>Produce exactly one RCNA result for every RCNO detail row.</li>
+<li>Apply one and only one disposition rule.</li>
+<li>Preserve the RCNO schema and source values.</li>
+<li>Make rule selection repeatable, explainable, and auditable.</li>
+<li>Reuse a prior disposition when the source reconciliation row has not changed.</li>
+<li>Generate structurally valid X12 834 transactions without exposing sensitive values in logs.</li>
+</ul>
+<h3>3.2 Out of scope</h3>
+<ul>
+<li>Direct updates to OPM systems.</li>
+<li>Direct updates to KP membership systems.</li>
+<li>Inferring missing source columns or business values.</li>
+<li>Resolving N12&#39;s final PSHB code without business approval.</li>
+<li>Defining payer-specific 834 behavior not present in the supplied companion-guide extract.</li>
+</ul>
+<hr>
+<h2>4. Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RCNO</td>
+<td>OPM reconciliation database record identifying match or discrepancy results</td>
+</tr>
+<tr>
+<td>RCNA</td>
+<td>KP reconciliation database record containing the original RCNO fields and KP disposition</td>
+</tr>
+<tr>
+<td>MENR</td>
+<td>Monthly enrollment/membership report from KP to OPM</td>
+</tr>
+<tr>
+<td>PSHBS</td>
+<td>OPM/PSHB-side value in the RCNO</td>
+</tr>
+<tr>
+<td>Membership / FS</td>
+<td>KP membership reference data</td>
+</tr>
+<tr>
+<td>Recent 834</td>
+<td>Enrollment transactions from the last 30 days used as reconciliation evidence</td>
+</tr>
+<tr>
+<td>Working RCNA</td>
+<td>Internal 78-field record used by analysts; includes Notes and Aging Months</td>
+</tr>
+<tr>
+<td>Outbound RCNA</td>
+<td>78-field record prepared for delivery to OPM; columns 77 and 78 are Notes and Aging Months copied from the internal working RCNA</td>
+</tr>
+<tr>
+<td>Primary row</td>
+<td>The single RCNO or RCNA record supplied to one transformation invocation</td>
+</tr>
+<tr>
+<td>Lookup candidates</td>
+<td>Zero or more database records supplied with the primary row for deterministic evaluation</td>
+</tr>
+<tr>
+<td>Rule family F</td>
+<td>OPM/PSHBS member present but KP-side handling or coverage differs</td>
+</tr>
+<tr>
+<td>Rule family I</td>
+<td>KP/carrier enrollment exists but OPM-side handling or coverage differs</td>
+</tr>
+<tr>
+<td>Rule family N</td>
+<td>Demographic or enrollment attributes do not match</td>
+</tr>
+<tr>
+<td>Reconciliation cycle</td>
+<td>The explicit six-digit <code>YYYYMM</code> scope used to store and retrieve prior RCNA evidence for B200</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. Inputs and outputs</h2>
+<h3>5.1 Service input and output records</h3>
+<p>Historical file names are retained as logical aliases so rule traceability is preserved. They do not imply that a transformation service reads a physical file.</p>
+<table>
+<thead>
+<tr>
+<th>Logical alias</th>
+<th>Service role</th>
+<th>Required content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>file1_RCNO_CURRENT_ALL</code></td>
+<td>Primary argument</td>
+<td>One current RCNO record with 73 fixed-position fields</td>
+</tr>
+<tr>
+<td><code>file3_MEMBERSHIP_KP_ALL</code></td>
+<td>Lookup argument</td>
+<td>Zero or more candidate KP membership records</td>
+</tr>
+<tr>
+<td><code>file5_ENROLL_834_ALL</code></td>
+<td>Lookup argument</td>
+<td>Zero or more enrollment records from the approved 30-day query window</td>
+</tr>
+<tr>
+<td><code>file6_RCNA_PRIOR_TEST</code></td>
+<td>Lookup argument</td>
+<td>Zero or more prior working RCNA candidates</td>
+</tr>
+<tr>
+<td><code>file7_RCNA_ALL</code></td>
+<td>Returned value</td>
+<td>One current working RCNA record</td>
+</tr>
+<tr>
+<td>Outbound RCNA</td>
+<td>Returned value</td>
+<td>One 78-field outbound RCNA record</td>
+</tr>
+<tr>
+<td>834 member result</td>
+<td>Returned value</td>
+<td>Validated member-loop segments/structure for one RCNA row</td>
+</tr>
+<tr>
+<td>X12 834</td>
+<td>Orchestrator output</td>
+<td>One interchange assembled from multiple member results</td>
+</tr>
+</tbody></table>
+<p>The repository layer must provide database records in the canonical positional contract defined by this document, or map named database columns into that contract before calling a transformation service.</p>
+<h3>5.2 Uploaded RCNA prior evidence</h3>
+<p>The manual <strong>Import RCNA into prior history</strong> action requires the administrator to select a reconciliation cycle in strict <code>YYYYMM</code> format. The server validates that the month is <code>01</code> through <code>12</code>; it does not infer the cycle from the file name or upload date.</p>
+<p>After the RCNA is parsed and validated, every uploaded RCNA row is persisted as prior evidence for the selected cycle. Uploads may contain either 76 columns for backward compatibility or the current 78-column outbound format. A legacy 76-column RCNA is restored to the 78-column working shape with blank Notes and Aging Months <code>0</code>. A 78-column RCNA retains its Notes and a valid nonnegative integer Aging Months value; a blank Aging Months value becomes <code>0</code>. Invalid decision columns or Aging Months reject the import without writing prior evidence. This normalization does not otherwise change uploaded-RCNA processing.</p>
+<p>Prior evidence is upserted by protected columns 1-73 match key plus reconciliation cycle. A later generated or uploaded RCNA for the same key and cycle replaces the earlier decision. Evidence in another cycle remains separate and cannot satisfy B200.</p>
+<p>RCNA import and 834 generation are separate operations. A successful import creates an <code>RCNA_IMPORT</code> run in <code>AWAITING_RCNA_REVIEW</code> and does not evaluate 834 selection, mapping approval, intent mappings, or carrier-action eligibility. Every valid uploaded row, including rows that will not produce an 834 member loop, is imported into cycle-scoped prior history. An administrator may later invoke <strong>Generate 834</strong> for that run. The later operation reads the stored uploaded RCNA artifact, filters only the carrier-action rows eligible under Section 12.1, and applies all remaining Section 12 gates and mappings to those selected rows. Failure to generate the optional 834 returns the run to <code>AWAITING_RCNA_REVIEW</code> and does not roll back prior evidence already imported successfully.</p>
+<h3>5.3 Cardinality</h3>
+<ul>
+<li>Every successful RCNO service invocation returns exactly one working RCNA record.</li>
+<li>Every successful RCNO service invocation returns exactly one 78-field outbound RCNA record. Columns 77 and 78 contain the same Notes and Aging Months values as the working RCNA record.</li>
+<li>A rejected invocation returns no success-shaped RCNA record and surfaces an explicit error.</li>
+<li>The 834 row service is invoked only for an RCNA row selected by the approved 834-selection policy.</li>
+<li>Every successful 834 row-service invocation returns exactly one INS-loop representation.</li>
+<li>A subscriber group contains one subscriber and zero or more dependents.</li>
+<li>Aggregate input/output counts are an orchestration concern and must be reconciled using database work-item identifiers.</li>
+</ul>
+<h3>5.4 Transformation service contracts</h3>
+<p>The examples below define logical JavaScript contracts. Exact database entity names may differ, but the transformation boundary must remain row-at-a-time.</p>
+<h4>RCNO to RCNA</h4>
+<pre><code class="language-javascript">rcnoToRcnaService.transformRow({
+  rcnoRecord,                 // exactly one canonical 73-field record
+  membershipCandidates,      // zero or more canonical membership records
+  recentEnrollmentCandidates,// zero or more canonical recent-enrollment records
+  priorRcnaCandidates,       // zero or more canonical prior RCNA records
+  context: {
+    correlationId,
+    workItemId,
+    businessDate,
+    ruleCatalogVersion,
+    configurationVersion,
+  },
+});
+
+// Returns:
+{
+  workingRcnaRecord,          // exactly 78 fields
+  outboundRcnaRecord,         // exactly 78 fields; Notes and Aging Months match workingRcnaRecord
+  audit,                      // non-sensitive rule evaluation metadata
+}
+</code></pre>
+<h4>RCNA to 834 member loop</h4>
+<pre><code class="language-javascript">rcnaTo834Service.transformRow({
+  workingRcnaRecord,          // exactly one canonical 78-field record
+  transactionIntent,         // approved code-to-834 intent
+  context: {
+    correlationId,
+    workItemId,
+    businessDate,
+    configurationVersion,
+  },
+});
+
+// Returns:
+{
+  subscriberKey,
+  memberSortKey,
+  isSubscriber,
+  segments,                   // one validated INS loop and its child segments
+  audit,
+}
+</code></pre>
+<p>Neither method accepts a database client, repository, file path, stream, workbook, or output destination. Neither method performs side effects.</p>
+<hr>
+<h2>6. Input contract and normalization</h2>
+<h3>6.1 Row contract rules</h3>
+<ol>
+<li>Accept exactly one primary row per service invocation.</li>
+<li>Process only RCNO rows whose <code>Record_Type</code> (RCNO column 1) is <code>01</code>, which may appear as <code>1</code> or <code>01</code>. The orchestration layer ignores every other row, including <code>2</code>/<code>02</code> (the other row type), blank, and any other value, before the field-count check in rule 8 and before any lookup, transformation, prior-evidence save, or count. An ignored row is not an error and may have any number of columns. After the optional ignored leading column is removed, <code>Record_Type</code> is compared after trimming whitespace and removing leading zeroes, so <code>1</code>, <code>01</code>, and <code>01</code> all match, while <code>2</code>, <code>02</code>, <code>03</code>, and blank do not. If no <code>01</code> row remains, the run fails with the message <code>RCNO file does not contain any Record_Type 01 rows</code>. A row that is not a <code>Record_Type 01</code> row never reaches a transformation service invocation, so rule 1 and the field-count rule apply only to <code>01</code> rows.</li>
+<li>Accept lookup candidates as explicit arguments; the service must not query for additional data.</li>
+<li>Preserve every declared field, including empty values.</li>
+<li>Do not infer, rename, reorder, merge, or drop fields.</li>
+<li>Receive values as strings to preserve leading zeroes.</li>
+<li>Represent a database <code>NULL</code> as an empty string only in the repository mapping layer; the transformation receives canonical strings.</li>
+<li>Reject the invocation before rule processing if the primary row or a supplied lookup record violates its required field count.</li>
+<li>Continue deterministic evaluation when no lookup candidate matches.</li>
+<li>Treat identical duplicate lookup records as one logical candidate.</li>
+<li>Reject conflicting duplicate candidates when selecting one arbitrarily could change the rule result.</li>
+<li>Do not mutate any input argument.</li>
+</ol>
+<p>Row numbers in parse errors count non-blank input lines. All other row numbers (error report, run items, admin run detail, and blocked-row log) count only the retained <code>Record_Type 01</code> rows, in file order, so they are not the physical line numbers of the source file when <code>02</code> or blank rows precede them.</p>
+<h3>6.2 Database snapshot and query requirements</h3>
+<p>The repository/orchestration layer must:</p>
+<ol>
+<li>obtain the RCNO row and lookup candidates from a consistent database snapshot or documented business-effective boundary;</li>
+<li>capture the current calendar date once at run start as <code>businessDate</code> and apply the 30-day enrollment lookback and all current-date predicates using that value, not a per-row server timestamp;</li>
+<li>provide stable source identifiers for the primary row and every lookup candidate;</li>
+<li>use deterministic ordering and pagination when scheduling rows;</li>
+<li>prevent or detect concurrent duplicate processing through an idempotency key; and</li>
+<li>pass the business date, rule-catalog version, and configuration version explicitly.</li>
+</ol>
+<h3>6.3 Comparison normalization</h3>
+<p>Create comparison-only values without modifying the original output values:</p>
+<ol>
+<li>remove control characters;</li>
+<li>trim leading and trailing whitespace;</li>
+<li>normalize non-breaking spaces to regular spaces;</li>
+<li>uppercase text;</li>
+<li>compare dates as valid <code>YYYYMMDD</code> dates; and</li>
+<li>preserve SSNs and identifiers as strings.</li>
+</ol>
+<p>An invalid date or malformed required identifier is a row-level validation error. It must not be silently converted.</p>
+<h3>6.4 Sensitive data</h3>
+<p>RCNO, RCNA, membership, and 834 records may contain names, dates of birth, addresses, member identifiers, and SSNs. Logs must contain only correlation IDs, database source identifiers, rule IDs, counts, and masked identifiers. Raw records, database connection details, query parameters containing PII, and unmasked SSNs must never be logged.</p>
+<hr>
+<h2>7. RCNO 73-column data dictionary</h2>
+<p>The RCNO consists of record type followed by 24 three-column comparison groups: PSHBS value, MENR value, and comparison result.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Col.</th>
+<th>Field</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td><code>Record_Type</code></td>
+<td><code>01</code> (also written <code>1</code>) identifies a data row and is the only value processed. Rows with any other value, such as <code>2</code> or <code>02</code>, are ignored in full before validation, lookup, transformation, and counting (Section 6.1, rule 2). The retained column is copied unchanged into RCNO/RCNA column 1</td>
+</tr>
+<tr>
+<td align="right">2 / 3 / 4</td>
+<td><code>PSHBS_Subscriber_ID</code> / <code>MENR_Subscriber_ID</code> / <code>RCNO_Subscriber_ID_Result</code></td>
+<td>Subscriber identity and overall result</td>
+</tr>
+<tr>
+<td align="right">5 / 6 / 7</td>
+<td><code>PSHBS_Member_ID</code> / <code>MENR_Member_ID</code> / <code>RCNO_Member_ID_Result</code></td>
+<td>Member ID; <code>MENR_Member_ID</code> is a required 20-character field, left justified with appropriate leading zeroes to match other files</td>
+</tr>
+<tr>
+<td align="right">8 / 9 / 10</td>
+<td><code>PSHBS_Annuitant_Number</code> / <code>MENR_Annuitant_Number</code> / <code>RCNO_Annuitant_Number_Result</code></td>
+<td>Annuitant number</td>
+</tr>
+<tr>
+<td align="right">11 / 12 / 13</td>
+<td><code>PSHBS_Last_Name</code> / <code>MENR_Last_Name</code> / <code>RCNA_Last_Name_Result</code></td>
+<td>Last name</td>
+</tr>
+<tr>
+<td align="right">14 / 15 / 16</td>
+<td><code>PSHBS_First_Name</code> / <code>MENR_First_Name</code> / <code>RCNO_First_Name_Result</code></td>
+<td>First name</td>
+</tr>
+<tr>
+<td align="right">17 / 18 / 19</td>
+<td><code>PSHBS_Birth_Date</code> / <code>MENR_Birth_Date</code> / <code>RCNO_Birth_Date_Result</code></td>
+<td>Birth date</td>
+</tr>
+<tr>
+<td align="right">20 / 21 / 22</td>
+<td><code>PSHBS_Member_SSN</code> / <code>MENR_Member_SSN</code> / <code>RCNO_Member_SSN_Result</code></td>
+<td>Member SSN</td>
+</tr>
+<tr>
+<td align="right">23 / 24 / 25</td>
+<td><code>PSHBS_Subscriber_SSN</code> / <code>MENR_Subscriber_SSN</code> / <code>RCNO_Subscriber_SSN_Result</code></td>
+<td>Subscriber SSN</td>
+</tr>
+<tr>
+<td align="right">26 / 27 / 28</td>
+<td><code>PSHBS_Plan_Code</code> / <code>MENR_Plan_Code</code> / <code>RCNO_Plan_Code_Result</code></td>
+<td>Plan code</td>
+</tr>
+<tr>
+<td align="right">29 / 30 / 31</td>
+<td><code>PSHBS_Coverage_Start_Date</code> / <code>MENR_Coverage_Start_Date</code> / <code>RCNA_Coverage_Start_Result</code></td>
+<td>Coverage start</td>
+</tr>
+<tr>
+<td align="right">32 / 33 / 34</td>
+<td><code>PSHBS_Coverage_End_Date</code> / <code>MENR_Coverage_End_Date</code> / <code>RCNO_Coverage_End_Result</code></td>
+<td>Coverage end</td>
+</tr>
+<tr>
+<td align="right">35 / 36 / 37</td>
+<td><code>PSHBS_Address_Line1</code> / <code>MENR_Address_Line1</code> / <code>RCNO_Address_Line1_Result</code></td>
+<td>Address line 1</td>
+</tr>
+<tr>
+<td align="right">38 / 39 / 40</td>
+<td><code>PSHBS_Address_Line2</code> / <code>MENR_Address_Line2</code> / <code>RCNO_Address_Line2_Result</code></td>
+<td>Address line 2</td>
+</tr>
+<tr>
+<td align="right">41 / 42 / 43</td>
+<td><code>PSHBS_Address_Line3</code> / <code>MENR_Address_Line3</code> / <code>RCNO_Address_Line3_Result</code></td>
+<td>Address line 3</td>
+</tr>
+<tr>
+<td align="right">44 / 45 / 46</td>
+<td><code>PSHBS_City</code> / <code>MENR_City</code> / <code>RCNO_City_Result</code></td>
+<td>City</td>
+</tr>
+<tr>
+<td align="right">47 / 48 / 49</td>
+<td><code>PSHBS_State</code> / <code>MENR_State</code> / <code>RCNO_State_Result</code></td>
+<td>State</td>
+</tr>
+<tr>
+<td align="right">50 / 51 / 52</td>
+<td><code>PSHBS_ZIP</code> / <code>MENR_ZIP</code> / <code>RCNO_ZIP_Result</code></td>
+<td>Postal code</td>
+</tr>
+<tr>
+<td align="right">53 / 54 / 55</td>
+<td><code>PSHBS_Country</code> / <code>MENR_Country</code> / <code>RCNO_Country_Result</code></td>
+<td>Country</td>
+</tr>
+<tr>
+<td align="right">56 / 57 / 58</td>
+<td><code>PSHBS_Phone</code> / <code>MENR_Phone</code> / <code>RCNO_Phone_Result</code></td>
+<td>Phone</td>
+</tr>
+<tr>
+<td align="right">59 / 60 / 61</td>
+<td><code>PSHBS_Email</code> / <code>MENR_Email</code> / <code>RCNO_Email_Result</code></td>
+<td>Email</td>
+</tr>
+<tr>
+<td align="right">62 / 63 / 64</td>
+<td><code>PSHBS_Payroll_Office_Number</code> / <code>MENR_Payroll_Office_Number</code> / <code>RCNO_Payroll_Office_Result</code></td>
+<td>Payroll office</td>
+</tr>
+<tr>
+<td align="right">65 / 66 / 67</td>
+<td><code>PSHBS_Relationship_Code</code> / <code>MENR_Relationship_Code</code> / <code>RCNO_Relationship_Result</code></td>
+<td>Relationship</td>
+</tr>
+<tr>
+<td align="right">68 / 69 / 70</td>
+<td><code>PSHBS_Extended_Cov_End_Date</code> / <code>MENR_Extended_Cov_End_Date</code> / <code>RCNO_Extended_Cov_End_Result</code></td>
+<td>Extended coverage end</td>
+</tr>
+<tr>
+<td align="right">71 / 72 / 73</td>
+<td><code>PSHBS_Gender_Code</code> / <code>MENR_Gender_Code</code> / <code>RCNO_Gender_Code_Result</code></td>
+<td>Gender</td>
+</tr>
+</tbody></table>
+<p>Result values used by the rules include:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>M</code></td>
+<td>Match</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>PSHBS/OPM-side enrollment discrepancy family</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>KP/carrier-side enrollment discrepancy family</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>Non-match/demographic discrepancy family</td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>Appears in older source material but is not approved by the governing user story</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>8. Lookup schemas and matching</h2>
+<h3>8.1 Membership fields</h3>
+<h4>Alignment to MDW DB</h4>
+<ul>
+<li>Coverage joins to membership by <code>PRSN_IK</code>, <code>RGN_CD</code>, and <code>MBRSHP_LNE_NB = LNE_NB</code>; these columns align with the leading columns of <code>PKMBRSHP_CVRG_OPTN</code>.</li>
+<li>LNE_NB represents the different memberships</li>
+<li>When SBSCRB_PRSN_IK = PRSN_IK then the row in MBRSH_CURRENT is the subscriber</li>
+<li>SBSCRB_TYP_CD holds the sub type</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="right">Col.</th>
+<th>Field</th>
+<th>Notes</th>
+<th>MDW_DB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td><code>kp_mrn</code></td>
+<td>Membership key</td>
+<td>PRSN_CRNT.MRN_NB</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td><code>Coverage_Start_Date</code></td>
+<td><code>YYYYMMDD</code></td>
+<td>MBRSHP_CRNT.MBRSHP_EFF_STRT_DT</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td><code>Coverage_End_Date</code></td>
+<td>Nullable <code>YYYYMMDD</code></td>
+<td>MBRSHP_CRNT.MBRSHP_EFF_END_DT</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td><code>first_name</code></td>
+<td>Member first name</td>
+<td>PRSN_CRNT.FRST_NM</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td><code>last_name</code></td>
+<td>Member last name</td>
+<td>PRSN_CRNT.LST_NM</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td><code>member_ssn</code></td>
+<td>Nine-character string</td>
+<td>PRSN_CRNT.SSN_NB</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td><code>member_gender</code></td>
+<td><code>M</code>, <code>F</code>, or <code>U</code></td>
+<td>PRSN_CRNT.GNDR_CD</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td><code>Relationship_Code</code></td>
+<td>Membership relationship</td>
+<td>MBRSHP_CRNT.REL_TO_SBSCRB_CD</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td><code>plan_code</code></td>
+<td>Three-character plan</td>
+<td>MBRSHP_CVRG_OPTN_CRNT.SRC_SYS_KEY_3_TX (provisional physical mapping)</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td><code>Annuitant_Number</code></td>
+<td>Annuitant value</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">11</td>
+<td><code>Payroll_Office_Number</code></td>
+<td>Payroll office</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">12</td>
+<td><code>Member_Deceased</code></td>
+<td>Expected <code>Y</code>/<code>N</code></td>
+<td>PRSN_DEATH_CRNT.DEATH_DT is set</td>
+</tr>
+<tr>
+<td align="right">13</td>
+<td><code>Subscriber_Deceased</code></td>
+<td>Expected <code>Y</code>/<code>N</code></td>
+<td>PRSN_DEATH_CRNT.DEATH_DT is set</td>
+</tr>
+<tr>
+<td align="right">14</td>
+<td><code>Member_Age</code></td>
+<td>Numeric age</td>
+<td>PRSN_CURRENT.BRTH_DT (calc age)</td>
+</tr>
+<tr>
+<td align="right">15</td>
+<td><code>Not_Disabled</code></td>
+<td>Expected <code>Y</code>/<code>N</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="right">16</td>
+<td><code>Subscriber_SSN</code></td>
+<td>Subscriber grouping key</td>
+<td>PRSN_CRNT.SSN_NB</td>
+</tr>
+<tr>
+<td align="right">17</td>
+<td><code>Medicare_Member</code></td>
+<td>Used by name/birth-date exception logic in the working rules</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">18</td>
+<td><code>Member_Birth_Date</code></td>
+<td><code>YYYYMMDD</code></td>
+<td>PRSN_CURRENT.BRTH_DT</td>
+</tr>
+<tr>
+<td align="right">19</td>
+<td><code>Member_Deceased_Date</code></td>
+<td>Nullable <code>YYYYMMDD</code></td>
+<td>PRSN_DEATH_CRNT.DEATH_DT</td>
+</tr>
+<tr>
+<td align="right">20-25</td>
+<td>Membership address fields</td>
+<td>Address lines 1-3, city, state, ZIP/country; source numbering is inconsistent and must be confirmed</td>
+<td>MBRSHP_ADDR_CRNT</td>
+</tr>
+</tbody></table>
+<h4>8.1.1 MDW membership query</h4>
+<p>The following Oracle query produces the 19-column positional contract consumed by <code>RcnoToRcnaService</code>. It is based on the <code>MDW2_V</code> mappings supplied in Section 8.1. Column 9 provisionally maps the stable three-character coverage source key observed per membership line; columns 10-11, 15, and 17 remain <code>NULL</code> because the source design does not identify authoritative MDW columns for those values.</p>
+<p>At runtime this statement is stored in the versioned MongoDB <code>RcnoaQueryConfiguration.mdwQuery</code> field and is editable from the RCNOA admin page. Validation requires <code>:businessDate</code>, <code>:ssnsJson</code>, and <code>:mrnsJson</code>. The SSN bind is mandatory for F-family candidate retrieval because F rows locate membership by member first name, member last name, and subscriber SSN and are not expected to contain a member MRN. The MRN bind is mandatory because every I- and N-family rule locates membership by normalized RCNO <code>MENR_Member_ID</code> to MDW <code>kp_mrn</code>. The statement must remain read-only, return the same 19-column positional contract, and order rows by <code>coverage_end_date DESC NULLS LAST</code>. The SQL below is sourced from the repository-level <code>baseConfigMDWQuery.sql</code> and is the seed value used when that configuration is first created.</p>
+<pre><code class="language-sql">WITH runtime AS (
+  SELECT TO_DATE(:businessDate, &#39;YYYYMMDD&#39;) AS business_date
+  FROM dual
+),
+lookup_ssns AS (
+  SELECT lookup_key
+  FROM JSON_TABLE(
+    :ssnsJson,
+    &#39;$[*]&#39; COLUMNS (lookup_key VARCHAR2(20) PATH &#39;$&#39;)
+  )
+),
+lookup_mrns AS (
+  SELECT lookup_json.lookup_key
+  FROM JSON_TABLE(
+    :mrnsJson,
+    &#39;$[*]&#39; COLUMNS (
+      lookup_key VARCHAR2(20) PATH &#39;$&#39;
+    )
+  ) lookup_json
+),
+matched_people AS (
+  SELECT DISTINCT member_person.PRSN_IK
+  FROM lookup_mrns lookup
+  JOIN MDW2_V.PRSN_CRNT member_person
+    ON member_person.MRN_NB = LTRIM(SUBSTR(lookup.lookup_key, 3, 12), &#39;0&#39;)
+   AND member_person.MRN_PFX_NB = TO_CHAR(TO_NUMBER(SUBSTR(lookup.lookup_key, 1, 2)))
+),
+ranked_memberships AS (
+  SELECT matched_people.PRSN_IK AS matched_prsn_ik,
+         membership.PRSN_IK,
+         membership.RGN_CD,
+         membership.LNE_NB,
+         MAX(membership.LNE_NB) OVER (
+           PARTITION BY membership.PRSN_IK
+         ) AS max_lne_nb
+  FROM matched_people
+  CROSS JOIN runtime
+  JOIN MDW2_V.MBRSHP_CRNT membership
+    ON membership.PRSN_IK = matched_people.PRSN_IK
+),
+candidate_people AS (
+  SELECT person.PRSN_IK,
+         person.RGN_CD
+  FROM lookup_ssns lookup
+  JOIN MDW2_V.PRSN_CRNT person
+    ON lookup.lookup_key = person.SSN_NB
+  WHERE person.RGN_CD IN (&#39;SC&#39;, &#39;NC&#39;)
+  UNION
+  SELECT matched_prsn_ik AS PRSN_IK,
+         RGN_CD
+  FROM ranked_memberships
+  WHERE LNE_NB = max_lne_nb
+    AND RGN_CD IN (&#39;SC&#39;, &#39;NC&#39;)
+),
+candidate_membership AS (
+  SELECT membership.*
+  FROM candidate_people candidate
+  JOIN runtime ON 1 = 1
+  JOIN MDW2_V.MBRSHP_CRNT membership
+    ON candidate.PRSN_IK = membership.PRSN_IK
+)
+SELECT DISTINCT
+  member_person.MRN_PFX_NB || LPAD(TO_CHAR(member_person.MRN_NB), 10, &#39;0&#39;)    -- 1
+    AS kp_mrn,
+  TO_CHAR(membership.MBRSHP_EFF_STRT_DT, &#39;YYYYMMDD&#39;)                         -- 2
+    AS coverage_start_date,
+  TO_CHAR(membership.MBRSHP_EFF_END_DT, &#39;YYYYMMDD&#39;)                          -- 3
+    AS coverage_end_date,
+  member_person.FRST_NM AS first_name,                                        -- 4
+  member_person.LST_NM AS last_name,                                          -- 5
+  member_person.SSN_NB AS member_ssn,                                         -- 6
+  NVL(member_person.GNDR_CD, &#39;U&#39;) AS member_gender,                           -- 7
+  membership.REL_TO_SBSCRB_CD AS relationship_code,                          -- 8
+  coverage.SRC_SYS_KEY_3_TX AS plan_code,                                     -- 9
+  CAST(NULL AS VARCHAR2(50)) AS annuitant_number,                             -- 10
+  CAST(NULL AS VARCHAR2(50)) AS payroll_office_number,                        -- 11
+  CASE WHEN member_death.DEATH_DT IS NULL THEN &#39;N&#39; ELSE &#39;Y&#39; END               -- 12
+    AS member_deceased,
+  CASE WHEN subscriber_death.DEATH_DT IS NULL THEN &#39;N&#39; ELSE &#39;Y&#39; END           -- 13
+    AS subscriber_deceased,
+  TRUNC(MONTHS_BETWEEN(runtime.business_date, member_person.BRTH_DT) / 12)     -- 14
+    AS member_age,
+  CAST(NULL AS VARCHAR2(1)) AS not_disabled,                                  -- 15
+  subscriber_person.SSN_NB AS subscriber_ssn,                                 -- 16
+  CAST(NULL AS VARCHAR2(1)) AS exception_flag,                                -- 17
+  TO_CHAR(member_person.BRTH_DT, &#39;YYYYMMDD&#39;) AS member_birth_date,            -- 18
+  TO_CHAR(member_death.DEATH_DT, &#39;YYYYMMDD&#39;) AS member_deceased_date          -- 19
+FROM candidate_membership membership
+JOIN MDW2_V.PRSN_CRNT member_person
+  ON member_person.PRSN_IK = membership.PRSN_IK
+JOIN MDW2_V.PRSN_CRNT subscriber_person
+  ON subscriber_person.PRSN_IK = membership.SBSCRB_PRSN_IK
+JOIN MDW2_V.MBRSHP_CVRG_OPTN_CRNT coverage
+  ON coverage.PRSN_IK = membership.PRSN_IK
+ AND coverage.RGN_CD = membership.RGN_CD
+ AND coverage.MBRSHP_LNE_NB = membership.LNE_NB
+OUTER APPLY (
+  SELECT MAX(death.DEATH_DT) AS DEATH_DT
+  FROM MDW2_V.PRSN_DEATH_CRNT death
+  WHERE death.PRSN_IK = member_person.PRSN_IK
+) member_death
+OUTER APPLY (
+  SELECT MAX(death.DEATH_DT) AS DEATH_DT
+  FROM MDW2_V.PRSN_DEATH_CRNT death
+  WHERE death.PRSN_IK = subscriber_person.PRSN_IK
+) subscriber_death
+CROSS JOIN runtime
+ORDER BY coverage_end_date DESC NULLS LAST, kp_mrn;
+</code></pre>
+<p>MDW deployment checks:</p>
+<ul>
+<li>Keep <code>baseConfigMDWQuery.sql</code> and the default <code>RcnoaQueryConfiguration.mdwQuery</code> seed synchronized. The base query splits the first two MENR ID characters into <code>MRN_PFX_NB</code>, strips insignificant zeroes from the remaining MRN number for lookup, limits candidates to regions <code>SC</code> and <code>NC</code>, selects the highest membership line number for MRN candidates, and reconstructs <code>kp_mrn</code> as prefix plus a ten-character padded number.</li>
+<li>The coverage-option join must retain all three predicates: <code>coverage.PRSN_IK = membership.PRSN_IK</code>, <code>coverage.RGN_CD = membership.RGN_CD</code>, and <code>coverage.MBRSHP_LNE_NB = membership.LNE_NB</code>. Joining only by line number crosses people and regions, multiplies rows, and prevents use of the leading <code>PKMBRSHP_CVRG_OPTN</code> columns.</li>
+<li>The deployed <code>mdwQuery</code> must use both <code>:mrnsJson</code> and <code>:ssnsJson</code>, preserve the 19-column output contract, and order by <code>coverage_end_date DESC NULLS LAST</code>. Runtime MRN normalization makes the reconstructed <code>kp_mrn</code> equivalent to the original MENR member ID despite insignificant leading zeroes.</li>
+<li>Confirm against authoritative MDW metadata that <code>MBRSHP_CVRG_OPTN_CRNT.SRC_SYS_KEY_3_TX</code> is the MENR three-character enrollment code. Sample data shows one stable value per membership line and exact roll-up of option dates to <code>MBRSHP_EFF_STRT_DT</code>/<code>MBRSHP_EFF_END_DT</code>. Supply authoritative mappings for annuitant number, payroll office number, disability, and the implementation&#39;s exception flag before enabling rule paths that require columns 10-11, 15, or 17.</li>
+<li>Add any required current-row or effective-date predicates defined by the <code>MDW2_V</code> view contract. Do not infer those predicates solely from the <code>_CRNT</code> suffix.</li>
+<li>Verify whether <code>PRSN_DEATH_CRNT</code> is already unique by <code>PRSN_IK</code>. The aggregate prevents duplicate lookup rows while preserving the latest death date.</li>
+</ul>
+<h3>8.2 Recent 834 lookup</h3>
+<p>The governing working source describes:</p>
+<table>
+<thead>
+<tr>
+<th align="right">Col.</th>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td><code>Subscriber_SSN</code></td>
+<td>String key used for all recent-834 reconciliation</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td><code>Coverage_Start_Date</code></td>
+<td><code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td><code>Coverage_End_Date</code></td>
+<td><code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td><code>834_Processed</code></td>
+<td><code>Y</code> or <code>N</code></td>
+</tr>
+</tbody></table>
+<p>Older material swaps columns 2 and 3 and omits <code>834_Processed</code>. The four-column July 15 layout governs.</p>
+<h4>8.2.1 EPDS prior-30-day 834 query</h4>
+<p>The following Oracle query uses the EPDS relationships and columns defined in <code>EPDS.sql</code>. It returns the exact four-column positional contract consumed by <code>RcnoToRcnaService</code>. The half-open interval includes interchanges from midnight 30 days before <code>:businessDate</code> and excludes interchanges at or after midnight on <code>:businessDate</code>, yielding exactly the prior 30 calendar days.</p>
+<p>At runtime this statement is stored in the versioned MongoDB <code>RcnoaQueryConfiguration.epdsQuery</code> field and is editable from the RCNOA admin page. The SQL below is the seed value used when that configuration is first created.</p>
+<pre><code class="language-sql">WITH runtime AS (
+  SELECT TO_TIMESTAMP(:businessDate, &#39;YYYYMMDD&#39;) AS business_timestamp
+  FROM dual
+)
+SELECT DISTINCT
+  demographics.SSN AS subscriber_ssn,                                         -- 1
+  TO_CHAR(coverage_member.EFFECTIVE_START_DATE, &#39;YYYYMMDD&#39;)                   -- 2
+    AS coverage_start_date,
+  TO_CHAR(coverage_member.EFFECTIVE_END_DATE, &#39;YYYYMMDD&#39;)                     -- 3
+    AS coverage_end_date,
+  CASE                                                                         -- 4
+    WHEN UPPER(TRIM(batch.STATUS_CODE)) = &#39;SUCCESS&#39; THEN &#39;Y&#39;
+    ELSE &#39;N&#39;
+  END AS processed
+FROM RAWDATA_OWNER.FILE_INFO file_info
+JOIN RAWDATA_OWNER.BATCH_RUN batch
+  ON batch.BATCH_IK = file_info.BATCH_IK
+   AND batch.SOURCE_FILE_NAME = file_info.SOURCE_FILE_NAME
+JOIN RAWDATA_OWNER.HEALTH_COVERAGE coverage
+  ON coverage.REGION_CODE = file_info.REGION_CODE
+   AND coverage.INTERCHANGE_CONTROL_NUMBER = file_info.INTERCHANGE_CONTROL_NUMBER
+   AND coverage.SOURCE_FILE_NAME = file_info.SOURCE_FILE_NAME
+JOIN RAWDATA_OWNER.HEALTH_COVERAGE_MEMBER coverage_member
+  ON coverage_member.REGION_CODE = coverage.REGION_CODE
+   AND coverage_member.INTERCHANGE_CONTROL_NUMBER = coverage.INTERCHANGE_CONTROL_NUMBER
+   AND coverage_member.TRANSACTIONSET_CONTROL_NUMBER = coverage.TRANSACTIONSET_CONTROL_NUMBER
+   AND coverage_member.SOURCE_FILE_NAME = coverage.SOURCE_FILE_NAME
+JOIN RAWDATA_OWNER.MEMBER_DEMOGRAPHICS demographics
+  ON demographics.REGION_CODE = coverage_member.REGION_CODE
+   AND demographics.INTERCHANGE_CONTROL_NUMBER = coverage_member.INTERCHANGE_CONTROL_NUMBER
+   AND demographics.TRANSACTIONSET_CONTROL_NUMBER = coverage_member.TRANSACTIONSET_CONTROL_NUMBER
+   AND demographics.HEALTH_COVERAGE_MEMBER_IK = coverage_member.HEALTH_COVERAGE_MEMBER_IK
+   AND demographics.SOURCE_FILE_NAME = coverage_member.SOURCE_FILE_NAME
+CROSS JOIN runtime
+WHERE UPPER(TRIM(file_info.FILE_TYPE)) = &#39;834&#39;
+  AND file_info.INTERCHANGE_TIMESTAMP &gt;= runtime.business_timestamp - INTERVAL &#39;30&#39; DAY
+  AND file_info.INTERCHANGE_TIMESTAMP &lt; runtime.business_timestamp
+  AND demographics.SSN IS NOT NULL
+  AND coverage_member.EFFECTIVE_START_DATE IS NOT NULL;
+</code></pre>
+<p>EPDS deployment checks:</p>
+<ul>
+<li>Confirm the actual 834 value stored in <code>FILE_INFO.FILE_TYPE</code>. Replace the query literal only if the EPDS owner confirms a different code.</li>
+<li>Confirm the successful terminal value or values for <code>BATCH_RUN.STATUS_CODE</code>. The DDL defines the column but no status domain; <code>SUCCESS</code> is therefore a deployment assumption, not a DDL-proven value. Failed and in-progress batches must continue to map to <code>N</code>.</li>
+<li>Confirm whether <code>EFFECTIVE_START_DATE</code> and <code>EFFECTIVE_END_DATE</code> on <code>HEALTH_COVERAGE_MEMBER</code> are the business-approved member coverage dates. Header-level <code>HEALTH_COVERAGE.COVERAGE_START_DATE</code> and <code>COVERAGE_END_DATE</code> are intentionally not used because reconciliation matches an individual member.</li>
+<li>Confirm the <code>MEMBER_DEMOGRAPHICS.PERSON_TYPE_CODE</code> value or equivalent relationship that identifies the subscriber and add the corresponding predicate/join before production deployment. The approved reconciliation key is subscriber SSN; the query must not return a dependent/member SSN in column 1.</li>
+<li>If the approved lookback includes the business date, change only the upper bound to <code>&lt; runtime.business_timestamp + INTERVAL &#39;1&#39; DAY</code>; retain a half-open interval to avoid time-of-day boundary defects.</li>
+</ul>
+<h3>8.3 Match strategies</h3>
+<table>
+<thead>
+<tr>
+<th>Match</th>
+<th>Predicate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prior RCNA exact match</td>
+<td>Within the current <code>YYYYMM</code> reconciliation cycle, current RCNO columns 1-73 equal stored prior RCNA columns 1-73 after comparison normalization. Evidence may come from a generated RCNA or a successfully processed manual RCNA upload.</td>
+</tr>
+<tr>
+<td>F-family membership</td>
+<td>Normalized PSHBS member first name + normalized PSHBS member last name + normalized PSHBS subscriber SSN = MDW membership first name + last name + subscriber SSN. Comparison is case-insensitive, ignores surrounding whitespace, and does not require <code>MENR_Member_ID</code>; F-family RCNO rows are not expected to contain a member MRN.</td>
+</tr>
+<tr>
+<td>I/N-family membership by MRN</td>
+<td>Membership <code>kp_mrn</code> = RCNO <code>MENR_Member_ID</code> (column 6). For digit-only values, compare after removing insignificant leading zeroes from both values; preserve the original values in all records and outputs. If multiple MDW rows match the MRN, sort populated <code>Coverage_End_Date</code> values descending, place blank end dates last, and evaluate the first row. Member SSN, subscriber SSN, and member name do not establish I/N-family membership.</td>
+</tr>
+<tr>
+<td>Recent 834 for F rules</td>
+<td>Subscriber SSN + PSHBS coverage start + PSHBS coverage end; processing status is an additional predicate where required</td>
+</tr>
+<tr>
+<td>Recent 834 for I and N rules</td>
+<td>Subscriber SSN + MENR coverage start + MENR coverage end; processing status is an additional predicate where required</td>
+</tr>
+</tbody></table>
+<p>When duplicate lookup rows satisfy a rule predicate:</p>
+<ul>
+<li>multiple I- or N-family membership rows matched by normalized MRN follow the deterministic <code>Coverage_End_Date</code> ordering above and are not an ambiguity merely because more than one MRN row exists;</li>
+<li>identical duplicates may be collapsed for evaluation;</li>
+<li>conflicting duplicates for lookup strategies without an approved deterministic selector are an ambiguity error for the RCNO row;</li>
+<li>the row must be routed for manual resolution rather than selecting a lookup arbitrarily.</li>
+</ul>
+<h3>8.4 Source-specific expected data contracts (EPDS and MDW)</h3>
+<p>The design already defines lookup schemas in Sections 8.1 and 8.2, but those sections do not explicitly label the expected upstream system of record. This subsection makes that expectation explicit for implementation planning.</p>
+<h4>8.4.1 EPDS expected data (enrollment transaction evidence)</h4>
+<p>For RCNO-to-RCNA reconciliation, EPDS is expected to provide the recent enrollment transaction evidence that populates <code>recentEnrollmentCandidates</code> (logical alias <code>file5_ENROLL_834_ALL</code>).</p>
+<table>
+<thead>
+<tr>
+<th>EPDS field (logical)</th>
+<th>Canonical lookup field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Subscriber SSN</td>
+<td><code>Subscriber_SSN</code></td>
+<td>Yes</td>
+<td>Matching key used by F/I/N rules</td>
+</tr>
+<tr>
+<td>Coverage start date</td>
+<td><code>Coverage_Start_Date</code></td>
+<td>Yes</td>
+<td><code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td>Coverage end date</td>
+<td><code>Coverage_End_Date</code></td>
+<td>Yes</td>
+<td><code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td>Processed indicator</td>
+<td><code>834_Processed</code></td>
+<td>Yes</td>
+<td><code>Y</code> or <code>N</code>; required for processed vs pending rule paths</td>
+</tr>
+<tr>
+<td>Source transaction identifier</td>
+<td>Invocation audit metadata</td>
+<td>Yes</td>
+<td>Stable DB identifier for audit and traceability</td>
+</tr>
+<tr>
+<td>Transaction effective/business date</td>
+<td>Repository/orchestration metadata</td>
+<td>Yes</td>
+<td>Must align with approved 30-day lookback boundary</td>
+</tr>
+</tbody></table>
+<p>Implementation notes:</p>
+<ul>
+<li>This contract is evidence-oriented and is not the full outbound 834 payload model.</li>
+<li>If EPDS cannot supply <code>834_Processed</code>, the invocation is contract-invalid for rules that require processed-state branching.</li>
+<li>Recent-834 reconciliation uses subscriber SSN as its identity key. Member SSN remains available for member payload mapping but is not the recent-834 match key.</li>
+</ul>
+<h4>8.4.2 MDW expected data (membership reference)</h4>
+<p>For RCNO-to-RCNA reconciliation, MDW is expected to provide membership reference rows that populate <code>membershipCandidates</code> (logical alias <code>file3_MEMBERSHIP_KP_ALL</code>).</p>
+<table>
+<thead>
+<tr>
+<th>MDW field (logical)</th>
+<th>Canonical lookup field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Member record number</td>
+<td><code>kp_mrn</code></td>
+<td>Yes</td>
+<td>Primary membership match key</td>
+</tr>
+<tr>
+<td>Coverage start date</td>
+<td><code>Coverage_Start_Date</code></td>
+<td>Yes</td>
+<td><code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td>Coverage end date</td>
+<td><code>Coverage_End_Date</code></td>
+<td>No</td>
+<td>Nullable <code>YYYYMMDD</code></td>
+</tr>
+<tr>
+<td>First name</td>
+<td><code>first_name</code></td>
+<td>Yes</td>
+<td>Used in identity and discrepancy rules</td>
+</tr>
+<tr>
+<td>Last name</td>
+<td><code>last_name</code></td>
+<td>Yes</td>
+<td>Used in identity and discrepancy rules</td>
+</tr>
+<tr>
+<td>Member SSN</td>
+<td><code>member_ssn</code></td>
+<td>Yes</td>
+<td>Nine-character string</td>
+</tr>
+<tr>
+<td>Subscriber SSN</td>
+<td><code>Subscriber_SSN</code></td>
+<td>Yes</td>
+<td>Grouping and matching key</td>
+</tr>
+<tr>
+<td>Relationship code</td>
+<td><code>Relationship_Code</code></td>
+<td>Yes</td>
+<td>Required by relationship-based rules</td>
+</tr>
+<tr>
+<td>Plan code</td>
+<td><code>plan_code</code></td>
+<td>Yes</td>
+<td>Required by plan mismatch rules</td>
+</tr>
+<tr>
+<td>Member birth date</td>
+<td><code>Member_Birth_Date</code></td>
+<td>Yes</td>
+<td><code>YYYYMMDD</code>; used by N15/N16 and age logic</td>
+</tr>
+<tr>
+<td>Member gender</td>
+<td><code>member_gender</code></td>
+<td>Yes</td>
+<td><code>M</code>, <code>F</code>, or <code>U</code></td>
+</tr>
+<tr>
+<td>Annuitant number</td>
+<td><code>Annuitant_Number</code></td>
+<td>No</td>
+<td>Required only for annuitant comparisons</td>
+</tr>
+<tr>
+<td>Payroll office number</td>
+<td><code>Payroll_Office_Number</code></td>
+<td>No</td>
+<td>Required only for payroll-office comparisons</td>
+</tr>
+<tr>
+<td>Member deceased flag/date</td>
+<td><code>Member_Deceased</code>, <code>Member_Deceased_Date</code></td>
+<td>Conditional</td>
+<td>Required when evaluating deceased-specific branches</td>
+</tr>
+<tr>
+<td>Subscriber deceased flag</td>
+<td><code>Subscriber_Deceased</code></td>
+<td>Conditional</td>
+<td>Required when evaluating deceased-specific branches</td>
+</tr>
+<tr>
+<td>Disability and age fields</td>
+<td><code>Not_Disabled</code>, <code>Member_Age</code></td>
+<td>Conditional</td>
+<td>Required for age-out/disabled logic</td>
+</tr>
+<tr>
+<td>Address fields</td>
+<td>Address lines/city/state/ZIP/country</td>
+<td>Conditional</td>
+<td>Required for N91/N92 address comparison paths</td>
+</tr>
+<tr>
+<td>Source membership identifier</td>
+<td>Invocation audit metadata</td>
+<td>Yes</td>
+<td>Stable DB identifier for audit and deterministic duplicate handling</td>
+</tr>
+</tbody></table>
+<p>Implementation notes:</p>
+<ul>
+<li>MDW field names may differ physically; repository mapping must produce the canonical positional contract before invocation.</li>
+<li>F-family membership existence is determined by normalized member first name + member last name + subscriber SSN. F-family RCNO rows are not expected to contain a member MRN, and MRN does not establish F-family membership.</li>
+<li>I- and N-family membership existence is determined only by normalized <code>kp_mrn = MENR_Member_ID</code>; member SSN, subscriber SSN, and name matches do not establish I/N-family membership.</li>
+<li>MRN-matched rows must be ordered by highest populated <code>Coverage_End_Date</code>, with blank end dates last, before selecting the row evaluated by an I- or N-family rule.</li>
+<li>Multiple MDW rows matched by normalized MRN follow the approved deterministic row-selection rule in Section 8.3. The row-level ambiguity rule applies only to lookup strategies without an approved deterministic selector.</li>
+<li>Missing conditional fields are allowed only when the selected rule path does not require them.</li>
+</ul>
+<h4>8.4.3 Current design limits and required clarifications</h4>
+<p>The design can define the minimum expected EPDS and MDW contracts above. Business responses resolve the recent-834 pairing policy: subscriber SSN with PSHBS dates for F rules, and subscriber SSN with MENR dates for I and N rules. The run captures the current calendar date once as <code>businessDate</code> for repeatable rule evaluation. The following still require technical confirmation:</p>
+<ul>
+<li>definitive membership address field numbering/map from MDW (OQ-10); and</li>
+<li>database isolation or business-effective snapshot semantics (OQ-24).</li>
+</ul>
+<hr>
+<h2>9. RCNA processing model</h2>
+<h3>9.1 Rule execution</h3>
+<p>For each RCNO row:</p>
+<ol>
+<li>initialize <code>Rule_ID</code>, <code>Priority</code>, <code>PSHB_Code</code>, <code>Code_Description</code>, <code>Notes</code>, and <code>Aging_Months</code>;</li>
+<li>evaluate <code>A100</code>, <code>B200</code>, and the F- and I-family rules in the exact order in Section 10, stopping after the first matching rule;</li>
+<li>evaluate N-family rules by priority group in the order Priority 1, Priority 2, Priority 3, Priority 4, and then any later approved priority group; within Priority 1 use the exact sequence <code>N0000</code>, <code>N13000</code>, <code>N14000</code>, <code>N12000</code>;</li>
+<li>for N-family Priority 3 (which includes <code>N5000-2</code>), evaluate every applicable mismatch rule rather than stopping after the first match, and retain all matched rules in deterministic catalog order;</li>
+<li>independently evaluate the four catch-all conditions (<code>AE-1</code>, <code>AC-2</code>, <code>DM-3</code>, <code>CE-4</code>, Section 10.5) against the same row, whether or not a specific rule already matched;</li>
+<li>when both a specific rule and a catch-all condition are satisfied, apply the precedence <code>1 &gt; 2 &gt; 4 &gt; 3 &gt; 5</code>, where <code>&gt;</code> means more urgent than; if the priorities are equal, keep the specific rule&#39;s decision; log the overlap (both rule IDs, both priorities, whether they differed, and the source RCNO row) for diagnostics;</li>
+<li>if no business rule or catch-all matches, apply <code>No_rule99999</code>;</li>
+<li>copy RCNO columns 1-73 unchanged;</li>
+<li>append the derived fields; and</li>
+<li>retain an audit record of every predicate evaluated, the selected disposition, and every matched N-family Priority 3 rule.</li>
+</ol>
+<p>The engine must not let a later rule overwrite an earlier rule.</p>
+<p>The rule engine still evaluates canonical numeric priorities and canonical PSHB codes. When a working or outbound RCNA row is materialized, column 74 and column 75 are rendered as display values rather than bare internal codes.</p>
+<h3>9.2 Output layouts</h3>
+<h4>Display rendering for columns 74 and 75</h4>
+<p>Working and outbound RCNA rows must render the approved display text below.</p>
+<p>Priority display values:</p>
+<table>
+<thead>
+<tr>
+<th>Canonical priority</th>
+<th>RCNA column 74 display</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>1: Active Enrollment mismatch</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>2: Active Carrier Enrollment Mismatch</code></td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>3: Active Demographic Mismatches</code></td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>4: Cancelled Enrollment Mismatch</code></td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>5: Matches (no action required)</code></td>
+</tr>
+</tbody></table>
+<p>PSHB code display values in RCNA column 75:</p>
+<table>
+<thead>
+<tr>
+<th>Canonical code</th>
+<th>RCNA column 75 display</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>MM</code></td>
+<td><code>MM Matched Enrollment Record and Fields</code></td>
+</tr>
+<tr>
+<td><code>AE001</code></td>
+<td><code>AE001 Conflicting enrollment coverage start date</code></td>
+</tr>
+<tr>
+<td><code>AE002</code></td>
+<td><code>AE002 Deceased Subscriber</code></td>
+</tr>
+<tr>
+<td><code>AE003</code></td>
+<td><code>AE003 Deceased Member</code></td>
+</tr>
+<tr>
+<td><code>AE004</code></td>
+<td><code>AE004 Coverage end date set for aged off dependent</code></td>
+</tr>
+<tr>
+<td><code>AE005</code></td>
+<td><code>AE005 Incompatible enrollment type</code></td>
+</tr>
+<tr>
+<td><code>AE006</code></td>
+<td><code>AE006 Medicare Advantage</code></td>
+</tr>
+<tr>
+<td><code>AE007</code></td>
+<td><code>AE007 No Dependent 834 Enrollment Received</code></td>
+</tr>
+<tr>
+<td><code>AE008</code></td>
+<td><code>AE008 Duplicate Enrollment</code></td>
+</tr>
+<tr>
+<td><code>AE009</code></td>
+<td><code>AE009 Duplicate RCNO record</code></td>
+</tr>
+<tr>
+<td><code>AE010</code></td>
+<td><code>AE010 Conflicting enrollment coverage end date</code></td>
+</tr>
+<tr>
+<td><code>AE011</code></td>
+<td><code>AE011 Exact match Carrier record exists</code></td>
+</tr>
+<tr>
+<td><code>AE012</code></td>
+<td><code>AE012 Cannot enroll dependent older than 26 years</code></td>
+</tr>
+<tr>
+<td><code>AE013</code></td>
+<td><code>AE013 No 834 Enrollment Received</code></td>
+</tr>
+<tr>
+<td><code>AE014</code></td>
+<td><code>AE014 Conflicting Date of Death</code></td>
+</tr>
+<tr>
+<td><code>AE999</code></td>
+<td><code>AE*</code></td>
+</tr>
+<tr>
+<td><code>AE501</code></td>
+<td><code>AE501 834 Enrollment Awaiting Processing</code></td>
+</tr>
+<tr>
+<td><code>AE502</code></td>
+<td><code>AE502 No 834 Enrollment Received</code></td>
+</tr>
+<tr>
+<td><code>AE503</code></td>
+<td><code>AE503 Carrier MENR missing record</code></td>
+</tr>
+<tr>
+<td><code>AC001</code></td>
+<td><code>AC001 Eligible dependent missing from coverage</code></td>
+</tr>
+<tr>
+<td><code>AC002</code></td>
+<td><code>AC002 Active Carrier enrollment now ended</code></td>
+</tr>
+<tr>
+<td><code>AC003</code></td>
+<td><code>AC003 Exact Match PSHBS record exists</code></td>
+</tr>
+<tr>
+<td><code>AC004</code></td>
+<td><code>AC004 No 834 Term or Cancel Received</code></td>
+</tr>
+<tr>
+<td><code>AC501</code></td>
+<td><code>AC501 No 834 Enrollment Received</code></td>
+</tr>
+<tr>
+<td><code>AC502</code></td>
+<td><code>AC502 834 Termination Awaiting Processing</code></td>
+</tr>
+<tr>
+<td><code>AC503</code></td>
+<td><code>AC503 834 Cancelation Awaiting Processing</code></td>
+</tr>
+<tr>
+<td><code>AC504</code></td>
+<td><code>AC504 Duplicate Carrier MENR record</code></td>
+</tr>
+<tr>
+<td><code>DM001</code></td>
+<td><code>DM001 PSHBS Member Last Name truncated or invalid</code></td>
+</tr>
+<tr>
+<td><code>DM002</code></td>
+<td><code>DM002 PSHBS Member First Name truncated or invalid</code></td>
+</tr>
+<tr>
+<td><code>DM003</code></td>
+<td><code>DM003 Carrier has more accurate Member SSN</code></td>
+</tr>
+<tr>
+<td><code>DM004</code></td>
+<td><code>DM004 Carrier has more accurate Subscriber SSN</code></td>
+</tr>
+<tr>
+<td><code>DM005</code></td>
+<td><code>DM005 Mailing Address updated by Carrier due to emergency</code></td>
+</tr>
+<tr>
+<td><code>DM006</code></td>
+<td><code>DM006 Carrier has more accurate Gender Code</code></td>
+</tr>
+<tr>
+<td><code>DM007</code></td>
+<td><code>DM007 Carrier has more accurate Date of Birth</code></td>
+</tr>
+<tr>
+<td><code>DM008</code></td>
+<td><code>DM008 PSHBS Member first and last names reversed</code></td>
+</tr>
+<tr>
+<td><code>DM009</code></td>
+<td><code>DM009 Record incorrectly matched</code></td>
+</tr>
+<tr>
+<td><code>DM501</code></td>
+<td><code>DM501 Annuitant Number pending update</code></td>
+</tr>
+<tr>
+<td><code>DM502</code></td>
+<td><code>DM502 Member Last Name pending update</code></td>
+</tr>
+<tr>
+<td><code>DM503</code></td>
+<td><code>DM503 Member First Name pending update</code></td>
+</tr>
+<tr>
+<td><code>DM504</code></td>
+<td><code>DM504 Member Date of Birth pending update</code></td>
+</tr>
+<tr>
+<td><code>DM505</code></td>
+<td><code>DM505 Member SSN pending update</code></td>
+</tr>
+<tr>
+<td><code>DM506</code></td>
+<td><code>DM506 Subscriber SSN pending update</code></td>
+</tr>
+<tr>
+<td><code>DM507</code></td>
+<td><code>DM507 Mailing Address pending update</code></td>
+</tr>
+<tr>
+<td><code>DM508</code></td>
+<td><code>DM508 Payroll Office Number pending update</code></td>
+</tr>
+<tr>
+<td><code>DM509</code></td>
+<td><code>DM509 Relationship Code pending update</code></td>
+</tr>
+<tr>
+<td><code>DM510</code></td>
+<td><code>DM510 Gender Code pending update</code></td>
+</tr>
+<tr>
+<td><code>CE001</code></td>
+<td><code>CE001 No 834 cancellation received</code></td>
+</tr>
+<tr>
+<td><code>CE002</code></td>
+<td><code>CE002 Record incorrectly matched</code></td>
+</tr>
+<tr>
+<td><code>CE501</code></td>
+<td><code>CE501 834 cancellation awaiting processing</code></td>
+</tr>
+<tr>
+<td><code>CE502</code></td>
+<td><code>CE502 Erroneous cancellation reported on MENR</code></td>
+</tr>
+</tbody></table>
+<p>Codes not listed above continue to use their canonical code value in column 75 until a later approved display label is supplied.</p>
+<p>The Priority 5 perfect-match outcome (rule <code>A100</code>) keeps canonical code <code>MM</code> and description <code>Matches (no action required)</code> internally; only the column 75 display is expanded to <code>MM Matched Enrollment Record and Fields</code>. Column 76 continues to carry <code>Matches (no action required)</code>.</p>
+<p>For an N-family Priority 3 outcome with multiple applicable mismatches, apply the display mapping above to each matched canonical PSHB code. Working and outbound RCNA column 75 contains the resulting full display messages in deterministic catalog order, joined by <code>/</code> with no surrounding spaces, for example <code>DM501 Annuitant Number pending update/DM508 Payroll Office Number pending update/DM509 Relationship Code pending update</code>. Column 76 contains each matched rule&#39;s <code>Description/action</code> value in the same order and format, for example <code>Carrier to update member field/Carrier to update member field/Carrier to update member field</code>.</p>
+<h4>Internal working RCNA</h4>
+<table>
+<thead>
+<tr>
+<th align="right">Col.</th>
+<th>Field</th>
+<th>Population</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1-73</td>
+<td>Original RCNO columns</td>
+<td>Exact source values</td>
+</tr>
+<tr>
+<td align="right">74</td>
+<td><code>Priority</code></td>
+<td>Selected disposition rendered using the approved display text for the canonical priority</td>
+</tr>
+<tr>
+<td align="right">75</td>
+<td><code>PSHB_Code</code></td>
+<td>Selected disposition rendered using the approved display text for the canonical code; otherwise the canonical code value. For multiple N-family Priority 3 mismatches, render every matched code this way and join the full display messages with <code>/</code></td>
+</tr>
+<tr>
+<td align="right">76</td>
+<td><code>Code_Description</code></td>
+<td>Selected rule description, or for multiple N-family Priority 3 mismatches, every matched rule&#39;s <code>Description/action</code> value joined with <code>/</code> in the same order as column 75</td>
+</tr>
+<tr>
+<td align="right">77</td>
+<td><code>Notes</code></td>
+<td>Blank unless analyst/system note is explicitly supported</td>
+</tr>
+<tr>
+<td align="right">78</td>
+<td><code>Aging_Months</code></td>
+<td><code>0</code> for a new decision; prior value + 1 for Rule B; use <code>1</code> when Rule B&#39;s prior aging value is blank, missing, or nonnumeric</td>
+</tr>
+</tbody></table>
+<h4>Outbound RCNA to OPM</h4>
+<table>
+<thead>
+<tr>
+<th align="right">Col.</th>
+<th>Field</th>
+<th>Population</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1-73</td>
+<td>Original RCNO columns</td>
+<td>Exact source values</td>
+</tr>
+<tr>
+<td align="right">74</td>
+<td><code>Priority</code></td>
+<td>Working RCNA column 74 display value</td>
+</tr>
+<tr>
+<td align="right">75</td>
+<td><code>PSHB_Code</code></td>
+<td>Working RCNA column 75 display value</td>
+</tr>
+<tr>
+<td align="right">76</td>
+<td><code>Code_Description</code></td>
+<td>Working RCNA column 76</td>
+</tr>
+<tr>
+<td align="right">77</td>
+<td><code>Notes</code></td>
+<td>Working RCNA column 77</td>
+</tr>
+<tr>
+<td align="right">78</td>
+<td><code>Aging_Months</code></td>
+<td>Working RCNA column 78</td>
+</tr>
+</tbody></table>
+<p>Notes and Aging Months are included in the outbound RCNA and must equal the corresponding internal working RCNA values.</p>
+<hr>
+<h2>10. Ordered RCNA business rule catalog</h2>
+<p>All rules implicitly require an RCNO row. Rules outside N-family Priority 3 require that no earlier rule in their applicable evaluation sequence has matched. N-family Priority 3 evaluates every applicable mismatch rule and aggregates all matches.</p>
+<h3>10.1 Match and prior-decision rules</h3>
+<table>
+<thead>
+<tr>
+<th align="right">Order</th>
+<th>Rule</th>
+<th>Governing condition</th>
+<th align="right">Priority</th>
+<th>Code</th>
+<th>Description/action</th>
+<th align="right">Aging</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td>A100</td>
+<td>RCNO column 4 = <code>M</code></td>
+<td align="right">5</td>
+<td><code>MM</code></td>
+<td>Matches (no action required)</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>B200</td>
+<td>Current columns 1-73 exactly match a prior RCNA row</td>
+<td align="right">Prior</td>
+<td>Prior</td>
+<td>Prior description</td>
+<td align="right">Prior + 1</td>
+</tr>
+</tbody></table>
+<p>B200 performs no independent coverage-date or elapsed-time check. The repository first limits candidates to the processing run&#39;s <code>YYYYMM</code> reconciliation cycle and protected columns 1-73 match key. The rule then copies columns 74-76 from the selected stored row and increments Aging Months. Because storage upserts by cycle and match key, the latest successful generated or uploaded RCNA replaces an earlier same-cycle decision; records from other cycles are not candidates.</p>
+<h3>10.2 F-family rules</h3>
+<p>Every F-family rule locates membership by normalized PSHBS member first name, PSHBS member last name, and PSHBS subscriber SSN matched to the corresponding MDW membership fields. Comparison is case-insensitive and ignores surrounding whitespace. F-family RCNO rows are not expected to contain a member MRN, so <code>MENR_Member_ID</code> and MDW <code>kp_mrn</code> do not establish F-family membership. Subscriber SSN with PSHBS coverage dates remains the approved recent-834 evidence key.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Order</th>
+<th>Rule</th>
+<th>Detailed condition after prior rules fail</th>
+<th align="right">Pri.</th>
+<th>Code</th>
+<th>Description/action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">3</td>
+<td>F1300 (F1)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/before <code>businessDate</code>; membership matches PSHBS start/end, last name, first name, and subscriber SSN</td>
+<td align="right">4</td>
+<td><code>CE502</code></td>
+<td>Carrier data matches RCNO; no action</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td>F2400 (F2)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/before <code>businessDate</code>; composite-matched membership exists but either coverage date differs; no recent 834 matches subscriber SSN and PSHBS dates</td>
+<td align="right">4</td>
+<td><code>CE001</code></td>
+<td>OPM to send 834 cancellation</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td>F3500 (F3)</td>
+<td>Same mismatch pattern as F2, but a matching recent 834 exists</td>
+<td align="right">4</td>
+<td><code>CE500</code></td>
+<td>Carrier to investigate and reprocess the 834</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td>F4600 (F4)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; composite-matched membership has subscriber deceased = <code>Y</code></td>
+<td align="right">1</td>
+<td><code>AE002</code></td>
+<td>OPM to match ended coverage</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td>F5700 (F5)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; composite-matched membership has member deceased = <code>Y</code></td>
+<td align="right">1</td>
+<td><code>AE003</code></td>
+<td>OPM to terminate member coverage (and adjust enrollment type, if necessary)</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td>F6800 (F6)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; member not deceased; relationship is not spouse (<code>1</code> in source); member age &gt; 26; not disabled = <code>Y</code></td>
+<td align="right">1</td>
+<td><code>AE004</code></td>
+<td>OPM to investigate missing 834 / age-out handling</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td>F7000 (F7)</td>
+<td>Result <code>F</code>; active PSHBS range; member not deceased; relationship = spouse (<code>1</code> in source); age &gt; 26</td>
+<td align="right">1</td>
+<td><code>Z0000</code></td>
+<td>Invalid scenario</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td>F8000 (F8)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; coverage starts match; coverage ends differ; membership end is PSHBS end + 31 days, or membership extends beyond the current year while PSHBS end is year-end</td>
+<td align="right">1</td>
+<td><code>AE502</code></td>
+<td>Carrier data matches RCNO; no action</td>
+</tr>
+<tr>
+<td align="right">11</td>
+<td>F9000 (F9)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; coverage ends differ; membership end = birth date + 26 years + 31 days</td>
+<td align="right">1</td>
+<td><code>AE504</code></td>
+<td>No action required</td>
+</tr>
+<tr>
+<td align="right">12</td>
+<td>F10000 (F10)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/before <code>CURRENT_DATE</code>; composite-matched membership is active; coverage ends differ and neither F8 nor F9 applies</td>
+<td align="right">4</td>
+<td><code>CE002</code></td>
+<td>OPM to correct match</td>
+</tr>
+<tr>
+<td align="right">13</td>
+<td>F11000 (F11)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; coverage differs; matching recent 834 exists with processed = <code>N</code></td>
+<td align="right">1</td>
+<td><code>AE001</code></td>
+<td>OPM to correct coverage start date / pending enrollment</td>
+</tr>
+<tr>
+<td align="right">14</td>
+<td>F12000 (F12)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; composite-matched membership exists and both coverage dates match PSHBS</td>
+<td align="right">1</td>
+<td><code>AE502</code></td>
+<td>Carrier data matches RCNO; no action</td>
+</tr>
+<tr>
+<td align="right">15</td>
+<td>F13000 (F13)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; no composite name/subscriber-SSN membership match; matching recent 834 exists with processed = <code>Y</code></td>
+<td align="right">1</td>
+<td><code>AE500</code></td>
+<td>Carrier to investigate and reprocess the 834</td>
+</tr>
+<tr>
+<td align="right">16</td>
+<td>F14000 (F14)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; no composite name/subscriber-SSN membership match; matching recent 834 exists with processed = <code>N</code></td>
+<td align="right">1</td>
+<td><code>AE501</code></td>
+<td>Carrier to process the 834 enrollment</td>
+</tr>
+<tr>
+<td align="right">17</td>
+<td>F20000 (F20)</td>
+<td>Result <code>F</code>; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; no composite name/subscriber-SSN membership match; no matching recent 834; member is not deceased and not an over-age exception</td>
+<td align="right">1</td>
+<td><code>AE013</code></td>
+<td>OPM to investigate why an 834 was not sent</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>The July 15 source contains contradictory &quot;exists&quot; and &quot;not exists&quot; clauses in F13/F14/F20. The user story governs their intent: F13 and F14 require no membership, while F20 requires neither membership nor 834.</p>
+</blockquote>
+<blockquote>
+<p>Date gate revision: F4600, F5700, F6800, F8000, F9000, F11000, F12000, F13000, F14000, and F20000 require the PSHBS coverage end date (RCNO column 32) to be populated and on/after <code>CURRENT_DATE</code> (the boundary is inclusive). F10000 is intentionally unchanged and still requires a PSHBS coverage end that is populated and on/before <code>CURRENT_DATE</code>. When the revised gate is not satisfied, the rule does not match and evaluation continues to later rules and then the catch-all conditions (for example, CE-4 when the PSHBS coverage end is before the business date).</p>
+</blockquote>
+<h3>10.3 I-family rules</h3>
+<table>
+<thead>
+<tr>
+<th align="right">Order</th>
+<th>Rule</th>
+<th>Detailed condition after prior rules fail</th>
+<th align="right">Pri.</th>
+<th>Code</th>
+<th>Description/action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">18</td>
+<td>I1000 (I1)</td>
+<td>Result <code>I</code>; MRN-matched membership exists; current date is after the selected membership coverage end; MENR coverage end is current year-end</td>
+<td align="right">2</td>
+<td><code>AC002</code></td>
+<td>OPM to match ended coverage</td>
+</tr>
+<tr>
+<td align="right">19</td>
+<td>I2000 (I2)</td>
+<td>Result <code>I</code>; MRN-matched membership exists; MENR coverage end is populated and after <code>CURRENT_DATE</code>; MENR coverage is active/open; no recent 834 matches subscriber SSN and MENR coverage dates</td>
+<td align="right">2</td>
+<td><code>AC004</code></td>
+<td>No 834 termination/cancel received; OPM to investigate</td>
+</tr>
+<tr>
+<td align="right">20</td>
+<td>I3000 (I3)</td>
+<td>Result <code>I</code>; MRN-matched membership exists; no cancellation transaction matches subscriber SSN and MENR dates</td>
+<td align="right">4</td>
+<td><code>CE001</code></td>
+<td>OPM to send 834 cancellation</td>
+</tr>
+<tr>
+<td align="right">21</td>
+<td>I4000 (I4)</td>
+<td>Result <code>I</code>; selected MRN-matched membership coverage is active on the business date; matching recent 834 exists with processed = <code>Y</code></td>
+<td align="right">2</td>
+<td><code>AC500</code></td>
+<td>834 processing issue; carrier to investigate and reprocess</td>
+</tr>
+<tr>
+<td align="right">22</td>
+<td>I5000 (I5)</td>
+<td>Result <code>I</code>; selected MRN-matched membership coverage is not active on the business date; matching recent 834 exists with processed = <code>Y</code></td>
+<td align="right">4</td>
+<td><code>CE500</code></td>
+<td>Active coverage does not exist; 834 reprocessing required</td>
+</tr>
+<tr>
+<td align="right">23</td>
+<td>I6000 (I6)</td>
+<td>Result <code>I</code>; selected MRN-matched membership coverage is active on the business date; matching recent 834 exists with processed = <code>N</code></td>
+<td align="right">2</td>
+<td><code>AC501</code></td>
+<td>Termination awaiting processing</td>
+</tr>
+<tr>
+<td align="right">24</td>
+<td>I7000 (I7)</td>
+<td>Result <code>I</code>; selected MRN-matched membership coverage is not active on the business date; matching recent 834 exists with processed = <code>N</code></td>
+<td align="right">4</td>
+<td><code>CE501</code></td>
+<td>Cancellation awaiting processing</td>
+</tr>
+</tbody></table>
+<p>Every I-family rule uses the shared normalized <code>MENR_Member_ID</code> to MDW <code>kp_mrn</code> membership lookup and deterministic row-selection rule defined in Section 8.3. For I4-I7, the selected membership coverage is active when <code>Coverage_Start_Date &lt;= businessDate</code> and <code>Coverage_End_Date</code> is blank or <code>Coverage_End_Date &gt;= businessDate</code>. The boundaries are inclusive. This approved discriminator replaces the provisional external ownership resolver. I1-I3 retain their separately documented MENR and membership predicates and continue to run before I4-I7.</p>
+<h3>10.4 N-family rules</h3>
+<p>N-family rules apply only when RCNO column 7, <code>RCNO_Member_ID_Result</code>, equals <code>N</code>. After that family-level gate is satisfied, an attribute-specific N-family rule is evaluated only when the corresponding RCNO comparison-result column equals <code>I</code>, as identified in the rule catalog below. A value other than <code>I</code> prevents rules for that attribute from matching, even when the underlying PSHBS, MENR, or membership values differ. <code>N0000</code> is the missing-membership fallback under the column 7 gate. <code>N5000-2</code> is the only exception to the attribute-result gate because the RCNO layout has no deceased-date comparison-result column.</p>
+<p>Every N-family rule uses the shared normalized <code>MENR_Member_ID</code> to MDW <code>kp_mrn</code> membership lookup and deterministic row-selection rule defined in Section 8.3. Member SSN, subscriber SSN, and member name may be evaluated as attributes by individual N-family rules, but they do not establish membership. If no normalized MRN match exists, <code>N0000</code> applies. The RCNO companion guide defines <code>MENR_Member_ID</code> as a 20-character field with appropriate leading zeroes. Because MDW may return the same numeric identifier with fewer formatting zeroes, digit-only MRNs are matched after removing insignificant leading zeroes from both values. For example, <code>000321456</code> matches <code>321456</code>, and <code>000032145</code> matches <code>032145</code>. This normalization is comparison-only; source values, including meaningful displayed leading zeroes, remain unchanged.</p>
+<p>N-family rules are evaluated by priority group rather than by the former global order. Priority 1 represents members who are not active in KP as of the applicable dates, Priority 2 represents members OPM has and KP does not, Priority 3 represents mismatches, and Priority 4 represents members whose coverage is already end-dated. Evaluate groups in numeric order. Within Priority 1, the table order below is mandatory. For Priority 3, evaluate all applicable rules, including <code>N5000-2</code>, and aggregate their canonical PSHB codes rather than stopping after the first match; when <code>N5000-2</code> matches together with other Priority 3 rules, its <code>AE014</code> code and action are listed first because it precedes them in the catalog order.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Order</th>
+<th>Rule</th>
+<th>Detailed condition after prior rules fail</th>
+<th align="right">Pri.</th>
+<th>Code</th>
+<th>Description/action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">25</td>
+<td>N0000 (N0)</td>
+<td>No membership row exists for MENR member ID/MRN</td>
+<td align="right">1</td>
+<td><code>KICKO</code></td>
+<td>MRN not found on an N record</td>
+</tr>
+<tr>
+<td align="right">26</td>
+<td>N5000-2 (N5-2)</td>
+<td>Membership deceased date is populated; PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; no corresponding RCNO comparison-result column exists</td>
+<td align="right">3</td>
+<td><code>AE014</code></td>
+<td>OPM to correct date of death and coverage end</td>
+</tr>
+<tr>
+<td align="right">27</td>
+<td>N13000 (N13)</td>
+<td>PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; at least one applicable result is <code>I</code>: column 28 <code>RCNO_Plan_Code_Result</code>, column 31 <code>RCNA_Coverage_Start_Result</code>, or column 34 <code>RCNO_Coverage_End_Result</code>; the corresponding plan or coverage value differs and N12/manual-review timing condition does not apply</td>
+<td align="right">1</td>
+<td><code>AE501</code></td>
+<td>Carrier to process enrollment transaction</td>
+</tr>
+<tr>
+<td align="right">28</td>
+<td>N14000 (N14)</td>
+<td>PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; column 34, <code>RCNO_Coverage_End_Result</code>, is <code>I</code>; plan and start match; end differs only by approved 31-day or age-26 extension</td>
+<td align="right">1</td>
+<td><code>AE504</code></td>
+<td>No action required</td>
+</tr>
+<tr>
+<td align="right">29</td>
+<td>N12000 (N12)</td>
+<td>PSHBS coverage end is populated and on/after <code>CURRENT_DATE</code>; at least one applicable result is <code>I</code>: column 28 <code>RCNO_Plan_Code_Result</code>, column 31 <code>RCNA_Coverage_Start_Result</code>, or column 34 <code>RCNO_Coverage_End_Result</code>; the corresponding plan/start/end mismatch requires manual review; no matching recent 834; the documented extension exceptions do not apply</td>
+<td align="right">1</td>
+<td><code>AE999</code></td>
+<td>Manual business review</td>
+</tr>
+<tr>
+<td align="right">30</td>
+<td>N1000 (N1)</td>
+<td>Column 10, <code>RCNO_Annuitant_Number_Result</code>, is <code>I</code>; membership annuitant differs/is blank and PSHBS annuitant is populated</td>
+<td align="right">3</td>
+<td><code>DM501</code></td>
+<td>Carrier to update member field</td>
+</tr>
+<tr>
+<td align="right">31</td>
+<td>N2000 (N2)</td>
+<td>Column 64, <code>RCNO_Payroll_Office_Result</code>, is <code>I</code>; membership payroll office differs/is blank and PSHBS payroll office is populated</td>
+<td align="right">3</td>
+<td><code>DM508</code></td>
+<td>Carrier to update member field</td>
+</tr>
+<tr>
+<td align="right">32</td>
+<td>N3000 (N3)</td>
+<td>Column 67, <code>RCNO_Relationship_Result</code>, is <code>I</code>; membership relationship differs/is blank and PSHBS relationship is populated</td>
+<td align="right">3</td>
+<td><code>DM509</code></td>
+<td>Carrier to update member field</td>
+</tr>
+<tr>
+<td align="right">33</td>
+<td>N4000 (N4)</td>
+<td>Column 13, <code>RCNA_Last_Name_Result</code>, is <code>I</code>; last names differ, but membership last name begins with PSHBS last name, PSHBS last name is <code>NEWBORN</code>, or the approved exception flag applies</td>
+<td align="right">3</td>
+<td><code>DM502</code></td>
+<td>OPM to update member field</td>
+</tr>
+<tr>
+<td align="right">34</td>
+<td>N5000 (N5)</td>
+<td>Column 16, <code>RCNO_First_Name_Result</code>, is <code>I</code>; first names differ, but membership first name begins with PSHBS first name, newborn applies, or the approved exception flag applies</td>
+<td align="right">3</td>
+<td><code>DM503</code></td>
+<td>OPM to update member field</td>
+</tr>
+<tr>
+<td align="right">35</td>
+<td>N4000-1 (N4-1)</td>
+<td>Column 13, <code>RCNA_Last_Name_Result</code>, is <code>I</code>; last names differ and N4&#39;s partial/exception match does not apply</td>
+<td align="right">3</td>
+<td><code>DM001</code></td>
+<td>OPM to update member field</td>
+</tr>
+<tr>
+<td align="right">36</td>
+<td>N5000-1 (N5-1)</td>
+<td>Column 16, <code>RCNO_First_Name_Result</code>, is <code>I</code>; first names differ and N5&#39;s partial/exception match does not apply</td>
+<td align="right">3</td>
+<td><code>DM002</code></td>
+<td>OPM to update member field</td>
+</tr>
+<tr>
+<td align="right">37</td>
+<td>N6000 (N6)</td>
+<td>Column 22, <code>RCNO_Member_SSN_Result</code>, is <code>I</code>; non-subscriber/member membership SSN differs; membership SSN populated; PSHBS member SSN is invalid</td>
+<td align="right">3</td>
+<td><code>DM003</code></td>
+<td>OPM to update member SSN</td>
+</tr>
+<tr>
+<td align="right">38</td>
+<td>N7000 (N7)</td>
+<td>Column 25, <code>RCNO_Subscriber_SSN_Result</code>, is <code>I</code>; subscriber membership SSN differs; membership SSN populated; PSHBS subscriber SSN is invalid</td>
+<td align="right">3</td>
+<td><code>DM004</code></td>
+<td>OPM to update subscriber SSN</td>
+</tr>
+<tr>
+<td align="right">39</td>
+<td>N8000 (N8)</td>
+<td>Column 22, <code>RCNO_Member_SSN_Result</code>, is <code>I</code>; non-subscriber/member SSNs differ; PSHBS member SSN is a valid non-placeholder nine-digit value</td>
+<td align="right">3</td>
+<td><code>DM505</code></td>
+<td>Carrier to update member SSN</td>
+</tr>
+<tr>
+<td align="right">40</td>
+<td>N9000 (N9)</td>
+<td>Column 25, <code>RCNO_Subscriber_SSN_Result</code>, is <code>I</code>; subscriber SSNs differ; PSHBS subscriber SSN is a valid non-placeholder nine-digit value</td>
+<td align="right">3</td>
+<td><code>DM506</code></td>
+<td>Carrier to update subscriber SSN</td>
+</tr>
+<tr>
+<td align="right">41</td>
+<td>N91000 (N91)</td>
+<td>At least one address result in columns 37, 40, 43, 46, 49, 52, or 55 is <code>I</code>, but standardized membership and PSHBS addresses are equal</td>
+<td align="right">3</td>
+<td><code>DM512</code></td>
+<td>No action required</td>
+</tr>
+<tr>
+<td align="right">42</td>
+<td>N92000 (N92)</td>
+<td>At least one address result in columns 37, 40, 43, 46, 49, 52, or 55 is <code>I</code>, and standardized addresses remain different</td>
+<td align="right">3</td>
+<td><code>DM507</code></td>
+<td>Carrier to update mailing address</td>
+</tr>
+<tr>
+<td align="right">43</td>
+<td>N10000 (N10)</td>
+<td>Column 73, <code>RCNO_Gender_Code_Result</code>, is <code>I</code>; gender differs; membership gender is known; PSHBS gender is blank or <code>U</code></td>
+<td align="right">3</td>
+<td><code>DM006</code></td>
+<td>OPM to update gender</td>
+</tr>
+<tr>
+<td align="right">44</td>
+<td>N11000 (N11)</td>
+<td>Column 73, <code>RCNO_Gender_Code_Result</code>, is <code>I</code>; gender differs; PSHBS gender is known</td>
+<td align="right">3</td>
+<td><code>DM510</code></td>
+<td>Carrier to update gender</td>
+</tr>
+<tr>
+<td align="right">45</td>
+<td>N15000 (N15)</td>
+<td>Column 19, <code>RCNO_Birth_Date_Result</code>, is <code>I</code>; birth dates differ and approved OPM-correction condition applies (exception flag or PSHBS first-of-month condition)</td>
+<td align="right">3</td>
+<td><code>DM007</code></td>
+<td>OPM to update birth date</td>
+</tr>
+<tr>
+<td align="right">46</td>
+<td>N16000 (N16)</td>
+<td>Column 19, <code>RCNO_Birth_Date_Result</code>, is <code>I</code>; birth dates differ and N15 does not apply</td>
+<td align="right">3</td>
+<td><code>DM504</code></td>
+<td>Carrier to update birth date</td>
+</tr>
+</tbody></table>
+<p>SSN validity for N6-N9 means exactly nine numeric characters and not <code>999999999</code> or <code>000000000</code>.</p>
+<p>Date gate revision: N5000-2 (Priority 3), N13000, N14000, and N12000 (Priority 1) each additionally require the PSHBS coverage end date (RCNO column 32) to be populated and on/after <code>CURRENT_DATE</code> (the boundary is inclusive). When the gate is not satisfied, these four rules do not match; evaluation continues with the Priority 3 mismatch rules and then the catch-all/default rules (for example, CE-4 when the PSHBS coverage end is before the business date).</p>
+<p>Address standardization for N91/N92 must use one approved deterministic standardization service/version. At minimum it should normalize case, whitespace, punctuation, common street suffixes, unit designators, state codes, ZIP+4, and blank country/<code>US</code> equivalence. The standardized value and standardizer version must be auditable.</p>
+<p>Business feedback confirms that N91 and N92 remain valid rule paths. It does not identify the required standardization product, version, or exact comparison profile, so those implementation details remain an activation prerequisite.</p>
+<h3>10.5 Catch-all and default rules</h3>
+<table>
+<thead>
+<tr>
+<th align="right">Order</th>
+<th>Rule</th>
+<th>Condition</th>
+<th align="right">Pri.</th>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">47</td>
+<td>AE-1</td>
+<td>Active enrollment mismatch (<code>F</code>, or applicable active <code>N</code> plan/date mismatch)</td>
+<td align="right">1</td>
+<td><code>AE*</code></td>
+<td>Active enrollment mismatch</td>
+</tr>
+<tr>
+<td align="right">48</td>
+<td>AC-2</td>
+<td>Result <code>I</code>; current date within MENR coverage range</td>
+<td align="right">2</td>
+<td><code>AC*</code></td>
+<td>Active carrier enrollment mismatch</td>
+</tr>
+<tr>
+<td align="right">49</td>
+<td>DM-3</td>
+<td>Result <code>N</code>; any demographic result column is not <code>M</code>; current date within PSHBS coverage</td>
+<td align="right">3</td>
+<td><code>DM*</code></td>
+<td>Active demographic mismatch</td>
+</tr>
+<tr>
+<td align="right">50</td>
+<td>CE-4</td>
+<td>Cancelled range (<code>F</code>/<code>N</code>: PSHBS end &lt;= start or PSHBS end &lt; <code>CURRENT_DATE</code>; <code>I</code>: MENR end &lt;= start or MENR end &lt; <code>CURRENT_DATE</code>)</td>
+<td align="right">4</td>
+<td><code>CE*</code></td>
+<td>Cancelled enrollment mismatch</td>
+</tr>
+<tr>
+<td align="right">51</td>
+<td>No_rule99999</td>
+<td>No earlier rule or catch-all applies</td>
+<td align="right">1</td>
+<td><code>0000</code></td>
+<td>No Rules Applied</td>
+</tr>
+</tbody></table>
+<p>Catch-all codes containing <code>*</code> are defined in the user story. Confirm that literal asterisks are accepted by the outbound RCNA interface before production.</p>
+<p>Orders 47-50 are evaluated unconditionally for every <code>F</code>/<code>I</code>/<code>N</code> row, independent of whether an earlier F/I/N-family rule (orders 3-46) already matched. When both a specific rule and one of these catch-all conditions are satisfied for the same row, apply the stakeholder-approved precedence <code>1 &gt; 2 &gt; 4 &gt; 3 &gt; 5</code>, where <code>&gt;</code> means more urgent than. Priority 4 therefore defeats Priority 3 even though its numeric value is higher; equal priorities keep the specific rule&#39;s decision. Every such overlap is logged (both candidate rule IDs, both priorities, whether they differed, and the source RCNO row) to support debugging and audit. Order 51 (<code>No_rule99999</code>) remains the true last resort and only applies when neither a specific rule nor any catch-all condition matches.</p>
+<hr>
+<h2>11. RCNA validation and audit</h2>
+<h3>11.1 Invocation-level validation</h3>
+<ul>
+<li>The primary RCNO argument has exactly 73 canonical fields.</li>
+<li>Every supplied lookup candidate satisfies its canonical record contract.</li>
+<li>The returned working RCNA record has exactly 78 fields.</li>
+<li>The returned outbound RCNA record has exactly 78 fields.</li>
+<li>Outbound RCNA columns 77 and 78 equal working RCNA Notes and Aging Months.</li>
+<li>The output retains the primary row&#39;s database source identifier in invocation metadata.</li>
+<li>Exactly one disposition is selected. An N-family Priority 3 disposition may contain multiple matched mismatch rules.</li>
+<li>The selected disposition has a nonblank canonical priority, one or more canonical codes, and a description. N12 uses approved code <code>AE999</code>.</li>
+<li>Working and outbound RCNA column 74 contain the approved priority display text.</li>
+<li>Working and outbound RCNA column 75 contain the approved code display text when one exists; otherwise they contain the canonical code. For multiple N-family Priority 3 mismatches, column 75 contains the full display message for every matched code joined by <code>/</code> in deterministic catalog order, and column 76 contains the corresponding <code>Description/action</code> values joined by <code>/</code> in the same order.</li>
+<li>The service returns no partial or success-shaped record when validation fails.</li>
+</ul>
+<h3>11.2 Rule-level validation</h3>
+<p>For each invocation, retain:</p>
+<ul>
+<li>correlation ID, work-item/idempotency key, and primary database record identifier;</li>
+<li>normalized lookup keys in masked form;</li>
+<li>matched membership, recent-enrollment, and prior-RCNA database record identifiers;</li>
+<li>each rule evaluated and pass/fail result;</li>
+<li>selected disposition and all contributing rule IDs;</li>
+<li>derived canonical priority, all canonical codes, rendered priority display, rendered code display, description, and aging;</li>
+<li>business date and source-record effective dates; and</li>
+<li>configuration/version identifiers.</li>
+</ul>
+<p>An invocation failure invalidates only that work item unless it exposes a shared configuration or rule-catalog defect. Correct the source/configuration and retry with the same idempotency key. Do not patch output records manually without an auditable analyst workflow.</p>
+<hr>
+<h2>12. RCNA to ASC X12N 834 transformation</h2>
+<h3>12.1 Selection gate</h3>
+<p>The supplied responses identify candidate add and update families but do not complete the per-code maintenance mapping. Therefore:</p>
+<ol>
+<li>select only RCNA rows identified for an 834 action by the approved disposition policy; an RCNA row is eligible when its action begins with &quot;Carrier to&quot; and its source RCNO discrepancy family is <code>F</code>, <code>I</code>, or <code>N</code>;</li>
+<li>resolve the approved 834 intent from RCNA column 75 as follows: when column 75 contains display text, extract the canonical code from each leading token; when it contains slash-delimited Priority 3 codes, split the extracted codes on <code>/</code> and look up the approved intent for the first token. When the first token has no approved intent, look up the second token and continue left to right. The first token with an approved intent supplies the 834 transaction intent for the row (exactly one intent and one member loop per row). Reject the row only when no token has an approved intent; the error cites the complete slash-delimited code;</li>
+<li>never infer <code>INS03</code>, <code>INS04</code>, <code>HD01</code>, or benefit status from the description text;</li>
+<li>do not enable add/update generation until the exact per-code maintenance mapping, currently marked <code>TBD</code> in the business response, is approved; and</li>
+<li>apply the required-field skip gate in Section 12.3.1 to each eligible row before step 2. A row that is missing a required source-side value is skipped and reported; it never fails the 834 generation and it never reaches intent resolution.</li>
+</ol>
+<p><strong>Worked example (<code>DM508/DM507</code>).</strong> An N-family row has RCNO column 7 = <code>N</code>, the payroll office comparison result (<code>I</code>) matches <code>N2000</code> (<code>DM508</code>), and the address comparison result (<code>I</code>) with differing standardized addresses matches <code>N92000</code> (<code>DM507</code>). Both are Priority 3, so both are retained in catalog order:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>75</td>
+<td><code>DM508 Payroll Office Number pending update/DM507 Address pending update</code></td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>Carrier to update member field/Carrier to update mailing address</code></td>
+</tr>
+</tbody></table>
+<p>The 834 stage extracts the codes <code>DM508/DM507</code> and resolves them in order:</p>
+<table>
+<thead>
+<tr>
+<th>Approved intents configured</th>
+<th>Intent used</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DM508</code> and <code>DM507</code></td>
+<td><code>DM508</code> (first token wins)</td>
+</tr>
+<tr>
+<td><code>DM507</code> only</td>
+<td><code>DM507</code> (fallback to second token)</td>
+</tr>
+<tr>
+<td><code>DM508</code> only</td>
+<td><code>DM508</code></td>
+</tr>
+<tr>
+<td>neither</td>
+<td>Row rejected: <code>working RCNA row N has no approved 834 intent for code DM508/DM507</code></td>
+</tr>
+</tbody></table>
+<p>The slash-joined string <code>DM508/DM507</code> is never used as a lookup key in <code>RCNOA_834_INTENT_BY_CODE_JSON</code>; only individual codes are configured there.</p>
+<h3>12.2 Subscriber grouping and ordering</h3>
+<p>The row transformation and interchange assembly responsibilities are separate:</p>
+<ol>
+<li>For each supplied RCNA row that was not skipped under Section 12.3.1, classify it as subscriber when the member SSN equals the subscriber SSN; otherwise classify it as dependent. A row whose member SSN is blank (Section 12.3.2) never equals the subscriber SSN and is therefore classified as a dependent. The SSN pair is the source-side pair selected in Section 12.3: <code>PSHBS_Member_SSN</code> / <code>PSHBS_Subscriber_SSN</code> for F- and N-family rows, and <code>MENR_Member_SSN</code> / <code>MENR_Subscriber_SSN</code> for I-family rows.</li>
+<li>Return the subscriber grouping key and member sort key with the validated member-loop representation.</li>
+<li>The interchange orchestrator groups returned member results by the source-side subscriber SSN of each row (<code>PSHBS_Subscriber_SSN</code> for F- and N-family rows, <code>MENR_Subscriber_SSN</code> for I-family rows). Rows from different families share a group only when their subscriber SSN values are equal.</li>
+<li>When a selected subscriber INS loop is present, the interchange orchestrator emits it before dependent INS loops in the same group.</li>
+<li>The interchange orchestrator sorts groups and dependents by a stable configured key; database retrieval order is not authoritative.</li>
+<li>A group may contain only selected dependent rows. Do not require a subscriber INS loop solely because a dependent loop is present: <code>REF*0F</code> identifies the subscriber, while NM1 identifies the member (<code>NM108=34</code>, <code>NM109=&lt;member SSN&gt;</code> when a member SSN is present; both are omitted when it is blank). This supports incremental add, change, cancel, and termination transactions in which the subscriber has no selected action.</li>
+<li>Do not enforce subscriber cardinality based only on the source-side subscriber SSN. Validate each selected member loop independently and apply any duplicate-member or complete-family restriction only when an approved receiver companion-guide or business rule explicitly requires it.</li>
+<li>Calculate QTY counts from the emitted INS loops: <code>ET</code> counts <code>INS01=Y</code>, <code>DT</code> counts <code>INS01=N</code>, and <code>TO</code> counts all INS loops. QTY, SE, GE, and IEA counts can be finalized only after all intended member results for the interchange have been collected.</li>
+<li>One generated 834 output file corresponds to one RCNO input file. All selected member results for that input belong to that output-file assembly boundary.</li>
+</ol>
+<h3>12.3 RCNA-to-834 element mapping</h3>
+<p>The source side of the 834 member payload depends on the source RCNO discrepancy family of each selected row (the same family used by the selection gate in Section 12.1):</p>
+<ul>
+<li><strong>F- and N-family rows</strong> use PSHBS-side fields only.</li>
+<li><strong>I-family rows</strong> use MENR-side fields only. The I-family is the KP/carrier-side enrollment discrepancy family (Section 7), and its rules evaluate MENR coverage dates (OQ-19), so the 834 member payload for these rows is populated from the MENR values carried in the same RCNO comparison group.</li>
+</ul>
+<p>The source side is selected once per row and applies to every mapped element, including the subscriber/dependent classification and subscriber grouping key in Section 12.2 and the relationship normalization in Section 12.4. Do not mix PSHBS and MENR values within one member loop, and do not fall back to the PSHBS value when the MENR value is blank. The optional-field and sanitization rules in the table apply to whichever value is selected. The MENR column numbers are the RCNO column numbers in Section 7, which are preserved in the working RCNA.</p>
+<table>
+<thead>
+<tr>
+<th>RCNA field (F/N rows: PSHBS)</th>
+<th>I-family source field (MENR, RCNO column)</th>
+<th>X12 destination</th>
+<th>Transformation / rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PSHBS_Subscriber_ID</code></td>
+<td><code>MENR_Subscriber_ID</code> (3)</td>
+<td><code>REF*23</code>, REF02</td>
+<td>Employee/client identifier</td>
+</tr>
+<tr>
+<td><code>PSHBS_Member_ID</code></td>
+<td><code>MENR_Member_ID</code> (6)</td>
+<td>No approved standard destination</td>
+<td>Omit unless a receiver-approved REF qualifier is configured</td>
+</tr>
+<tr>
+<td><code>PSHBS_Annuitant_Number</code></td>
+<td><code>MENR_Annuitant_Number</code> (9)</td>
+<td>Custom REF</td>
+<td><code>REF*17</code> was proposed but remains pending confirmation; do not emit until approved</td>
+</tr>
+<tr>
+<td><code>PSHBS_Last_Name</code></td>
+<td><code>MENR_Last_Name</code> (12)</td>
+<td><code>NM103</code></td>
+<td>Required; a blank value skips the row (Section 12.3.1)</td>
+</tr>
+<tr>
+<td><code>PSHBS_First_Name</code></td>
+<td><code>MENR_First_Name</code> (15)</td>
+<td><code>NM104</code></td>
+<td>Required skip-gate field (Section 12.3.1); a blank value skips the row</td>
+</tr>
+<tr>
+<td><code>PSHBS_Birth_Date</code></td>
+<td><code>MENR_Birth_Date</code> (18)</td>
+<td><code>DMG02</code></td>
+<td>Optional. <code>CCYYMMDD</code>; <code>DMG01=D8</code>. A blank or malformed value is omitted (<code>DMG01</code>/<code>DMG02</code> left empty) and never fails the generation</td>
+</tr>
+<tr>
+<td><code>PSHBS_Member_SSN</code></td>
+<td><code>MENR_Member_SSN</code> (21)</td>
+<td><code>NM109</code></td>
+<td>Optional. <code>NM108=34</code>. When blank, <code>NM108</code> and <code>NM109</code> are omitted and the row is emitted as a dependent (<code>INS01=N</code>)</td>
+</tr>
+<tr>
+<td><code>PSHBS_Subscriber_SSN</code></td>
+<td><code>MENR_Subscriber_SSN</code> (24)</td>
+<td><code>REF*0F</code>, REF02</td>
+<td>Required subscriber identifier; a blank value skips the row (Section 12.3.1)</td>
+</tr>
+<tr>
+<td><code>PSHBS_Plan_Code</code></td>
+<td><code>MENR_Plan_Code</code> (27)</td>
+<td><code>HD04</code></td>
+<td>Populate the approved plan identifier; the exact value/mapping remains configuration-controlled</td>
+</tr>
+<tr>
+<td><code>PSHBS_Coverage_Start_Date</code></td>
+<td><code>MENR_Coverage_Start_Date</code> (30)</td>
+<td><code>DTP*348*D8</code>, DTP03</td>
+<td>Optional. Benefit begin; omitted when blank or not a valid date</td>
+</tr>
+<tr>
+<td><code>PSHBS_Coverage_End_Date</code></td>
+<td><code>MENR_Coverage_End_Date</code> (33)</td>
+<td><code>DTP*349*D8</code>, DTP03</td>
+<td>Optional. Benefit end; omitted when blank or not a valid date</td>
+</tr>
+<tr>
+<td><code>PSHBS_Address_Line1</code></td>
+<td><code>MENR_Address_Line1</code> (36)</td>
+<td><code>N301</code></td>
+<td>Required skip-gate field (Section 12.3.1); a blank value skips the row</td>
+</tr>
+<tr>
+<td><code>PSHBS_Address_Line2</code></td>
+<td><code>MENR_Address_Line2</code> (39)</td>
+<td><code>N302</code></td>
+<td>Optional</td>
+</tr>
+<tr>
+<td><code>PSHBS_Address_Line3</code></td>
+<td><code>MENR_Address_Line3</code> (42)</td>
+<td>Omitted</td>
+<td>Optional. Ignore source address line 3 without failing; do not concatenate it into N301 or N302 unless the <code>append-to-line2</code> handler is configured</td>
+</tr>
+<tr>
+<td><code>PSHBS_City</code></td>
+<td><code>MENR_City</code> (45)</td>
+<td><code>N401</code></td>
+<td>Optional. Left empty when blank; <code>N4</code> is omitted only when city, state, ZIP, and country are all blank</td>
+</tr>
+<tr>
+<td><code>PSHBS_State</code></td>
+<td><code>MENR_State</code> (48)</td>
+<td><code>N402</code></td>
+<td>Two-character state when domestic</td>
+</tr>
+<tr>
+<td><code>PSHBS_ZIP</code></td>
+<td><code>MENR_ZIP</code> (51)</td>
+<td><code>N403</code></td>
+<td>Preserve leading zeroes</td>
+</tr>
+<tr>
+<td><code>PSHBS_Country</code></td>
+<td><code>MENR_Country</code> (54)</td>
+<td><code>N404</code></td>
+<td>Emit when not USA</td>
+</tr>
+<tr>
+<td><code>PSHBS_Phone</code></td>
+<td><code>MENR_Phone</code> (57)</td>
+<td><code>PER04</code></td>
+<td>Optional. <code>PER03=TE</code> or <code>CP</code>; <code>PER</code> is omitted when blank or not ten digits</td>
+</tr>
+<tr>
+<td><code>PSHBS_Email</code></td>
+<td><code>MENR_Email</code> (60)</td>
+<td>No destination in supplied layout</td>
+<td>Do not emit</td>
+</tr>
+<tr>
+<td><code>PSHBS_Payroll_Office_Number</code></td>
+<td><code>MENR_Payroll_Office_Number</code> (63)</td>
+<td><code>REF*DX</code>, REF02</td>
+<td>Populate from the RCNO payroll office code</td>
+</tr>
+<tr>
+<td><code>PSHBS_Relationship_Code</code></td>
+<td><code>MENR_Relationship_Code</code> (66)</td>
+<td><code>INS02</code></td>
+<td>Optional. Mapped through the relationship map when present; left empty when blank</td>
+</tr>
+<tr>
+<td><code>PSHBS_Extended_Cov_End_Date</code></td>
+<td><code>MENR_Extended_Cov_End_Date</code> (69)</td>
+<td>Custom DTP/REF</td>
+<td>Qualifier remains TBD</td>
+</tr>
+<tr>
+<td><code>PSHBS_Gender_Code</code></td>
+<td><code>MENR_Gender_Code</code> (72)</td>
+<td><code>DMG03</code></td>
+<td>Optional. Left empty when blank; <code>DMG</code> is omitted when birth date and gender are both blank</td>
+</tr>
+</tbody></table>
+<p>All text values taken from RCNA rows are sanitized: each reserved X12 delimiter character (<code>*</code>, <code>~</code>, <code>:</code>, and the configured separators) is replaced with a space, repeated spaces are collapsed, and the value is trimmed. A reserved character in row data never fails the generation. Configuration-derived values (group number, subgroup number, region code, coverage level, envelope identifiers) are not sanitized and still fail validation when they contain a reserved delimiter.</p>
+<h3>12.3.1 Required-field skip gate and skipped-records file</h3>
+<p>Before intent resolution, grouping, or segment generation, each selected row is checked for the four required values of its source side (Section 12.3):</p>
+<table>
+<thead>
+<tr>
+<th>F- and N-family rows</th>
+<th>I-family rows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PSHBS_Last_Name</code></td>
+<td><code>MENR_Last_Name</code></td>
+</tr>
+<tr>
+<td><code>PSHBS_First_Name</code></td>
+<td><code>MENR_First_Name</code></td>
+</tr>
+<tr>
+<td><code>PSHBS_Subscriber_SSN</code></td>
+<td><code>MENR_Subscriber_SSN</code></td>
+</tr>
+<tr>
+<td><code>PSHBS_Address_Line1</code></td>
+<td><code>MENR_Address_Line1</code></td>
+</tr>
+</tbody></table>
+<p>Rules:</p>
+<ol>
+<li>A value that is empty or only whitespace is missing. Only the source side that applies to the row&#39;s family is checked; a populated value on the other side never satisfies the check.</li>
+<li>A row missing one or more of these values is skipped. The 834 generation does not fail, and no member loop is emitted for the row. Because the row is skipped before intent resolution, it is also not evaluated for an approved 834 intent.</li>
+<li>Skipped rows do not contribute to INS loops, QTY, SE, GE, or IEA counts, to the BGN08 single-action check, or to subscriber grouping. A dependent whose subscriber row was skipped is emitted as a dependent-only group under Section 12.2 step 6.</li>
+<li>The following are optional and never fail the generation, including when a date is blank or in an unexpected format: member SSN, city, gender, birth date, coverage start date, coverage end date, relationship, phone, address line 3, and reserved characters (sanitized, see Section 12.3). Other validations (unapproved intent, mixed BGN08 actions, missing envelope or intent configuration, row width, and reserved delimiters in configuration values) are unchanged and still fail the 834 generation.</li>
+<li>When at least one row is skipped, the generation also writes a <strong>skipped-records file</strong> under the same run ID. Rows with only optional values missing (Section 12.3.2) are not skipped and do not appear in this file:<ul>
+<li>file name <code>&lt;RCNA file name&gt;.834-skipped.txt</code>, artifact type <code>skipped-834-records</code>, direction <code>output</code>, with the same owner and access restrictions as the 834 artifact;</li>
+<li>pipe-delimited, one line per skipped row and no header, with these leading columns followed by the full 78-column working RCNA row unchanged: (1) original RCNA file row number, (2) discrepancy family (<code>F</code>, <code>I</code>, or <code>N</code>), (3) source side (<code>PSHBS</code> or <code>MENR</code>), (4) comma-separated list of missing field names such as <code>PSHBS_Last_Name,PSHBS_Subscriber_SSN</code>;</li>
+<li>the file contains member PII and is never logged. Logs record only the run ID and the skipped and emitted counts.</li>
+</ul>
+</li>
+<li>The run counts record <code>members834Written</code> (emitted member loops) and <code>members834Skipped</code> (skipped rows).</li>
+<li>When every selected row is skipped, no 834 artifact is created, only the skipped-records file is created, and the run still completes. The run detail states that no 834 file was generated because all qualified records were skipped.</li>
+<li>The run detail on the RCNOA admin page offers the skipped-records file as <strong>Download Records skipped from 834 file</strong> and shows a warning with the skipped count. When no skipped-records file exists for a run that generated an 834, the run detail shows the note &quot;No qualified RCNA records were skipped.&quot;</li>
+</ol>
+<h3>12.3.2 Optional member fields</h3>
+<p>The fields below are optional for every selected row that passes the skip gate in Section 12.3.1, regardless of family. A blank value, a malformed value, or (for dates) a value that is not in <code>YYYYMMDD</code> format or not a real calendar date never fails the 834 generation, never skips the row, and never produces a row-level error. The corresponding X12 element or segment is omitted or left empty as described.</p>
+<p>The same behavior applies to both source sides: F- and N-family rows read the PSHBS field, and I-family rows read the MENR field of the same comparison group. As in Section 12.3, the sides are never mixed, and a blank MENR value on an I-family row is not replaced by the PSHBS value. The column numbers are the 1-based working RCNA columns (PSHBS / MENR / RCNO result) from Section 7.</p>
+<table>
+<thead>
+<tr>
+<th>Optional field</th>
+<th>F/N-family source (PSHBS)</th>
+<th>I-family source (MENR)</th>
+<th align="right">RCNO result column</th>
+<th>X12 destination</th>
+<th>Behavior when blank or invalid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Member SSN</td>
+<td><code>PSHBS_Member_SSN</code> (20)</td>
+<td><code>MENR_Member_SSN</code> (21)</td>
+<td align="right">22</td>
+<td><code>NM108</code>, <code>NM109</code></td>
+<td><code>NM108</code> and <code>NM109</code> are omitted. The row is classified as a dependent (<code>INS01=N</code>, Section 12.2) because it cannot equal the subscriber SSN.</td>
+</tr>
+<tr>
+<td>City</td>
+<td><code>PSHBS_City</code> (44)</td>
+<td><code>MENR_City</code> (45)</td>
+<td align="right">46</td>
+<td><code>N401</code></td>
+<td><code>N401</code> is left empty. <code>N4</code> is omitted only when city, state, ZIP, and country are all blank.</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td><code>PSHBS_Gender_Code</code> (71)</td>
+<td><code>MENR_Gender_Code</code> (72)</td>
+<td align="right">73</td>
+<td><code>DMG03</code></td>
+<td><code>DMG03</code> is left empty. <code>DMG</code> is omitted when birth date is also blank.</td>
+</tr>
+<tr>
+<td>Birth date</td>
+<td><code>PSHBS_Birth_Date</code> (17)</td>
+<td><code>MENR_Birth_Date</code> (18)</td>
+<td align="right">19</td>
+<td><code>DMG01</code>, <code>DMG02</code></td>
+<td><code>DMG01</code> and <code>DMG02</code> are left empty. <code>DMG</code> is omitted when gender is also blank.</td>
+</tr>
+<tr>
+<td>Coverage start date</td>
+<td><code>PSHBS_Coverage_Start_Date</code> (29)</td>
+<td><code>MENR_Coverage_Start_Date</code> (30)</td>
+<td align="right">31</td>
+<td><code>DTP*348</code></td>
+<td><code>DTP*348</code> is omitted.</td>
+</tr>
+<tr>
+<td>Coverage end date</td>
+<td><code>PSHBS_Coverage_End_Date</code> (32)</td>
+<td><code>MENR_Coverage_End_Date</code> (33)</td>
+<td align="right">34</td>
+<td><code>DTP*349</code></td>
+<td><code>DTP*349</code> is omitted.</td>
+</tr>
+<tr>
+<td>Relationship</td>
+<td><code>PSHBS_Relationship_Code</code> (65)</td>
+<td><code>MENR_Relationship_Code</code> (66)</td>
+<td align="right">67</td>
+<td><code>INS02</code></td>
+<td><code>INS02</code> is left empty for a dependent. A subscriber is always emitted as <code>18</code>. A non-blank value that is not in the relationship map is passed through after sanitization.</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>PSHBS_Phone</code> (56)</td>
+<td><code>MENR_Phone</code> (57)</td>
+<td align="right">58</td>
+<td><code>PER</code></td>
+<td><code>PER</code> is omitted when blank or when the value does not contain exactly ten digits.</td>
+</tr>
+<tr>
+<td>Address line 3</td>
+<td><code>PSHBS_Address_Line3</code> (41)</td>
+<td><code>MENR_Address_Line3</code> (42)</td>
+<td align="right">43</td>
+<td>None</td>
+<td>Omitted without failing. It is merged into <code>N302</code> only when an approved <code>append-to-line2</code> handler is configured.</td>
+</tr>
+</tbody></table>
+<p>Reserved characters: every text value taken from an RCNA row (names, identifiers, address lines, city, state, ZIP, country, plan code, relationship, and gender) is sanitized instead of rejected. Each reserved X12 delimiter (element separator, component separator, repetition separator, and segment terminator) is replaced with a single space, runs of whitespace are collapsed, and the value is trimmed. A delimiter in row data never fails the generation. If sanitizing leaves a value empty, it is treated as blank and follows the rule above for that field.</p>
+<p>Values that come from configuration rather than from the RCNA row (group number, subgroup number, region code, coverage level, and the envelope identifiers) are not sanitized and still fail validation when they contain a reserved delimiter.</p>
+<p>The four skip-gate fields in Section 12.3.1 (last name, first name, subscriber SSN, and address line 1) are not optional and remain governed by the skip gate.</p>
+<h3>12.4 Relationship codes</h3>
+<table>
+<thead>
+<tr>
+<th align="right">Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">18</td>
+<td>Self</td>
+</tr>
+<tr>
+<td align="right">01</td>
+<td>Spouse</td>
+</tr>
+<tr>
+<td align="right">19</td>
+<td>Child</td>
+</tr>
+<tr>
+<td align="right">53</td>
+<td>Domestic partner / life partner</td>
+</tr>
+<tr>
+<td align="right">03</td>
+<td>Father or Mother</td>
+</tr>
+<tr>
+<td align="right">09</td>
+<td>Adopted child</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td>Foster child</td>
+</tr>
+<tr>
+<td align="right">14</td>
+<td>Brother or sister</td>
+</tr>
+<tr>
+<td align="right">17</td>
+<td>Stepson or stepdaughter</td>
+</tr>
+<tr>
+<td align="right">99</td>
+<td>Unmarried disabled child over age 26 incapable of self-support</td>
+</tr>
+</tbody></table>
+<p>For 834 output, normalize subscriber/self source values, including source <code>S</code>, to <code>18</code>. The approved set is <code>18</code>, <code>01</code>, <code>19</code>, <code>53</code>, <code>03</code>, <code>09</code>, <code>10</code>, <code>14</code>, <code>17</code>, and <code>99</code>; these values are supplied through the <code>834 relationship map JSON</code> field on the admin Configuration tab (<code>RCNOA_834_RELATIONSHIP_MAP_JSON</code>). A blank relationship is left empty in <code>INS02</code>; a non-blank value without a mapping entry is passed through unchanged after sanitization.</p>
+<h3>12.5 Coverage-level codes</h3>
+<p>Supported companion-guide values include:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CHD</code></td>
+<td>Children only</td>
+<td><code>DEP</code></td>
+<td>Dependents only</td>
+</tr>
+<tr>
+<td><code>E1D</code></td>
+<td>Employee + one dependent</td>
+<td><code>E2D</code></td>
+<td>Employee + two dependents</td>
+</tr>
+<tr>
+<td><code>E3D</code></td>
+<td>Employee + three dependents</td>
+<td><code>E5D</code></td>
+<td>Employee + one or more dependents</td>
+</tr>
+<tr>
+<td><code>E6D</code></td>
+<td>Employee + two or more dependents</td>
+<td><code>E7D</code></td>
+<td>Employee + three or more dependents</td>
+</tr>
+<tr>
+<td><code>E8D</code></td>
+<td>Employee + four or more dependents</td>
+<td><code>E9D</code></td>
+<td>Employee + five or more dependents</td>
+</tr>
+<tr>
+<td><code>ECH</code></td>
+<td>Employee + children</td>
+<td><code>ESP</code></td>
+<td>Employee + spouse</td>
+</tr>
+<tr>
+<td><code>FAM</code></td>
+<td>Family</td>
+<td><code>EMP</code></td>
+<td>Employee only</td>
+</tr>
+<tr>
+<td><code>IND</code></td>
+<td>Individual</td>
+<td><code>SPC</code></td>
+<td>Spouse + children</td>
+</tr>
+<tr>
+<td><code>SPO</code></td>
+<td>Spouse only</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>HD05</code> applies to subscribers, not dependents. Derive it from the complete subscriber group only if the approved policy defines the derivation; otherwise receive it as configuration/input.</p>
+<hr>
+<h2>13. X12 834 envelope and segment design</h2>
+<p>The supplied guide targets <code>005010X220A1</code>.</p>
+<h3>13.1 Control/header elements</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Value rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ISA01</td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td>ISA02</td>
+<td>Ten spaces</td>
+</tr>
+<tr>
+<td>ISA03</td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td>ISA04</td>
+<td>Ten spaces</td>
+</tr>
+<tr>
+<td>ISA05</td>
+<td><code>ZZ</code></td>
+</tr>
+<tr>
+<td>ISA06</td>
+<td><code>KP 834</code>, space-padded to 15 characters; same identifier in test and production</td>
+</tr>
+<tr>
+<td>ISA07</td>
+<td><code>ZZ</code></td>
+</tr>
+<tr>
+<td>ISA08</td>
+<td><code>OPM RCNO</code>, space-padded to 15 characters</td>
+</tr>
+<tr>
+<td>ISA09 / ISA10</td>
+<td>Runtime <code>YYMMDD</code> / <code>HHMM</code></td>
+</tr>
+<tr>
+<td>ISA11</td>
+<td><code>{</code></td>
+</tr>
+<tr>
+<td>ISA12</td>
+<td><code>00501</code></td>
+</tr>
+<tr>
+<td>ISA13</td>
+<td>Nine-digit unique interchange control number</td>
+</tr>
+<tr>
+<td>ISA14</td>
+<td><code>0</code> unless acknowledgment policy says otherwise</td>
+</tr>
+<tr>
+<td>ISA15</td>
+<td><code>P</code> production or <code>T</code> test</td>
+</tr>
+<tr>
+<td>ISA16</td>
+<td><code>:</code></td>
+</tr>
+<tr>
+<td>GS01</td>
+<td><code>BE</code></td>
+</tr>
+<tr>
+<td>GS02 / GS03</td>
+<td>Configured application sender / receiver</td>
+</tr>
+<tr>
+<td>GS04 / GS05</td>
+<td>Runtime <code>CCYYMMDD</code> / <code>HHMMSS</code></td>
+</tr>
+<tr>
+<td>GS06</td>
+<td>Unique group control number</td>
+</tr>
+<tr>
+<td>GS07</td>
+<td><code>X</code></td>
+</tr>
+<tr>
+<td>GS08</td>
+<td><code>005010X220A1</code></td>
+</tr>
+<tr>
+<td>ST01</td>
+<td><code>834</code></td>
+</tr>
+<tr>
+<td>ST02</td>
+<td>Unique transaction set control number</td>
+</tr>
+<tr>
+<td>ST03</td>
+<td><code>005010X220A1</code></td>
+</tr>
+<tr>
+<td>BGN01</td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td>BGN02</td>
+<td>Same logical transaction reference as configured for ST02</td>
+</tr>
+<tr>
+<td>BGN03 / BGN04</td>
+<td>Runtime transaction date/time</td>
+</tr>
+<tr>
+<td>BGN05-BGN07</td>
+<td>Omit unless approved</td>
+</tr>
+<tr>
+<td>BGN08</td>
+<td>Configured transaction action: <code>2</code>, <code>4</code>, or <code>RX</code>; exact RCNA-code mapping remains TBD</td>
+</tr>
+</tbody></table>
+<p>ISA is fixed length. Validate each ISA element width and total segment length before writing the interchange.</p>
+<p>Required N1 loop identities are:</p>
+<table>
+<thead>
+<tr>
+<th>Loop</th>
+<th>N101</th>
+<th>N102</th>
+<th>N103</th>
+<th>N104</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000A Sponsor</td>
+<td><code>P5</code></td>
+<td><code>OPM</code></td>
+<td><code>94</code></td>
+<td><code>AGENCY</code></td>
+</tr>
+<tr>
+<td>1000B Payer</td>
+<td><code>IN</code></td>
+<td><code>Kaiser Permanente</code></td>
+<td><code>FI</code></td>
+<td><code>941340523</code></td>
+</tr>
+</tbody></table>
+<p>Do not emit loop 1000C. KP is not acting as a TPA for this transaction.</p>
+<h3>13.2 Transaction structure</h3>
+<pre><code class="language-text">ISA
+  GS
+    ST
+      BGN
+      QTY*ET*&lt;subscriber count&gt;
+      QTY*DT*&lt;dependent count&gt;
+      QTY*TO*&lt;total INS count&gt;
+      N1 (1000A sponsor)
+      N1 (1000B payer)
+      INS subscriber
+        REF*0F
+        REF*1L
+        [REF*23]
+        [REF*DX]
+        [REF*ZZ]
+        NM1 (NM108/NM109 only when member SSN present)
+        [PER]
+        [N3]
+        [N4]
+        [DMG]
+        HD
+        [DTP*348]
+        [DTP*349]
+      INS dependent
+        ...
+      SE
+    GE
+  IEA
+</code></pre>
+<h3>13.3 Member loop rules</h3>
+<table>
+<thead>
+<tr>
+<th>Segment/element</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INS01</td>
+<td><code>Y</code> for subscriber; <code>N</code> for dependent</td>
+</tr>
+<tr>
+<td>INS02</td>
+<td>Mapped relationship code; subscribers are <code>18</code>; empty when the dependent relationship is blank (Section 12.3.2)</td>
+</tr>
+<tr>
+<td>INS03</td>
+<td>Approved maintenance type: <code>001</code>, <code>021</code>, <code>024</code>, or <code>030</code></td>
+</tr>
+<tr>
+<td>INS04</td>
+<td><code>AI</code> when INS03 is <code>001</code>; <code>XN</code> when INS03 is <code>030</code>; otherwise approved rule</td>
+</tr>
+<tr>
+<td>INS05</td>
+<td>Approved benefit status: <code>A</code>, <code>C</code>, or <code>S</code></td>
+</tr>
+<tr>
+<td>INS06</td>
+<td><code>D</code> or <code>E</code> only when Medicare status is known and mapping approved</td>
+</tr>
+<tr>
+<td>REF*0F</td>
+<td>Subscriber SSN</td>
+</tr>
+<tr>
+<td>REF*1L</td>
+<td>Configured group/policy number</td>
+</tr>
+<tr>
+<td>REF*23</td>
+<td>Source-side subscriber ID when present (PSHBS for F/N rows, MENR for I rows)</td>
+</tr>
+<tr>
+<td>REF*DX</td>
+<td>Configured four-digit subgroup when required</td>
+</tr>
+<tr>
+<td>REF*ZZ</td>
+<td>Configured region, such as <code>NCR</code>, when applicable</td>
+</tr>
+<tr>
+<td>NM1</td>
+<td><code>NM101=IL</code>, <code>NM102=1</code>, member name; <code>NM108=34</code> and <code>NM109=&lt;member SSN&gt;</code> only when the member SSN is present</td>
+</tr>
+<tr>
+<td>PER</td>
+<td>Use <code>TE</code>, or <code>CP</code> if approved and identified; emitted only when the phone is exactly ten digits</td>
+</tr>
+<tr>
+<td>N3/N4</td>
+<td>Member residence; <code>N4</code> is omitted only when city, state, ZIP, and country are all blank</td>
+</tr>
+<tr>
+<td>DMG</td>
+<td>Birth date and gender; each is left empty when blank or invalid, and the segment is omitted when both are empty</td>
+</tr>
+<tr>
+<td>HD01</td>
+<td>Same approved maintenance intent as the member action</td>
+</tr>
+<tr>
+<td>HD02</td>
+<td>Blank</td>
+</tr>
+<tr>
+<td>HD03</td>
+<td><code>HLT</code></td>
+</tr>
+<tr>
+<td>HD04</td>
+<td>Approved plan identifier; exact configured value remains required</td>
+</tr>
+<tr>
+<td>HD05</td>
+<td><code>FAM</code> for the currently approved subscriber plan segment</td>
+</tr>
+<tr>
+<td>DTP*348</td>
+<td>Coverage start; omitted when blank or not a valid <code>YYYYMMDD</code> date</td>
+</tr>
+<tr>
+<td>DTP*349</td>
+<td>Coverage end; omitted when blank or not a valid <code>YYYYMMDD</code> date</td>
+</tr>
+</tbody></table>
+<h3>13.4 Trailers and counts</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QTY <code>ET</code></td>
+<td>INS loops where INS01 = <code>Y</code></td>
+</tr>
+<tr>
+<td>QTY <code>DT</code></td>
+<td>INS loops where INS01 = <code>N</code></td>
+</tr>
+<tr>
+<td>QTY <code>TO</code></td>
+<td>All INS loops</td>
+</tr>
+<tr>
+<td>SE01</td>
+<td>Number of segments from ST through SE, inclusive</td>
+</tr>
+<tr>
+<td>SE02</td>
+<td>Must equal ST02</td>
+</tr>
+<tr>
+<td>GE01</td>
+<td>Number of ST/SE transaction sets in the group</td>
+</tr>
+<tr>
+<td>GE02</td>
+<td>Must equal GS06</td>
+</tr>
+<tr>
+<td>IEA01</td>
+<td>Number of functional groups</td>
+</tr>
+<tr>
+<td>IEA02</td>
+<td>Must equal ISA13</td>
+</tr>
+</tbody></table>
+<h3>13.5 Delimiters</h3>
+<p>Use configured single-character delimiters consistently:</p>
+<ul>
+<li>element separator, commonly <code>*</code>;</li>
+<li>component separator from ISA16, <code>:</code>;</li>
+<li>repetition separator from ISA11; and</li>
+<li>segment terminator, commonly <code>~</code>.</li>
+</ul>
+<p>Delimiters found in RCNA row data are sanitized as described in Section 12.3.2 (each reserved character becomes a space) and never fail the generation. Delimiters found in configuration-derived values (group, subgroup, region, coverage level, and envelope identifiers) are rejected.</p>
+<hr>
+<h2>14. Error handling</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Example</th>
+<th>Required behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Invocation blocking</td>
+<td>Missing primary field, invalid field count, ambiguous lookup duplicate</td>
+<td>Reject the work item; return no transformed record</td>
+</tr>
+<tr>
+<td>Repository/query blocking</td>
+<td>Inconsistent snapshot, failed lookup query, expired database transaction</td>
+<td>Do not call the transformation or persist an output; surface infrastructure failure</td>
+</tr>
+<tr>
+<td>Batch/interchange fatal</td>
+<td>Work-item count mismatch, invalid control-number linkage</td>
+<td>Discard the generated interchange and preserve retryable work-item state</td>
+</tr>
+<tr>
+<td>Row blocking</td>
+<td>Invalid required date or RCNA code without approved 834 intent</td>
+<td>Do not emit that row to outbound RCNA/834; report row-level error</td>
+</tr>
+<tr>
+<td>834 row skipped</td>
+<td>Blank last name, first name, subscriber SSN, or address line 1 on the family&#39;s source side</td>
+<td>Skip the row, continue the 834 generation, and report it in the skipped-records file (Section 12.3.1)</td>
+</tr>
+<tr>
+<td>834 group blocking</td>
+<td>Dependent without subscriber, conflicting subscriber rows</td>
+<td>Reject subscriber group</td>
+</tr>
+<tr>
+<td>Optional value omitted</td>
+<td>Blank or malformed member SSN, city, gender, birth date, coverage start/end date, relationship, phone, or address line 3 on either source side (Section 12.3.2)</td>
+<td>Omit the element or segment, emit the row, and continue; no error and no skipped record</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>Optional phone absent</td>
+<td>Omit optional segment and record warning</td>
+</tr>
+</tbody></table>
+<p>Errors must include correlation ID, database work-item/source identifier, field/element, rule ID when applicable, and a non-sensitive explanation.</p>
+<hr>
+<h2>15. Gherkin acceptance specification</h2>
+<pre><code class="language-gherkin">Feature: Create a deterministic RCNA from RCNO
+
+  Background:
+    Given one valid 73-field current RCNO database record is supplied as an argument
+    And zero or more KP membership candidates are supplied as an argument
+    And zero or more enrollment transactions from the approved 30-day window are supplied as an argument
+    And zero or more prior working RCNA candidates are supplied as an argument
+    And a business date and configuration version are supplied
+    And comparison values are normalized without changing source values
+
+  Scenario: Preserve invocation cardinality
+    When the RCNO record is reconciled
+    Then exactly one working RCNA record is returned
+    And exactly one outbound RCNA record is returned
+    And the working RCNA record contains exactly 78 fields
+    And the outbound RCNA record contains exactly 78 fields
+    And outbound columns 77 and 78 equal the working RCNA Notes and Aging Months
+
+  Scenario: Process only Record_Type 01 rows from a mixed file
+    Given an RCNO file contains rows with Record_Type &quot;01&quot; and rows with Record_Type &quot;02&quot;
+    When the RCNO file is processed
+    Then only the &quot;01&quot; rows are looked up, transformed, and written to the RCNA
+    And the &quot;02&quot; rows are ignored without an error
+    And the received, processed, and succeeded counts include only the &quot;01&quot; rows
+    And the &quot;02&quot; rows are not saved as prior evidence
+
+  Scenario: Ignore a Record_Type 02 row of a different width
+    Given an RCNO file contains a &quot;02&quot; row with fewer or more than 73 columns
+    And every &quot;01&quot; row has exactly 73 columns
+    When the RCNO file is processed
+    Then the &quot;02&quot; row is ignored before the column-count check
+    And the run does not fail because of the &quot;02&quot; row
+
+  Scenario: Enforce the column count for Record_Type 01 rows
+    Given an RCNO file contains a &quot;01&quot; row that does not have exactly 73 columns
+    When the RCNO file is processed
+    Then the file is rejected with the offending row number and the expected column count
+
+  Scenario: Reject a file that contains no Record_Type 01 rows
+    Given every non-blank row of an RCNO file has Record_Type &quot;02&quot;
+    When the RCNO file is processed
+    Then the run fails with &quot;RCNO file does not contain any Record_Type 01 rows&quot;
+    And no RCNA is written
+
+  Scenario: Match Record_Type after the ignored leading column
+    Given the configuration ignores the first RCNO column
+    And a row has &quot;edge&quot; in the first column and &quot; 01 &quot; in the next column
+    When the RCNO file is processed
+    Then the row is retained as a Record_Type &quot;01&quot; row
+    And a row whose Record_Type is blank, &quot;2&quot;, &quot;02&quot;, or &quot;03&quot; is ignored
+
+  Scenario: Treat Record_Type 1 and 01 as the same data row type
+    Given an RCNO file contains data rows with Record_Type &quot;1&quot; and rows with Record_Type &quot;01&quot;
+    And it also contains a trailer row with Record_Type &quot;2&quot; or &quot;02&quot; and fewer than 73 columns
+    When the RCNO file is processed
+    Then the &quot;1&quot; and &quot;01&quot; rows are processed as data rows
+    And the &quot;2&quot; or &quot;02&quot; row is ignored without an error
+
+  Scenario: Apply the perfect-match rule
+    Given RCNO column 4 is &quot;M&quot;
+    When rules are evaluated
+    Then rule &quot;A100&quot; is selected
+    And priority is &quot;5: Matches (no action required)&quot;
+    And PSHB code is &quot;MM&quot;
+    And RCNA column 75 is &quot;MM Matched Enrollment Record and Fields&quot;
+    And the description is &quot;Matches (no action required)&quot;
+    And aging months is 0
+    And no later rule is evaluated as selected
+
+  Scenario: Reuse an unchanged prior decision
+    Given Rule A does not apply
+    And current RCNO columns 1 through 73 equal prior RCNA columns 1 through 73
+    And the prior aging months value is 4
+    When rules are evaluated
+    Then rule &quot;B200&quot; is selected
+    And prior priority, PSHB code, and description are copied
+    And aging months is 5
+
+  Scenario: Import an uploaded RCNA as cycle-scoped prior evidence
+    Given an administrator selects reconciliation cycle &quot;202611&quot;
+    And uploads a valid 76-column RCNA
+    When the RCNA import operation completes successfully
+    Then every uploaded RCNA row is stored as prior evidence for cycle &quot;202611&quot;
+    And blank uploaded Notes remain blank
+    And uploaded Aging Months is initialized to 0
+    And rows that are not eligible for an 834 are also stored as prior evidence
+    And the same columns 1 through 73 can satisfy B200 in cycle &quot;202611&quot;
+    And the same columns cannot satisfy B200 in cycle &quot;202612&quot;
+    And no 834 is generated
+    And the run is awaiting optional RCNA review
+
+  Scenario: Generate an 834 later from an imported RCNA
+    Given a valid RCNA was imported into prior history
+    And its run is awaiting RCNA review
+    And the applicable Section 12 mapping is approved
+    When an administrator selects Generate 834
+    Then the stored uploaded RCNA artifact is transformed into an 834
+    And failure to generate the 834 does not remove the imported prior evidence
+
+  Scenario Outline: Skip an F or N family row missing a required PSHBS value
+    Given a selected RCNA row has discrepancy family &quot;&lt;family&gt;&quot;
+    And its &quot;&lt;field&gt;&quot; value is blank
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And the row is not emitted as a member loop
+    And the row is written to the skipped-records file with missing field &quot;&lt;field&gt;&quot;
+    And the remaining selected rows are generated into the 834
+
+    Examples:
+      | family | field                |
+      | F      | PSHBS_Last_Name      |
+      | N      | PSHBS_First_Name     |
+      | F      | PSHBS_Subscriber_SSN |
+      | N      | PSHBS_Address_Line1  |
+
+  Scenario Outline: Skip an I family row missing a required MENR value
+    Given a selected RCNA row has discrepancy family &quot;I&quot;
+    And its &quot;&lt;field&gt;&quot; value is blank
+    And the corresponding PSHBS value is populated
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And the row is skipped without falling back to the PSHBS value
+    And the row is written to the skipped-records file with missing field &quot;&lt;field&gt;&quot;
+
+    Examples:
+      | field                |
+      | MENR_Last_Name       |
+      | MENR_First_Name      |
+      | MENR_Subscriber_SSN  |
+      | MENR_Address_Line1   |
+
+  Scenario Outline: Generate an 834 member loop when an optional value is blank
+    Given a selected RCNA row has discrepancy family &quot;&lt;family&gt;&quot;
+    And all required source-side values are populated
+    And its &quot;&lt;field&gt;&quot; value is blank
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And the row is emitted as a member loop
+    And &quot;&lt;omitted&gt;&quot; is omitted from the member loop
+    And the row is not written to the skipped-records file
+
+    Examples:
+      | family | field                      | omitted                       |
+      | F      | PSHBS_Member_SSN           | NM108 and NM109               |
+      | N      | PSHBS_City                 | N401 value                    |
+      | F      | PSHBS_Gender_Code          | DMG03 value                   |
+      | N      | PSHBS_Birth_Date           | DMG01 and DMG02 values        |
+      | F      | PSHBS_Coverage_Start_Date  | DTP*348                       |
+      | N      | PSHBS_Coverage_End_Date    | DTP*349                       |
+      | F      | PSHBS_Relationship_Code    | INS02 value                   |
+      | N      | PSHBS_Phone                | PER                           |
+      | I      | MENR_Member_SSN            | NM108 and NM109               |
+      | I      | MENR_City                  | N401 value                    |
+      | I      | MENR_Gender_Code           | DMG03 value                   |
+      | I      | MENR_Birth_Date            | DMG01 and DMG02 values        |
+      | I      | MENR_Coverage_Start_Date   | DTP*348                       |
+      | I      | MENR_Coverage_End_Date     | DTP*349                       |
+      | I      | MENR_Relationship_Code     | INS02 value                   |
+      | I      | MENR_Phone                 | PER                           |
+      | I      | MENR_Address_Line3         | address line 3                |
+
+  Scenario: Treat a row with a blank member SSN as a dependent
+    Given a selected RCNA row has a blank member SSN on its source side
+    And its subscriber SSN is populated
+    When an administrator selects Generate 834
+    Then the row is emitted with INS01 &quot;N&quot;
+    And NM108 and NM109 are omitted
+    And the row is grouped under its source-side subscriber SSN
+
+  Scenario Outline: Omit a malformed date without failing
+    Given a selected RCNA row has discrepancy family &quot;&lt;family&gt;&quot;
+    And its &quot;&lt;field&gt;&quot; value is &quot;&lt;value&gt;&quot;
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And the corresponding date element or segment is omitted
+
+    Examples:
+      | family | field                     | value      |
+      | F      | PSHBS_Birth_Date          | 2026-13-45 |
+      | N      | PSHBS_Coverage_Start_Date | 20260230   |
+      | I      | MENR_Birth_Date           | 01/02/1980 |
+      | I      | MENR_Coverage_Start_Date  | 20261301   |
+      | I      | MENR_Coverage_End_Date    | 99999999   |
+
+  Scenario Outline: Omit a phone number that is not ten digits
+    Given a selected RCNA row has discrepancy family &quot;&lt;family&gt;&quot;
+    And its source-side phone is &quot;12345&quot;
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And PER is omitted
+
+    Examples:
+      | family |
+      | F      |
+      | I      |
+
+  Scenario: Omit N4 when every address-locality value is blank
+    Given a selected RCNA row has blank source-side city, state, ZIP, and country
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And N4 is omitted
+
+  Scenario: Sanitize reserved characters in row data
+    Given a selected RCNA row has a source-side last name containing &quot;*&quot; or &quot;~&quot;
+    When an administrator selects Generate 834
+    Then the 834 generation does not fail
+    And each reserved character is replaced with a space in the emitted value
+    And the segment structure of the 834 is unchanged
+
+  Scenario: Reserved characters in configuration values still fail
+    Given the configured group number contains a reserved X12 delimiter
+    When an administrator selects Generate 834
+    Then the 834 generation fails before an artifact is stored
+
+  Scenario: Download the skipped records for a run
+    Given an 834 generation skipped at least one row
+    When an administrator opens the run detail
+    Then the run offers &quot;Download Records skipped from 834 file&quot;
+    And the file is stored under the same run ID
+    And the run detail shows the number of skipped records
+
+  Scenario: No rows are skipped
+    Given every selected RCNA row has all required source-side values
+    When an administrator selects Generate 834
+    Then no skipped-records file is created
+    And the run detail shows &quot;No qualified RCNA records were skipped.&quot;
+
+  Scenario: Every selected row is skipped
+    Given every selected RCNA row is missing a required source-side value
+    When an administrator selects Generate 834
+    Then no 834 artifact is created
+    And only the skipped-records file is created
+    And the run completes with zero members written
+
+  Scenario: Distinguish processed from unprocessed recent enrollment
+    Given RCNO column 4 is &quot;F&quot;
+    And no matching membership exists
+    And a recent 834 matches subscriber SSN and the family-specific coverage dates
+    When 834 processed status is &quot;Y&quot;
+    Then rule &quot;F13000&quot; is selected
+    When 834 processed status is &quot;N&quot;
+    Then rule &quot;F14000&quot; is selected
+
+  Scenario: Evaluate N-family Priority 1 in the approved order
+    Given more than one Priority 1 N-family predicate is satisfied
+    When N-family rules are evaluated
+    Then rules are considered in order &quot;N0000&quot;, &quot;N13000&quot;, &quot;N14000&quot;, &quot;N12000&quot;
+    And the first matching rule in that sequence determines the disposition
+
+  Scenario: N5000-2 is a Priority 3 rule
+    Given the membership deceased date is populated
+    And the PSHBS coverage end is populated and on/after CURRENT_DATE
+    And no Priority 1 N-family rule matches
+    When N-family rules are evaluated
+    Then rule &quot;N5000-2&quot; is retained as a Priority 3 match with code &quot;AE014&quot;
+    And it is aggregated with any other matching Priority 3 rules, listed first
+    And a matching Priority 1 N-family rule is selected ahead of it
+
+  Scenario: Aggregate all Priority 3 N-family mismatches
+    Given Priority 3 rules with canonical PSHB codes &quot;DM501&quot;, &quot;DM508&quot;, and &quot;DM509&quot; all match
+    When N-family rules are evaluated
+    Then all three rules are retained in the audit
+    And working and outbound RCNA column 75 is &quot;DM501 Annuitant Number pending update/DM508 Payroll Office Number pending update/DM509 Relationship Code pending update&quot;
+    And working and outbound RCNA column 76 is &quot;Carrier to update member field/Carrier to update member field/Carrier to update member field&quot;
+
+  Scenario: Prefer a Priority 4 catch-all over a Priority 3 specific disposition
+    Given a Priority 3 specific rule matches
+    And a Priority 4 catch-all rule matches
+    When overlap precedence is applied
+    Then the Priority 4 catch-all disposition is selected
+    And both candidates and the selection are retained in the audit
+
+  Scenario: Do not guess the N12 code
+    Given the N12 manual-review predicates are satisfied
+    And no approved N12 PSHB code is configured
+    When the row is reconciled
+    Then the row is marked as a blocking validation error
+    And no fabricated code is written
+
+  Scenario: Apply the default disposition
+    Given no catalog rule or catch-all applies
+    When rule evaluation completes
+    Then rule &quot;No_rule99999&quot; is selected
+    And priority is &quot;1: Active Enrollment mismatch&quot;
+    And PSHB code is &quot;0000&quot;
+    And description is &quot;No Rules Applied&quot;
+
+  Scenario: Reject an invalid input contract
+    Given the supplied RCNO record has only 72 fields
+    When transformation begins
+    Then the invocation is rejected before reconciliation
+    And no RCNA record is returned
+    And the error identifies the invalid field count
+
+  Scenario: Do not query from the transformation service
+    Given the supplied lookup arguments contain no membership match
+    When the RCNO record is reconciled
+    Then the service does not query a database or another external source
+    And it evaluates the documented no-membership rules
+
+  Scenario: Make database work-item processing idempotent
+    Given an RCNO database record was already processed successfully for a rule-catalog version
+    When the orchestrator encounters the same idempotency key again
+    Then it reuses or returns the persisted result according to repository policy
+    And it does not persist a duplicate RCNA record
+
+Feature: Generate an ASC X12N 834 from selected RCNA rows
+
+  Background:
+    Given an approved RCNA-code-to-834-intent configuration
+    And approved envelope and receiver constants
+    And one selected working RCNA database record is supplied to the row transformation
+
+  Scenario: Identify subscriber and dependent
+    Given an F- or N-family row has equal PSHBS member SSN and subscriber SSN
+    Then INS01 is &quot;Y&quot;
+    Given an F- or N-family row has different PSHBS member SSN and subscriber SSN
+    Then INS01 is &quot;N&quot;
+    Given an I-family row has equal MENR member SSN and subscriber SSN
+    Then INS01 is &quot;Y&quot;
+    Given an I-family row has different MENR member SSN and subscriber SSN
+    Then INS01 is &quot;N&quot;
+    And REF01 is &quot;0F&quot;
+    And REF02 identifies the subscriber
+
+  Scenario: Assemble a dependent-only incremental group
+    Given one or more selected dependent rows share a source-side subscriber SSN
+    And no subscriber row has a selected 834 action
+    When the interchange is assembled
+    Then the dependent INS loops are emitted without requiring a subscriber INS loop
+    And each dependent retains the subscriber identifier in REF*0F
+
+  Scenario: Order a selected subscriber before selected dependents
+    Given a selected subscriber row and selected dependent rows share a source-side subscriber SSN
+    When the interchange is assembled
+    Then the subscriber INS loop precedes its dependent INS loops
+
+  Scenario: Return one member-loop representation per invocation
+    When one selected RCNA record is transformed
+    Then exactly one validated INS-loop representation is returned
+    And the result includes its subscriber grouping key
+    And no ISA, GS, ST, SE, GE, or IEA segment is finalized by the row transformation
+
+  Scenario: Map core member data for an F- or N-family row from PSHBS fields
+    When an INS loop is generated
+    Then PSHBS last name maps to NM103
+    And PSHBS first name maps to NM104
+    And PSHBS birth date maps to DMG02
+    And PSHBS gender maps to DMG03
+    And PSHBS subscriber SSN maps to REF02 where REF01 is &quot;0F&quot;
+    And PSHBS coverage start maps to DTP03 where DTP01 is &quot;348&quot;
+
+  Scenario: Map core member data for an I-family row from MENR fields
+    Given the selected RCNA row is an I-family row
+    When an INS loop is generated
+    Then MENR last name maps to NM103
+    And MENR first name maps to NM104
+    And MENR birth date maps to DMG02
+    And MENR gender maps to DMG03
+    And MENR member SSN maps to NM109 where NM108 is &quot;34&quot;
+    And MENR subscriber SSN maps to REF02 where REF01 is &quot;0F&quot;
+    And MENR coverage start maps to DTP03 where DTP01 is &quot;348&quot;
+    And no PSHBS value is used in the member loop
+    And a blank MENR value is not replaced by the PSHBS value
+
+  Scenario: Generate coverage end
+    Given the RCNA coverage end is populated
+    When the health coverage loop is generated
+    Then DTP01 is &quot;349&quot;
+    And DTP02 is &quot;D8&quot;
+    And DTP03 is the RCNA coverage end in CCYYMMDD format
+
+  Scenario: Maintain control-number integrity
+    Given the interchange orchestrator has collected all intended member-loop results
+    When the interchange is finalized
+    Then SE02 equals ST02
+    And GE02 equals GS06
+    And IEA02 equals ISA13
+    And SE01 equals the inclusive ST-through-SE segment count
+
+  Scenario: Maintain quantity integrity
+    Given the interchange orchestrator has collected all intended member-loop results
+    When the transaction is finalized
+    Then QTY ET equals the subscriber INS count
+    And QTY DT equals the dependent INS count
+    And QTY TO equals the total INS count
+
+  Scenario: Reject an unknown 834 action
+    Given an RCNA PSHB code has no approved 834 transaction intent
+    When 834 generation is attempted
+    Then the row is rejected
+    And INS03, INS04, INS05, HD01, and BGN08 are not inferred
+
+  Scenario: Resolve the intent of a multi-code RCNA row from the first approved token
+    Given a working RCNA row whose column 75 contains &quot;DM508 Payroll Office Number pending update/DM507 Address pending update&quot;
+    And an approved 834 intent exists for DM508 and DM507
+    When 834 generation is attempted
+    Then the DM508 intent is used for the row
+    And exactly one member loop is emitted for the row
+
+  Scenario: Fall back to the next token when the first has no approved intent
+    Given a working RCNA row whose column 75 contains &quot;DM508 Payroll Office Number pending update/DM507 Address pending update&quot;
+    And an approved 834 intent exists for DM507 but not for DM508
+    When 834 generation is attempted
+    Then the DM507 intent is used for the row
+
+  Scenario: Reject a multi-code row when no token has an approved intent
+    Given a working RCNA row whose column 75 contains &quot;DM508 Payroll Office Number pending update/DM507 Address pending update&quot;
+    And no approved 834 intent exists for DM508 or DM507
+    When 834 generation is attempted
+    Then the row is rejected with code &quot;DM508/DM507&quot; in the error
+
+  Scenario: Protect sensitive data in diagnostics
+    Given an RCNA or 834 validation error
+    When the error is logged
+    Then names, birth dates, addresses, member IDs, and full SSNs are absent
+    And the log includes the correlation ID, database source identifier, and masked identifier
+</code></pre>
+<hr>
+<h2>16. Test coverage matrix</h2>
+<p>At minimum, testing must include:</p>
+<ul>
+<li>one positive and one negative case for every rule A100 through No_rule99999;</li>
+<li>N-family priority-group evaluation and the exact Priority 1 order <code>N0000</code>, <code>N13000</code>, <code>N14000</code>, <code>N12000</code>;</li>
+<li><code>N5000-2</code> as a Priority 3 rule: a sole match renders Priority 3/<code>AE014</code>, it aggregates first with other Priority 3 mismatches, and Priority 1 N-family rules and the Priority 1 <code>AE-1</code> catch-all take precedence over it;</li>
+<li>multiple simultaneous Priority 3 N-family mismatches, deterministic slash-delimited full section 9.2 display messages in column 75, corresponding <code>Description/action</code> values in column 76, and complete contributing-rule audit metadata;</li>
+<li>specific-versus-catch-all overlap proving precedence <code>1 &gt; 2 &gt; 4 &gt; 3 &gt; 5</code>, including Priority 4 defeating Priority 3 and equal priorities retaining the specific rule;</li>
+<li>revised F1300 Priority 4 and F10000 Priority 4/code <code>CE002</code>/action &quot;OPM to correct match&quot; outcomes;</li>
+<li>exact column 75 displays for <code>AC004</code>, <code>AE013</code>, <code>AE014</code>, and <code>AE999</code>;</li>
+<li>I-family regression coverage proving MRN-only membership matching, insignificant-leading-zero MRN comparison, rejection of SSN/name-only matches, highest-coverage-end row selection, and the documented predicates, priorities, order, codes, and actions;</li>
+<li>boundary dates for year-end, 31-day extensions, age 26, and current-date coverage;</li>
+<li>blank, malformed, all-zero, and all-nine SSNs;</li>
+<li>exact, partial, newborn, mixed-case, and nonmatching names;</li>
+<li>standardized equal and unequal addresses;</li>
+<li>no lookup, one lookup, identical duplicates, and conflicting duplicates;</li>
+<li>processed and unprocessed recent 834s;</li>
+<li>prior aging values of blank, zero, and positive integer;</li>
+<li>uploaded 76- and 78-column RCNA validation, explicit valid and invalid <code>YYYYMM</code> cycles, zero initialization for missing aging, and rejection of invalid aging;</li>
+<li>successful upload visibility in the selected cycle, no visibility in another cycle, and later same-cycle upload replacement for the same columns 1-73 match key;</li>
+<li>proof that failed RCNA parsing or validation does not import partial prior evidence;</li>
+<li>proof that RCNA import does not require approved 834 mapping or generate an 834, and that later explicit 834 generation uses the stored uploaded artifact without controlling prior-evidence persistence;</li>
+<li>one primary row per service invocation;</li>
+<li><code>Record_Type</code> filtering: a mixed <code>01</code>/<code>02</code> file keeps only the <code>01</code> rows, an all-<code>02</code> file fails with the no-<code>01</code>-rows message, a <code>02</code> row of any width is ignored before the column-count check, an <code>01</code> row with the wrong width is still rejected, matching of <code>1</code> and <code>01</code> as the same data row type (<code>2</code>, <code>02</code>, <code>03</code>, and blank ignored; surrounding whitespace trimmed and leading zeroes disregarded), <code>Record_Type</code> read after the ignored leading column, and ignored rows excluded from counts and prior evidence;</li>
+<li>proof that transformation services perform no database or file I/O;</li>
+<li>repository mapping of database <code>NULL</code>, dates, numeric-looking identifiers, and leading zeroes;</li>
+<li>consistent-snapshot, pagination, retry, and idempotency behavior in orchestration tests;</li>
+<li>an invocation failure that does not corrupt another work item;</li>
+<li>subscriber-only and subscriber-with-dependent 834 groups;</li>
+<li>collection and grouping of separately transformed 834 member results;</li>
+<li>all relationship and coverage-level codes;</li>
+<li>multi-code RCNA rows such as <code>DM508/DM507</code>: first token approved, first token unapproved with second approved, and no token approved;</li>
+<li>missing optional and required X12 values;</li>
+<li>optional member fields (member SSN, city, gender, birth date, coverage start, coverage end, relationship, phone, address line 3) blank on F/N rows (PSHBS) and on I rows (MENR), including no fallback to the other side, a blank member SSN producing a dependent without <code>NM108</code>/<code>NM109</code>, malformed dates and phones being omitted, <code>N4</code> and <code>DMG</code> omission rules, reserved-character sanitization of row data, and continued rejection of delimiters in configuration values;</li>
+<li>skipped rows for each required source-side value on F/N rows (PSHBS) and I rows (MENR), whitespace-only values, no fallback to the other side, all rows skipped, the skipped-records file contents, and the skipped count in run counts;</li>
+<li>segment counts, group counts, QTY counts, and all control-number pairs;</li>
+<li>test and production ISA15 values;</li>
+<li>delimiter characters in source data; and</li>
+<li>proof that no sensitive values are written to logs.</li>
+</ul>
+<hr>
+<h2>17. Operational completion criteria</h2>
+<p>A reconciliation work item is complete only when:</p>
+<ol>
+<li>the supplied primary and lookup records pass contract validation;</li>
+<li>exactly one RCNA rule outcome is returned;</li>
+<li>the working and outbound RCNA field-width checks pass;</li>
+<li>no unresolved blocking rule or configuration value is present;</li>
+<li>the repository persists the result atomically against the work-item idempotency key;</li>
+<li>a non-sensitive invocation audit record is retained; and</li>
+<li>database source IDs, business date, configuration version, rule-catalog version, and service version are recorded.</li>
+</ol>
+<p>An 834 interchange batch is complete only when:</p>
+<ol>
+<li>every selected RCNA work item has an approved transaction intent;</li>
+<li>every selected row has produced exactly one validated member-loop result;</li>
+<li>expected and collected database work-item counts agree;</li>
+<li>every subscriber group passes hierarchy validation;</li>
+<li>X12 syntax, required segments, element lengths, QTY counts, segment counts, and control numbers validate;</li>
+<li>the interchange is written atomically; and</li>
+<li>every included database source ID is associated with the generated interchange ID.</li>
+</ol>
+<hr>
+<h2>18. Source traceability</h2>
+<table>
+<thead>
+<tr>
+<th>Design area</th>
+<th>Primary source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Business flow, scope, one RCNA per RCNO</td>
+<td><code>Epic_PSHB_RCNO.md</code></td>
+</tr>
+<tr>
+<td>Canonical 51-rule catalog and outcomes</td>
+<td><code>UserStory_PSHP_RCNA_draft_0724.txt</code></td>
+</tr>
+<tr>
+<td>Detailed rule predicates and source column references</td>
+<td><code>PSHB_RCNO_ASSIST_code_working_0715.txt</code></td>
+</tr>
+<tr>
+<td>Historical simplified implementation</td>
+<td><code>PSHB_RCNO_ASSIST_code.txt</code>, <code>PSHB_RCNO_ASSIST_20260410.txt</code></td>
+</tr>
+<tr>
+<td>834 companion-guide structure and populated examples</td>
+<td><code>HEADERValues.csv</code></td>
+</tr>
+<tr>
+<td>Base companion-guide copy</td>
+<td><code>myCopy.csv</code>, <code>SegmentDesc.csv</code></td>
+</tr>
+<tr>
+<td>RCNA-to-834 field mapping</td>
+<td><code>pshbColumns.txt</code></td>
+</tr>
+<tr>
+<td>Relationship and coverage-level codes</td>
+<td><code>supplementalResource.txt</code></td>
+</tr>
+<tr>
+<td>Subscriber/member identification and header discussion</td>
+<td><code>Review 834 mapping.txt</code></td>
+</tr>
+<tr>
+<td>Outstanding-question business responses and 834 constants</td>
+<td><code>textDocs/AI834.csv</code>, <code>textDocs/rcno_to_rcna_answers.txt</code></td>
+</tr>
+<tr>
+<td>Unrelated architecture text excluded from requirements</td>
+<td><code>nediDiagram.txt</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>19. Outstanding Questions</h2>
+<p>The following questions require clarification from the source-document authors before the design can be considered production-ready.</p>
+<h3>19.1 Resolved decisions</h3>
+<p>Business feedback received for the <a href="https://lucid.app/lucidchart/ddce4ff5-52b5-4558-aeb3-f2c0e4b95f42/edit?viewport_loc=-3667%2C-910%2C2054%2C1032%2C0_0&invitationId=inv_ae02479f-f9b2-4f1f-a2a0-23f8ccd8bb92">RCNA flow</a>, <code>textDocs/AI834.csv</code>, and <code>textDocs/rcno_to_rcna_answers.txt</code> resolves the following questions:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Approved decision</th>
+<th>Design and implementation effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OQ-01</td>
+<td>Rule N12 uses PSHB code <code>AE999</code>.</td>
+<td><code>AE999</code> is the default and no longer blocks readiness.</td>
+</tr>
+<tr>
+<td>OQ-02</td>
+<td>I4/I6 apply when matching membership coverage is active; I5/I7 apply when it is not active. Processed 834s select I4/I5 and unprocessed 834s select I6/I7.</td>
+<td>Active means start on/before the business date and blank end or end on/after the business date. The provisional <code>iFamilyOwnershipResolver</code> is removed.</td>
+</tr>
+<tr>
+<td>OQ-04</td>
+<td>Serialize <code>ISA05=ZZ</code>, <code>ISA11={</code> (left brace), <code>ISA12=00501</code>, and <code>BGN01=00</code>.</td>
+<td>These values are fixed and must be validated at serialization.</td>
+</tr>
+<tr>
+<td>OQ-07</td>
+<td>Ignore RCNA address line 3 in the 834.</td>
+<td>Map lines 1 and 2 to N301/N302 and omit line 3 without concatenation.</td>
+</tr>
+<tr>
+<td>OQ-08</td>
+<td>Supported relationship values are <code>18</code> self/subscriber, <code>01</code> spouse, <code>19</code> child, and <code>53</code> domestic partner/life partner.</td>
+<td>Map source subscriber/self value <code>S</code> to <code>18</code>; reject unapproved values.</td>
+</tr>
+<tr>
+<td>OQ-14</td>
+<td>RCNO result <code>Z</code> can be ignored for Rule A.</td>
+<td>A100 continues to require result <code>M</code>; <code>Z</code> is not a perfect match.</td>
+</tr>
+<tr>
+<td>OQ-15</td>
+<td>Use the current date.</td>
+<td>Capture the current calendar date once at run start as <code>businessDate</code> and use that stable value throughout the run.</td>
+</tr>
+<tr>
+<td>OQ-17</td>
+<td>F1-F3 cancellation/ended-coverage logic uses current date.</td>
+<td>Treat PSHBS coverage as ended when its end date is populated and on/before <code>businessDate</code>; do not use end-versus-start for F1-F3.</td>
+</tr>
+<tr>
+<td>OQ-18</td>
+<td>Use subscriber SSN for recent-834 matching.</td>
+<td>Member SSN remains a payload field but is not the recent-834 reconciliation key.</td>
+</tr>
+<tr>
+<td>OQ-19</td>
+<td>F rules use PSHBS coverage dates; I and N rules use MENR coverage dates.</td>
+<td>Apply this family-specific date pairing with subscriber SSN.</td>
+</tr>
+<tr>
+<td>OQ-20</td>
+<td>On the first Rule B aging run, set Aging Months to <code>1</code>.</td>
+<td>If prior aging is blank, missing, or nonnumeric, initialize it to <code>1</code>; otherwise increment the prior integer.</td>
+</tr>
+<tr>
+<td>OQ-28</td>
+<td>RCNO and RCNA transfer filenames use the OPM standard <code>&lt;ProgramID&gt;_&lt;CarrierID&gt;_&lt;FileTypeID&gt;_&lt;ReportingSt&gt;_&lt;ReportingEnd&gt;_&lt;TransferDt&gt;.txt.pgp</code>; test filenames prepend <code>TST_</code>.</td>
+<td>Filename structure is a fixed interface contract. Scheduled discovery must accept conforming RCNO names, generated RCNA transfer artifacts must use the corresponding RCNA name, and test/production classification is derived from the optional prefix.</td>
+</tr>
+</tbody></table>
+<h3>19.2 Partially resolved decisions</h3>
+<p>These responses narrow the design but do not supply every value needed for production:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Business response</th>
+<th>Remaining clarification</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OQ-03 / OQ-21</td>
+<td>F-, I-, and N-family candidates are selected when the action begins with &quot;Carrier to&quot;. The response asks whether an admin-page marker can further select add, update, cancel, or terminate.</td>
+<td>The exact eligible RCNA codes and BGN08/INS03/INS04/INS05/HD01 mappings remain configuration-controlled and must be approved before generation.</td>
+</tr>
+<tr>
+<td>OQ-05</td>
+<td>ISA sender is <code>KP 834</code> and receiver is <code>OPM RCNO</code>, each padded to 15 characters and shared by test/production. Sponsor is <code>P5/OPM/94/AGENCY</code>; payer is <code>IN/Kaiser Permanente/FI/941340523</code>; do not emit TPA loop 1000C.</td>
+<td>Group, subgroup, and region identifiers still require approved values. ISA15 must continue to distinguish test and production.</td>
+</tr>
+<tr>
+<td>OQ-06</td>
+<td>Payroll office code comes from RCNO and maps to <code>REF*DX</code>; coverage end comes from RCNO and maps to <code>DTP*349*D8</code>; <code>REF*17</code> is proposed for annuitant ID.</td>
+<td>Annuitant mapping is explicitly pending confirmation, and no qualifier was supplied for extended coverage end.</td>
+</tr>
+<tr>
+<td>OQ-09</td>
+<td>Use <code>HD01=001</code>, blank HD02, <code>HD03=HLT</code>, HD04 for the plan identifier, and <code>HD05=FAM</code>.</td>
+<td>The exact HD04 plan identifier/value mapping and whether other maintenance types or coverage levels are required remain open.</td>
+</tr>
+<tr>
+<td>OQ-10</td>
+<td>Refer to the companion guide for address mapping.</td>
+<td>No authoritative MDW physical fields or complete canonical positional mapping were supplied; the database mapping remains unresolved.</td>
+</tr>
+<tr>
+<td>OQ-12</td>
+<td><code>REF*0F</code> carries subscriber SSN; NM1 uses member SSN (<code>NM108=34</code>, <code>NM109=&lt;member SSN&gt;</code>).</td>
+<td>Dependent-only groups are permitted for incremental transactions. Confirm whether the receiver companion guide imposes any explicit complete-family or duplicate-member restriction; do not infer one from the shared subscriber identifier.</td>
+</tr>
+<tr>
+<td>OQ-16</td>
+<td>N91 and N92 shall be used.</td>
+<td>The standardization product, version, and exact comparison profile remain unspecified.</td>
+</tr>
+<tr>
+<td>OQ-22</td>
+<td>Generate one 834 file per RCNO input file.</td>
+<td>This resolves file partitioning, but the number of ST/SE transaction sets within that file is not explicitly stated; current assembly uses one collected transaction set unless later directed otherwise.</td>
+</tr>
+</tbody></table>
+<h3>19.3 Questions still outstanding</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Outstanding question</th>
+<th>Reason clarification is required</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OQ-11</td>
+<td>Are literal catch-all codes <code>AE*</code>, <code>AC*</code>, <code>DM*</code>, and <code>CE*</code> valid in the outbound RCNA file?</td>
+<td>The user story defines them, but acceptance of the asterisk character is not confirmed.</td>
+</tr>
+<tr>
+<td>OQ-23</td>
+<td>Which database source identifier and version fields form the RCNO-to-RCNA idempotency key?</td>
+<td>Row-at-a-time retries must not create duplicate RCNA records.</td>
+</tr>
+<tr>
+<td>OQ-24</td>
+<td>What database isolation level or business-effective snapshot rule must the repository use when loading the RCNO row and lookup candidates?</td>
+<td>Membership or enrollment changes during processing could otherwise make retries produce different rules.</td>
+</tr>
+<tr>
+<td>OQ-25</td>
+<td>Does the repository supply all lookup candidates in one invocation, or may lookup collections be paged before invoking the service?</td>
+<td>The transformation must receive a complete deterministic candidate set and must not perform database calls itself.</td>
+</tr>
+<tr>
+<td>OQ-26</td>
+<td>What status model should track pending, successful, blocked, retryable, and permanently failed database work items?</td>
+<td>Row-level failure and batch completion require explicit operational state transitions.</td>
+</tr>
+<tr>
+<td>OQ-27</td>
+<td>When should separately transformed RCNA rows be considered a complete 834 interchange input set?</td>
+<td>The assembler needs a deterministic batch-closure condition before calculating QTY and trailer counts.</td>
+</tr>
+<tr>
+<td>OQ-29</td>
+<td>Which approved PGP implementation, key source, key rotation process, signing policy, and failure-recovery process apply to RCNO decryption and RCNA encryption?</td>
+<td>The <code>.txt.pgp</code> transfer extension establishes that the exchanged artifact is encrypted, but naming alone does not define cryptographic operations or key custody. The parser and serializer operate on decrypted plaintext.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>20. RCNOA runtime property register</h2>
+<p>This section identifies the runtime values that must be supplied or explicitly approved before RCNOA processing is enabled. Oracle connection information is already maintained in <code>.env.local</code> for the development environment and is not duplicated here. The EPDS and MDW SQL statements and business/transformation settings are stored as separate versioned documents in MongoDB and edited on the RCNOA administration page. Blob operations reuse the application&#39;s existing <code>blobStorageService.js</code> configuration and create the <code>rcnoa-processing</code> container when needed.</p>
+<p>Connection values must remain server-side in <code>.env.local</code> for local development and KPConfig for deployed environments. The prior-RCNA match-key secret is stored in the server-side Mongo configuration document; the API reports only whether it is configured and never returns its value. Secrets must never be logged.</p>
+<h3>20.1 Business and transformation properties</h3>
+<p>These settings are maintained under <strong>Configuration &gt; Business and transformation</strong> on the RCNOA admin page. Saving creates a new <code>RcnoaBusinessConfiguration</code> version, and new runs load that version without a build or deployment. On first access only, the repository seeds this document from corresponding legacy environment values when present; MongoDB is authoritative afterward.</p>
+<table>
+<thead>
+<tr>
+<th>Admin setting / legacy property</th>
+<th>Requirement</th>
+<th>Value or decision needed</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RCNOA_N12_CODE</code></td>
+<td>Optional override</td>
+<td>The approved N12 code is <code>AE999</code>, which is the implementation default. Change it only when intentionally testing a compatible override.</td>
+</tr>
+<tr>
+<td><code>RCNOA_834_ENVELOPE_JSON</code></td>
+<td>Required</td>
+<td>Valid JSON containing the approved X12 sender, receiver, control, sponsor, payer, group, and environment identifiers described below.</td>
+</tr>
+<tr>
+<td><code>RCNOA_834_INTENT_BY_CODE_JSON</code></td>
+<td>Required</td>
+<td>Valid JSON mapping every RCNA code eligible for 834 generation to its approved BGN/INS/HD intent. Add/update candidate families are identified, but exact mappings remain partially open under OQ-03/OQ-21.</td>
+</tr>
+<tr>
+<td><code>RCNOA_834_RELATIONSHIP_MAP_JSON</code></td>
+<td>Required</td>
+<td>Valid JSON mapping approved source values to <code>18</code>, <code>01</code>, <code>19</code>, or <code>53</code>. Subscribers are always emitted as <code>18</code>.</td>
+</tr>
+<tr>
+<td>Processing inactivity timeout</td>
+<td>Required</td>
+<td>Integer minutes from 5 through 480; defaults to <code>30</code>. A processing run with no stage or row-progress heartbeat for this period is marked stale.</td>
+</tr>
+<tr>
+<td>Oracle call timeout</td>
+<td>Required</td>
+<td>Integer seconds from 30 through 1800; defaults to <code>240</code>. Applied independently to each EPDS and MDW Oracle call.</td>
+</tr>
+<tr>
+<td>SFTP connection timeout</td>
+<td>Required</td>
+<td>Integer seconds from 5 through 300; defaults to <code>30</code>. Applied to each SFTP connection attempt.</td>
+</tr>
+<tr>
+<td>Address line 3 behavior</td>
+<td>Fixed</td>
+<td>Omit RCNA address line 3 from the 834. No runtime mode is required.</td>
+</tr>
+<tr>
+<td><code>RCNOA_PRIOR_RCNA_MATCH_KEY_SECRET</code></td>
+<td>Required secret</td>
+<td>A strong, stable random value used as the HMAC key for protected prior-RCNA match identifiers in MongoDB. Rotation requires a migration or rebuild of existing match keys.</td>
+</tr>
+<tr>
+<td><code>RCNOA_834_MAPPING_APPROVED</code></td>
+<td>Required activation gate</td>
+<td>Set to <code>true</code> only after the envelope, intent map, relationship map, address behavior, and receiving-trading-partner mapping are approved.</td>
+</tr>
+</tbody></table>
+<p>The prior-RCNA secret editor is write-only. A blank submission preserves the current value; a replacement must contain at least 32 characters. Rotating it still requires a migration or rebuild of existing protected match keys.</p>
+<p>During transformation, the worker persists cumulative received, processed, succeeded, and failed row counts after each 100-row batch. Each progress update refreshes the processing heartbeat. The RCNOA admin page polls run state and displays the latest processed and failed counts while the run is active.</p>
+<p><code>RCNOA_834_ENVELOPE_JSON</code> must provide this shape. Values below are placeholders and must not be used as production identifiers:</p>
+<pre><code class="language-json">{
+  &quot;senderQualifier&quot;: &quot;ZZ&quot;,
+  &quot;senderId&quot;: &quot;KP 834&quot;,
+  &quot;receiverQualifier&quot;: &quot;ZZ&quot;,
+  &quot;receiverId&quot;: &quot;OPM RCNO&quot;,
+  &quot;usageIndicator&quot;: &quot;T&quot;,
+  &quot;acknowledgmentRequested&quot;: &quot;0&quot;,
+  &quot;interchangeControlNumber&quot;: &quot;1&quot;,
+  &quot;applicationSenderCode&quot;: &quot;KP 834&quot;,
+  &quot;applicationReceiverCode&quot;: &quot;OPM RCNO&quot;,
+  &quot;groupControlNumber&quot;: &quot;1&quot;,
+  &quot;transactionControlNumber&quot;: &quot;1&quot;,
+  &quot;transactionReference&quot;: &quot;RCNOA-TEST-1&quot;,
+  &quot;groupNumber&quot;: &quot;TEST_GROUP&quot;,
+  &quot;subgroupNumber&quot;: &quot;&quot;,
+  &quot;regionCode&quot;: &quot;&quot;,
+  &quot;sponsor&quot;: {
+    &quot;entityCode&quot;: &quot;P5&quot;,
+    &quot;name&quot;: &quot;OPM&quot;,
+    &quot;idQualifier&quot;: &quot;94&quot;,
+    &quot;id&quot;: &quot;AGENCY&quot;
+  },
+  &quot;payer&quot;: {
+    &quot;entityCode&quot;: &quot;IN&quot;,
+    &quot;name&quot;: &quot;Kaiser Permanente&quot;,
+    &quot;idQualifier&quot;: &quot;FI&quot;,
+    &quot;id&quot;: &quot;941340523&quot;
+  }
+}
+</code></pre>
+<p>Do not configure or emit a <code>tpa</code> object/1000C loop for this interface. <code>usageIndicator</code> must be <code>T</code> or <code>P</code>; test environments must use <code>T</code>. ISA sender and receiver qualifiers must each contain exactly two characters. Control numbers must be numeric and are padded by the serializer to their required widths. The approved ISA IDs are <code>KP 834</code> and <code>OPM RCNO</code>, each space-padded to 15 characters by the serializer.</p>
+<p><code>RCNOA_834_INTENT_BY_CODE_JSON</code> uses the RCNA PSHB code as its key:</p>
+<pre><code class="language-json">{
+  &quot;AE501&quot;: {
+    &quot;bgnAction&quot;: &quot;2&quot;,
+    &quot;maintenanceType&quot;: &quot;001&quot;,
+    &quot;maintenanceReason&quot;: &quot;AI&quot;,
+    &quot;benefitStatus&quot;: &quot;A&quot;,
+    &quot;coverageLevel&quot;: &quot;FAM&quot;
+  }
+}
+</code></pre>
+<p>Each working RCNA row must have an entry. <code>coverageLevel</code> is emitted only for subscribers. The example demonstrates the schema and does not approve the mapping for <code>AE501</code>.</p>
+<p><code>RCNOA_834_RELATIONSHIP_MAP_JSON</code> uses normalized source values as keys:</p>
+<pre><code class="language-json">{
+  &quot;S&quot;: &quot;18&quot;,
+  &quot;18&quot;: &quot;18&quot;,
+  &quot;01&quot;: &quot;01&quot;,
+  &quot;19&quot;: &quot;19&quot;,
+  &quot;53&quot;: &quot;53&quot;
+}
+</code></pre>
+<p>Reject source relationship values outside this approved set unless a later versioned business configuration expands it.</p>
+<h3>20.2 Fixed file format and naming contracts</h3>
+<p>RCNO and RCNA framing and transfer-file naming are part of the approved interface specification and are not runtime-configurable:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Fixed format</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RCNO input</td>
+<td>After PGP decryption: UTF-8 text, pipe (`</td>
+</tr>
+<tr>
+<td>RCNA output</td>
+<td>Before PGP encryption: UTF-8 text, pipe (`</td>
+</tr>
+<tr>
+<td>834 output</td>
+<td>X12 834 transaction serialized according to its ISA/GS/ST envelope and X12 delimiter rules. RCNO/RCNA pipe framing does not apply.</td>
+</tr>
+</tbody></table>
+<p>The RCNO/RCNA parser and serializer reject embedded pipe delimiters and do not implement quoted-field escaping. There are no <code>RCNOA_FILE_DELIMITER</code>, <code>RCNOA_FILE_HAS_HEADER</code>, or <code>RCNOA_FILE_HAS_TRAILER</code> settings.</p>
+<h4>20.2.1 OPM transfer filename grammar</h4>
+<p>The production transfer filename is:</p>
+<pre><code class="language-text">&lt;ProgramID&gt;_&lt;CarrierID&gt;_&lt;FileTypeID&gt;_&lt;ReportingSt&gt;_&lt;ReportingEnd&gt;_&lt;TransferDt&gt;.&lt;FileExtension&gt;
+</code></pre>
+<p>Test files prepend <code>TST_</code> to the complete production filename:</p>
+<pre><code class="language-text">TST_&lt;ProgramID&gt;_&lt;CarrierID&gt;_&lt;FileTypeID&gt;_&lt;ReportingSt&gt;_&lt;ReportingEnd&gt;_&lt;TransferDt&gt;.&lt;FileExtension&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ProgramID</code></td>
+<td>Program identifier. Approved values are <code>PSHB</code> and <code>FEHB</code>. This design uses <code>PSHB</code> for the Postal Service Health Benefits workflow.</td>
+</tr>
+<tr>
+<td><code>CarrierID</code></td>
+<td>OPM-assigned four-character carrier source ID, for example <code>ATOZ</code>. Preserve the assigned uppercase value; do not derive it from a carrier display name.</td>
+</tr>
+<tr>
+<td><code>FileTypeID</code></td>
+<td><code>RCNO</code> for the reconciliation file generated by OPM/PSHBS and sent to the carrier; <code>RCNA</code> for the remediation/acknowledgment file generated by the carrier and submitted to OPM.</td>
+</tr>
+<tr>
+<td><code>ReportingSt</code></td>
+<td>Inclusive reporting-period start date in <code>CCYYMMDD</code> format.</td>
+</tr>
+<tr>
+<td><code>ReportingEnd</code></td>
+<td>Inclusive reporting-period end date in <code>CCYYMMDD</code> format. It must not precede <code>ReportingSt</code>.</td>
+</tr>
+<tr>
+<td><code>TransferDt</code></td>
+<td>File transmission date in <code>CCYYMMDD</code> format.</td>
+</tr>
+<tr>
+<td><code>FileExtension</code></td>
+<td>Encrypted text extension <code>txt.pgp</code>. Both suffixes are required.</td>
+</tr>
+<tr>
+<td><code>TST_</code> prefix</td>
+<td>Required only for test submissions and placed before <code>ProgramID</code>. Production filenames must not contain this prefix.</td>
+</tr>
+</tbody></table>
+<p>Canonical examples:</p>
+<pre><code class="language-text">PSHB_ATOZ_RCNO_20250301_20250331_20250415.txt.pgp
+PSHB_ATOZ_RCNA_20250301_20250331_20250415.txt.pgp
+TST_PSHB_ATOZ_RCNO_20250301_20250331_20250415.txt.pgp
+TST_PSHB_ATOZ_RCNA_20250301_20250331_20250415.txt.pgp
+</code></pre>
+<p>The structural validation expression is case-sensitive:</p>
+<pre><code class="language-regex">^(?:TST_)?(?:PSHB|FEHB)_[A-Z0-9]{4}_(?:RCNO|RCNA)_\d{8}_\d{8}_\d{8}\.txt\.pgp$
+</code></pre>
+<p>Structural matching is necessary but not sufficient. The intake/delivery layer must also:</p>
+<ol>
+<li>parse all three date segments as real calendar dates;</li>
+<li>reject a reporting end date earlier than the reporting start date;</li>
+<li>require <code>RCNO</code> for inbound OPM reconciliation intake and <code>RCNA</code> for outbound carrier remediation delivery;</li>
+<li>verify the configured program and carrier IDs rather than accepting any structurally valid values;</li>
+<li>preserve the source RCNO naming segments on the run so the generated RCNA uses the same program, carrier, reporting start, and reporting end values;</li>
+<li>set the RCNA transfer date to the actual RCNA transmission date rather than copying the RCNO transfer date automatically; and</li>
+<li>preserve the <code>TST_</code> classification from test RCNO intake through test RCNA delivery.</li>
+</ol>
+<h4>20.2.2 Encryption boundary</h4>
+<p>The <code>.txt.pgp</code> suffix identifies the encrypted transfer artifact. The fixed 73-column RCNO and 78-column outbound RCNA contracts describe the plaintext obtained after RCNO decryption and before RCNA encryption. PGP bytes must never be passed directly to the UTF-8 pipe-delimited parser.</p>
+<p>Until OQ-29 is resolved and an approved PGP stage is integrated, ad hoc application testing must use an authorized decrypted plaintext RCNO in a protected non-production environment. Such a local test artifact may use a <code>.txt</code> name to avoid representing it as encrypted. It must not be transmitted to OPM or placed in a production SFTP folder. Production scheduled intake and delivery must fail closed when decryption or encryption is unavailable; the system must not remove or append <code>.pgp</code> without performing the corresponding cryptographic operation.</p>
+<h3>20.3 Existing infrastructure configuration</h3>
+<p>The following dependencies must be available to both the Next.js application and the one-shot worker, but no new RCNOA-specific values are expected where the application configuration already supplies them:</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Existing source</th>
+<th>RCNOA use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EPDS and MDW Oracle connections</td>
+<td>Existing <code>.env.local</code>/KPConfig database settings</td>
+<td>Read recent 834 and membership lookup data. Verify that the names exposed to RCNOA resolve to the configured URL, username, and password values.</td>
+</tr>
+<tr>
+<td>EPDS and MDW SQL</td>
+<td>MongoDB <code>RcnoaQueryConfiguration</code></td>
+<td>Loaded at runtime; edited through the protected RCNOA admin page without a build. <code>epdsQuery</code> must use <code>:businessDate</code>; <code>mdwQuery</code> must use <code>:businessDate</code>, <code>:ssnsJson</code>, and <code>:mrnsJson</code>, and must return rows ordered by <code>coverage_end_date DESC NULLS LAST</code>. Existing stored MDW SQL must be updated through the admin page; changing the seed query does not replace an already-versioned MongoDB configuration.</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>Existing application Mongo connection</td>
+<td>Stores schedules, query and business configuration, runs, artifacts, failures, and protected prior-RCNA records.</td>
+</tr>
+<tr>
+<td>Azure Blob Storage</td>
+<td>Existing <code>blobStorageService.js</code> environment-specific account/key/endpoint settings</td>
+<td>Creates upload/download SAS URLs and stores RCNOA input/output artifacts in <code>rcnoa-processing</code>.</td>
+</tr>
+</tbody></table>
+<p>Lower non-production environments may set <code>RCNOA_MOCK_FIXTURES_ENABLED=true</code> to expose the predefined ad hoc fixture catalog. Mock mode is never available to scheduled runs. The administrator selects one manifest entry; the server stages its paired 73-column RCNO and loads the same-stem synthetic MDW, EPDS, and prior-RCNA arrays without calling live lookup sources. Runs persist the fixture ID, version, and checksum, display their mock provenance in history, and never save synthetic prior-RCNA history. Production environments must leave this setting unset.</p>
+<h3>20.4 Scheduled processing properties</h3>
+<p>These values are not required for an ad hoc admin-page upload, but they are required before scheduled SFTP processing is enabled:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RCNOA_REMOTE_SERVER</code></td>
+<td>SFTP host.</td>
+</tr>
+<tr>
+<td><code>RCNOA_REMOTE_PORT</code></td>
+<td>Optional; defaults to <code>22</code>.</td>
+</tr>
+<tr>
+<td><code>RCNOA_REMOTE_FOLDER</code></td>
+<td>Inbound RCNO folder.</td>
+</tr>
+<tr>
+<td><code>RCNOA_REMOTE_OUTPUT_FOLDER</code></td>
+<td>Optional output folder; defaults to the inbound folder.</td>
+</tr>
+<tr>
+<td><code>RCNOA_REMOTE_ARCHIVE_FOLDER</code></td>
+<td>Optional archive folder; defaults to an <code>archive</code> child of the inbound folder.</td>
+</tr>
+<tr>
+<td><code>RCNOA_USERNAME</code></td>
+<td>SFTP username.</td>
+</tr>
+<tr>
+<td><code>RCNOA_PASSWORD</code></td>
+<td>SFTP password or approved credential value.</td>
+</tr>
+<tr>
+<td><code>RCNOA_SFTP_HOST_KEY_SHA256</code></td>
+<td>Required pinned SHA-256 host-key fingerprint.</td>
+</tr>
+<tr>
+<td><code>RCNOA_INBOUND_FILE_PATTERN</code></td>
+<td>Optional case-sensitive override. Defaults to the RCNO-only OPM expression `^(?:TST_)?(?:PSHB</td>
+</tr>
+<tr>
+<td><code>RCNOA_SCHEDULER_TOKEN</code></td>
+<td>Current protected-trigger bearer token.</td>
+</tr>
+<tr>
+<td><code>RCNOA_SCHEDULER_AUTH_APPROVED</code></td>
+<td>Set to <code>true</code> only after scheduler authentication is approved.</td>
+</tr>
+<tr>
+<td><code>RCNOA_WORKER_MAX_RUNS</code></td>
+<td>Optional; defaults to <code>10</code> and is bounded from 1 through 100.</td>
+</tr>
+</tbody></table>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+PSHBS Column	834 Mapping
+PSHBS_Subscriber_ID	REF*23 (Employee ID) / Subscriber Identifier
+PSHBS_Member_ID	Member Identifier (internal, no standard KP 834 field)
+PSHBS_Annuitant_Number	Custom REF if required
+PSHBS_Last_Name	NM103
+PSHBS_First_Name	NM104
+PSHBS_Birth_Date	DMG02
+PSHBS_Member_SSN	NM109
+PSHBS_Subscriber_SSN	REF02 where REF01=0F
+PSHBS_Plan_Code	HD04 Plan Description / Plan Code
+PSHBS_Coverage_Start_Date	DTP03 where DTP01=348
+PSHBS_Coverage_End_Date	DTP03 where DTP01=349
+PSHBS_Address_Line1	N301
+PSHBS_Address_Line2	N302
+PSHBS_Address_Line3	N302 or custom address continuation
+PSHBS_City	N401
+PSHBS_State	N402
+PSHBS_ZIP	N403
+PSHBS_Country	N404
+PSHBS_Phone	PER04
+PSHBS_Email	Not present in provided KP 834 layout
+PSHBS_Payroll_Office_Number	Custom REF
+PSHBS_Relationship_Code	INS02
+PSHBS_Extended_Cov_End_Date	Custom DTP/REF
+PSHBS_Gender_Code	DMG03

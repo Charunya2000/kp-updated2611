@@ -1,0 +1,263 @@
+Review 834 mapping-20260709_090545-Meeting Recording
+July 9, 2026, 4:05PM
+14m 4s
+
+Jonathan Seltzer started transcription
+
+Jonathan Seltzer   0:03
+where you're busy exchanging important information, I want to be able to make sure we come back to it and look at it. Sorry, go ahead.
+
+Rajesh G Kadam   0:07
+Just.
+Yeah, yeah.
+
+Sreejith Neelanath   0:10
+Thanks, Jim.
+
+Rajesh G Kadam   0:10
+Okay, so these headers, we have flexibility. We don't care what value you put, unless it is, these are used in that process, correct? If it is a wrong value, it will aband Sreejith.
+
+Sreejith Neelanath   0:27
+Yeah, so ideally all these things, we will be having that particular field length for the first couple of headers alone. If you want that details also, I can able to share in the maybe today itself. I will share.
+the length of each of the fields, segments. And other than that, in the header portions, you can do kind of like a dummy data also. It is fine, but it's better to have like something proper data.
+If it is possible, if it is like a...
+
+Rajesh G Kadam   1:09
+Yeah.
+
+Sreejith Neelanath   1:12
+If it is getting more complex, then it is fine, but or else most of the header details, it will be like a standardized or a runtime kind of details we need to put in.
+
+Rajesh G Kadam   1:25
+Yeah, so Jonathan, we are fine here, so we will, we can put any details, we don't care, but if you need, we can provide those details. I'll talk, I will have a session with Sreejith, and we will come up with him made-up values.
+
+Jonathan Seltzer   1:40
+Yeah, it's probably better to have that because I'm likely to use the approach for generating this is going to assume a schema and if we leave it blank.
+
+Sreejith Neelanath   1:50
+Oh.
+
+Jonathan Seltzer   1:52
+It's probably going to violate the schema when I'm generating it. So yeah.
+
+Rajesh G Kadam   1:55
+That's correct, yeah, yeah, that we can do, so, so Sreejith, I will, we will, I will schedule a session with you and we will come with some dummy values and we can fill the status, OK?
+
+Sreejith Neelanath   1:56
+Yeah.
+Yep, sure.
+
+Rajesh G Kadam   2:08
+OK, so once header is done, then there is then then we will add one more column here, default value in the same Excel, and then that can be used by our our process. OK, so then this is the INS segment, OK, which is nothing but the our detail segment where we...
+we get data. This segment will be populated using our RCNA file. And the header is a constant, and this is a variable. So basically, in our file, there are only two types of record. One is a subscriber, one is a member. And when subscriber SSN is equal to member SSN,
+Then it becomes a subscriber.
+Okay, so then what I did, I tried to put this mapping from our our PSHB to here. You can see here.
+Jonathan.
+
+Sreejith Neelanath   3:07
+Yep, sorry.
+
+Jonathan Seltzer   3:09
+I can see it. Go ahead. Yeah, keep going.
+
+Rajesh G Kadam   3:10
+So yeah, yeah, so these are the these are the these are the these are the things which are available in our file. It looks like there are only 25 or 25 if you see something like that because our file length is some 77 or 78 out of that you extra you remove those four columns at the end and.
+Each column has one result column. Those also we have to remove. So then this is what remains.
+From RCNA file, so then what I did, I I mapped those in those in those columns.
+Where they should go?
+
+Jonathan Seltzer   3:49
+Okay, that makes sense.
+
+Rajesh G Kadam   3:52
+Okay.
+
+Jonathan Seltzer   3:55
+And we get, just to remind me, right, the RCNA file is one line per member, slash subscribe. Okay.
+
+Rajesh G Kadam   4:01
+Yes, that is correct.
+
+Jonathan Seltzer   4:06
+I'm trying to just mentally think and remind myself about the relationship between
+
+Rajesh G Kadam   4:10
+Hold on.
+
+Jonathan Seltzer   4:15
+how the 834 files are structured. I believe each...
+
+Rajesh G Kadam   4:18
+I show you that also, I have, yeah, I can show you, I have some examples which Sreejith send me one meter, where is it, 34 files, 34 files, oh man, here, then a 34 file, oh yeah, yeah, yeah, yeah, see this, okay, I created, I generated a...
+I generated, I took one file, I generated the 834 file also it worked. Only what didn't work, he took the header values which was already in that session and which are PSHB header values. So you can see this is 1, this is the company you don't need that I think. There is a file, Sreejith.
+You send me files, correct? 834 files.
+
+Sreejith Neelanath   5:00
+So, can you just here?
+
+Rajesh G Kadam   5:04
+You gave me some files.
+
+Sreejith Neelanath   5:06
+Yeah, that dot TB.
+
+Rajesh G Kadam   5:08
+Yeah, where is that? Yeah, yeah, yeah, yeah, I got it. So, Jonathan, see this file looks like this. OK, and this is our first member starts here. You can see here.
+
+Sreejith Neelanath   5:10
+Uh, yeah.
+
+Rajesh G Kadam   5:24
+He is a subscriber and this is how it was. Then it will go until the next INS. You can see here. Here the INS is known, so which is a member. And these values are populated using our file. And that mapping I tried to give it there in the Excel.
+
+Jonathan Seltzer   5:46
+Understood, yeah.
+
+Rajesh G Kadam   5:48
+And this one I will work with Sreejith and we will made it make it as a hard coded like that you can see here. OPM, so it will be kp, kp, RCNA, something like that we can do. And the dates and all those things that don't change because that will.
+current date means when you run it. So this is also, we can change it to kp. Okay, and this is just nothing but the detail, this is dependent three. I think this is employee two and this is the total. And then this I will understand from Sreejith.
+and I can give you this mapping also. So once this mapping, there are not many fields, you can see, and we care only these fields and whatever the control character, Sreejith told me, those will give you hard coded.
+
+Jonathan Seltzer   6:46
+Got it.
+
+Rajesh G Kadam   6:47
+Okay, so and this is also a mapping which I already gave in this. This is goes to the RCNA. That's it. I think that's what I have. So then I will tell you what is remaining. So what remaining is I have to give you the header hard coding information. I think I can work tomorrow and send it to you.
+And then I can send it to you.
+So, am I on the right path?
+Jonathan.
+
+Jonathan Seltzer   7:22
+Yeah, yeah, I'm following. I think, you know, it's going to take me a little while to ingest it. That's why I wanted to record it. But yeah, I'm following so far.
+
+Rajesh G Kadam   7:29
+Okay, okay. So now this is my next step. I will I will work with Sreejith and I will try to give you the values for this and before that I will I will send those values to Jennifer also and so she should know what we are doing and she can.
+Either agree or disagree. If we disagree, we will change this value accordingly.
+
+Jonathan Seltzer   7:56
+Okay.
+
+Rajesh G Kadam   7:57
+OK.
+So Jonathan, now you know the process, correct? So what we think that if you can give us the LOE, we will be working parallelly then.
+Means I will work on that within two, three days, one or two days, but LOE also, if you you know now what what is the ask correct, so because then our PM also will be happy, so...
+
+Jonathan Seltzer   8:18
+Yep.
+Yeah, give me, give me the companion guide. And you have some, I want to make sure, right, just for everybody in the call, because I'm realizing this, are these real production panels?
+
+Rajesh G Kadam   8:27
+Yeah.
+Ohh.
+
+Jonathan Seltzer   8:39
+Are we sharing real production files right now?
+
+Rajesh G Kadam   8:40
+The answer is, yes, I think.
+
+Sreejith Neelanath   8:42
+This one is, yes.
+
+Jonathan Seltzer   8:43
+We're going to want to delete this transcript then.
+A.
+Uh...
+
+Rajesh G Kadam   8:49
+I thought it is internal, so we don't care. I think that is how I was thinking.
+
+Jonathan Seltzer   8:50
+Yeah.
+I mean, if there's PHIPI here, which I see a name.
+
+Rajesh G Kadam   9:00
+No, I see a SSN also, so yes.
+
+Jonathan Seltzer   9:01
+Bill.
+Yeah, we want to delete this transcript.
+
+Rajesh G Kadam   9:05
+Yeah, then how you will refer to this, Jonathan? Can we delete once you once you done?
+
+Jonathan Seltzer   9:06
+So, I'm at a del... yeah.
+Well, I think in here nobody said, I want to see if I can, let me go check something. I'm going to see if I can delete the video.
+But keep the transcript.
+
+Rajesh G Kadam   9:27
+Oh yeah, yeah, yeah, yeah, just that's correct. That's a good idea. Yeah, delete the video, keep the transcript.
+
+Jonathan Seltzer   9:32
+Let me see if I can do that because otherwise I don't want to leave this video out there because it's we can't do that. So.
+
+Rajesh G Kadam   9:37
+Yeah, yeah.
+
+Jonathan Seltzer   9:41
+Let me see if I can do that. I'm not sure how to do that. I'm going to see if I can do that. If I can't figure it out, I'm going to have to delete the whole thing. So Rajesh, you should at least send me a summary. I need the companion guide. Make sure that doesn't have any PHIPI in it.
+
+Rajesh G Kadam   9:47
+That's OK. Yeah, we are. I'm good with that, yeah.
+So that summary I think that our meeting will create correct. So I can send that and I can add other I can create a summary for me or for you also. Okay.
+
+Jonathan Seltzer   9:56
+Yeah.
+It, yeah, yeah, alright, let me, are we, are we, yeah.
+
+Sreejith Neelanath   10:09
+I guess, Rajesh, you can go for a copilot summary, right? You will get it automatically, yeah, because it won't capture the data anyway.
+
+Rajesh G Kadam   10:14
+Yeah, yeah, yeah.
+But that's good, yeah, yeah, that's a good thing. So Jonathan, that's somebody I can send you from the copilot. So everything will be there except the data.
+
+Jonathan Seltzer   10:24
+Mhm.
+Okay.
+Okay, yeah, that's fine. I just want to make sure we don't leave any PHIPI in a Teams recording.
+
+Rajesh G Kadam   10:34
+Yeah.
+
+Jonathan Seltzer   10:37
+All right, guys. Anything else we need to talk about? Yeah, sure.
+
+Rajesh G Kadam   10:39
+Oh no, only I have one question for you. So how long it will take to get the, what do you call, LOE for this? Because...
+
+Jonathan Seltzer   10:47
+Eloy, I'm going to need, let's try to plan for that for like Wednesday of next week. It's going to take me a while to think about it, right? And look through it. So let's plan for that for like Wednesday of next week.
+
+Rajesh G Kadam   10:54
+Yeah, okay.
+Yeah, yeah.
+Just, I will update our our PM that next, except me, so we may be giving you LA for this process next Wednesday.
+
+Jonathan Seltzer   11:10
+Okay, yeah.
+
+Rajesh G Kadam   11:11
+Okay, so if there is no question, I think, Jennifer, do you have any question?
+
+Jennifer Genato   11:17
+So many, but not for this group. Thank you. I appreciate all your help.
+
+Rajesh G Kadam   11:20
+Okay, okay. Okay, so if there is no question, I think we can stop here, okay?
+
+Jonathan Seltzer   11:26
+All right, thanks.
+
+Rajesh G Kadam   11:28
+Thank you. Thanks. Thanks A lot. Okay, bye.
+
+Jennifer Genato   11:28
+Thanks, bye bye.
+
+Sreejith Neelanath   11:29
+Thank you.
+The.
+
+Jonathan Seltzer stopped transcription

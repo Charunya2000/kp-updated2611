@@ -1,0 +1,161 @@
+{
+  "productName": "aiplatform",
+  "platformProject": "aisvc",
+  "imageDir": "hpts-aisvc",
+  "productTrack": "hptsaisvc",
+  "artifactType": "NODEJS",
+  "atlasId": "APP-7232",
+  "technicalSME": "A257371",
+  "asmNumber": "ASM0012575",
+  "defaultEmails": [
+    "jonathan.b.seltzer@kp.org"
+  ],
+  "artifactory-credential-id": "HPBIO-KPMC-ARTIFACTORY-TOKEN-DI",
+  "github-credentials-id": "HPBIO-KPMC-GITHUB-TOKEN-IL",
+  "stages": {
+    "npm-build": {
+      "shrinkwrap": false,
+      "node-version": "24.22",
+      "npm-run-script": "npm run build",
+      "js-lcov-report-path": "**/coverage/lcov.info",
+      "sonarqube": false,
+      "whiteHat": false,
+      "build-tool": "npm",
+      "skipTestFlag": false,
+      "sonarParameter": "-Dsonar.javascript.lcov.reportPaths=output/coverage/jest/lcov.info -Dsonar.buildbreaker.skip=false",
+      "sonarExclusions": [],
+      "sonarCoverageExclusions": [],
+      "ssecurityScan": {
+        "applicationID": "CAS-DEVOPS-HPTS-genai-portal-app",
+        "applicationName": "hpts-genai-portal-app",
+        "scanBranch": "release/v3.0.0"
+      }
+    },
+    "imageBuild": {
+      "imageSecurityPolicy": "critical",
+      "namespace": "kp-hpts-aks-aisvc"
+    },
+    "aksDeploy": {
+      "helmTemplateVersion": "1.33.0",
+      "saveDeployment": false,
+      "helmArtifactoryRepoUrl": "https://artifactory-bluemix.kp.org/artifactory/",
+      "helmArtifactoryCredentialsID": "devops-artifactory-automation-account",
+      "cdDeploymentEnv": [
+        "dev"
+      ],
+      "deployEnvironments": {
+        "dev": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-dev-02",
+          "resourceGroup": "kp-rg-cpe-aks-dev-02",
+          "clusterName": "kp-cpe-aks-dev-02",
+          "namespace": "kp-hpts-aks-aisvc-dev",
+          "deleteResources": true,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-dev",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about DEV release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsNonProd"
+          }
+        },
+        "uat": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-uat-01",
+          "resourceGroup": "kp-rg-cpe-aks-uat-01",
+          "clusterName": "kp-cpe-aks-uat-01",
+          "namespace": "kp-hpts-aks-aisvc-uat",
+          "deleteResources": true,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-uat",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about DEV release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsNonProd"
+          }
+        },
+        "pp": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-uat-01",
+          "resourceGroup": "kp-rg-cpe-aks-uat-01",
+          "clusterName": "kp-cpe-aks-uat-01",
+          "namespace": "kp-hpts-aks-aisvc-pp",
+          "deleteResources": true,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-pp",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about PP release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsNonProd"
+          }
+        },
+        "psup": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-prod-03",
+          "resourceGroup": "kp-rg-cpe-aks-wus2-prodsup03-01",
+          "clusterName": "kp-cpe-aks-wus2-prdsup03-01",
+          "namespace": "kp-hpts-aks-aisvc-psup",
+          "deleteResources": true,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-psup",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about PP release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsProd"
+          }
+        },
+        "prod": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-prod-03",
+          "resourceGroup": "kp-rg-cpe-aks-wus2-prod03-01",
+          "clusterName": "kp-cpe-aks-wus2-prod03-01",
+          "namespace": "kp-hpts-aks-aisvc-prod",
+          "deleteResources": false,
+          "bluegreenValidationTimeOut": 60,
+          "certsUploadTimeOut": 60,
+          "bluegreenEnable": false,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-prod",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about PROD release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsProd"
+          }
+        },
+        "dr": {
+          "tlscertupload": false,
+          "subscriptionId": "kp-azure-prod-03",
+          "resourceGroup": "kp-rg-cpe-aks-wcus-prod03-01",
+          "clusterName": "kp-cpe-aks-wcus-prod03-01",
+          "namespace": "kp-hpts-aks-aisvc-prod",
+          "deleteResources": true,
+          "bluegreenValidationTimeOut": 60,
+          "certsUploadTimeOut": 60,
+          "bluegreenEnable": true,
+          "kpconfigInfo": {
+            "serviceName": "hpts-aisvc",
+            "profile": "genai-port-client-dr",
+            "label": "master",
+            "passEncryptFlag": false,
+            "configRefreshFlag": true,
+            "release-comments": "Comments about DR release.",
+            "configJSONCredentialsID": "KpConfigHPTSAICredsProd"
+          }
+        }
+      }
+    }
+  },
+  "kpBio": "Health Plan",
+  "botApigeeDeploy": false,
+  "botDeploy": false
+}

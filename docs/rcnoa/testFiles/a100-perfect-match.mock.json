@@ -1,0 +1,12 @@
+{
+  "fixtureId": "a100-perfect-match",
+  "version": "1.0.0",
+  "businessDate": "20260810",
+  "membershipRecords": [],
+  "recent834Records": [],
+  "priorRcnaRecords": [],
+  "expected": {
+    "ruleId": "A100",
+    "code": "MM"
+  }
+}

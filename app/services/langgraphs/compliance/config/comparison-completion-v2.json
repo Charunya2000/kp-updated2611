@@ -1,0 +1,9 @@
+{
+  "preferredModels": [
+    "openai-5.1",
+    "gpt-4o"
+  ],
+  "temperature": 0.2,
+  "maxTokens": 1400,
+  "maxShortTokens": 800
+}

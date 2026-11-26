@@ -1,0 +1,3248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RCNO-RCNA-Complete-TestCases</title>
+  <style>
+    body {
+      font-family: Calibri, Arial, sans-serif;
+      margin: 24px;
+      color: #1f2937;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+    }
+    h1, h2, h3 { margin: 0 0 10px 0; color: #0f3d75; }
+    h1 { font-size: 22pt; margin-bottom: 8px; }
+    h2 { font-size: 16pt; margin-top: 12px; }
+    h3 { font-size: 12pt; margin-top: 10px; }
+    p { margin: 8px 0; }
+    ul, ol { margin: 6px 0 6px 20px; }
+    .muted { color: #6b7280; }
+    .card {
+      border: 1px solid #d5deea;
+      border-radius: 8px;
+      padding: 14px;
+      margin: 14px 0;
+      background: #fbfdff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+    th, td {
+      border: 1px solid #cfd8e3;
+      padding: 6px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #eaf1f9;
+      color: #143a63;
+      font-weight: 700;
+    }
+    td.field {
+      font-weight: 600;
+      background: #f7fbff;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10pt;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .badge.good {
+      color: #14532d;
+      border-color: #86efac;
+      background: #dcfce7;
+    }
+    .badge.bad {
+      color: #7f1d1d;
+      border-color: #fca5a5;
+      background: #fee2e2;
+    }
+    .meta {
+      margin: 6px 0 12px 0;
+      padding: 10px;
+      border-left: 4px solid #93c5fd;
+      background: #f0f7ff;
+    }
+    .page-break {
+      page-break-inside: avoid;
+    }
+    @media print {
+      body { margin: 0.4in; }
+      .page-break { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <h1>RCNO-RCNA-Complete-TestCases</h1>
+  <div class="meta">
+    <p><strong>Version:</strong> 1.0.0</p>
+    <p><strong>Generated from:</strong> RCNO-RCNA-834-Detailed-Design.md</p>
+    <p><strong>Total test cases:</strong> 61</p>
+  </div>
+
+  <section class="card">
+    <h2>Notes</h2>
+    <ul><li>Comprehensive suite for RCNO-to-RCNA test design coverage.</li><li>Includes all 51 ordered rules from the rule catalog.</li><li>Includes additional validation and determinism scenarios.</li><li>Some scenarios are marked as blocked or requiring business clarification based on Outstanding Questions.</li></ul>
+  </section>
+
+  <h2>Field Schemas</h2>
+  
+      <section class="card">
+        <h3>rcnoReference</h3>
+        Use baselineRcnoTemplate from RCNO-RCNA-EPDS-MDW-TestCases.json
+      </section>
+    
+      <section class="card">
+        <h3>mdwReference</h3>
+        Use canonical MDW enrollment candidate fields from section 8.4.2
+      </section>
+    
+      <section class="card">
+        <h3>epdsReference</h3>
+        Use canonical EPDS recent enrollment fields from section 8.4.1
+      </section>
+    
+
+  <h2>Templates</h2>
+  
+
+  <h2>Test Cases</h2>
+  
+    <section class="card page-break">
+      <h2>1. CAT-001-A100</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleA (A100)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>M</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to M.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>A100</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>5: Matches (no action required)</td></tr><tr><td class="field">PSHB_Code</td><td>MM</td></tr><tr><td class="field">Code_Description</td><td>Matches (no action required)</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>5: Matches (no action required)</td></tr><tr><td class="field">PSHB_Code</td><td>MM</td></tr><tr><td class="field">Code_Description</td><td>Matches (no action required)</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>2. CAT-002-B200</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleB (B200)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>matchesCurrentRcnoColumns1to73</th><th>Priority</th><th>PSHB_Code</th><th>Code_Description</th><th>Aging_Months</th><th>sourcePriorRcnaId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>true</td><td>4: Cancelled Enrollment Mismatch</td><td>CE001 No 834 cancellation received</td><td>OPM to send 834 cancellation</td><td>2</td><td>PRIOR-B200-01</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure RuleA does not match.</li><li>Provide prior RCNA candidate with exact RCNO columns 1-73 match.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>B200</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>3</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>3. CAT-003-F1300</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF1 (F1300)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F1300</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE502 Erroneous cancellation reported on MENR</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE502 Erroneous cancellation reported on MENR</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>4. CAT-004-F2400</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF2 (F2400)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F2400</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>5. CAT-005-F3500</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF3 (F3500)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F3500</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>6. CAT-006-F4600</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF4 (F4600)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F4600</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE002 Deceased Subscriber</td></tr><tr><td class="field">Code_Description</td><td>OPM to match ended coverage</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE002 Deceased Subscriber</td></tr><tr><td class="field">Code_Description</td><td>OPM to match ended coverage</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>7. CAT-007-F5700</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF5 (F5700)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F5700</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE003 Deceased Member</td></tr><tr><td class="field">Code_Description</td><td>OPM to match carrier record</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE003 Deceased Member</td></tr><tr><td class="field">Code_Description</td><td>OPM to match carrier record</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>8. CAT-008-F6800</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF6 (F6800)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F6800</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE004 Coverage end date set for aged off dependent</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate missing 834 / age-out handling</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE004 Coverage end date set for aged off dependent</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate missing 834 / age-out handling</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>9. CAT-009-F7000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF7 (F7000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F7000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>Z0000</td></tr><tr><td class="field">Code_Description</td><td>Invalid scenario</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>Z0000</td></tr><tr><td class="field">Code_Description</td><td>Invalid scenario</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>10. CAT-010-F8000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF8 (F8000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F8000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE502 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE502 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>11. CAT-011-F9000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF9 (F9000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F9000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE504</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE504</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>12. CAT-012-F10000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF10 (F10000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F10000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE010 Conflicting enrollment coverage end date</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct coverage end date</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE010 Conflicting enrollment coverage end date</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct coverage end date</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>13. CAT-013-F11000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF11 (F11000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F11000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE001 Conflicting enrollment coverage start date</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct coverage start date / pending enrollment</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE001 Conflicting enrollment coverage start date</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct coverage start date / pending enrollment</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>14. CAT-014-F12000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF12 (F12000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F12000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE502 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE502 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Carrier data matches RCNO; no action</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>15. CAT-015-F13000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF13 (F13000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F13000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>16. CAT-016-F14000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF14 (F14000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F14000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE501 834 Enrollment Awaiting Processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process the 834 enrollment</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE501 834 Enrollment Awaiting Processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process the 834 enrollment</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>17. CAT-017-F20000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleF20 (F20000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to F.</li><li>Satisfy specific F-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F20000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE013</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate why an 834 was not sent</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE013</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate why an 834 was not sent</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>18. CAT-018-I1000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI1 (I1000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I1000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC002 Active Carrier enrollment now ended</td></tr><tr><td class="field">Code_Description</td><td>OPM to match ended coverage</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC002 Active Carrier enrollment now ended</td></tr><tr><td class="field">Code_Description</td><td>OPM to match ended coverage</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>19. CAT-019-I2000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI2 (I2000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I2000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC004</td></tr><tr><td class="field">Code_Description</td><td>No 834 termination/cancel received; OPM to investigate</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC004</td></tr><tr><td class="field">Code_Description</td><td>No 834 termination/cancel received; OPM to investigate</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>20. CAT-020-I3000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI3 (I3000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I3000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE001 No 834 cancellation received</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>21. CAT-021-I4000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI4 (I4000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I4000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess processed enrollment</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess processed enrollment</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>22. CAT-022-I5000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI5 (I5000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I5000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier investigation/reprocessing required</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier investigation/reprocessing required</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>23. CAT-023-I6000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI6 (I6000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I6000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC501 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Cancellation/termination awaiting processing</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC501 No 834 Enrollment Received</td></tr><tr><td class="field">Code_Description</td><td>Cancellation/termination awaiting processing</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>24. CAT-024-I7000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleI7 (I7000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to I.</li><li>Satisfy specific I-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I7000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE501 834 cancellation awaiting processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process cancellation</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE501 834 cancellation awaiting processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process cancellation</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>25. CAT-025-N0000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN0 (N0000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N0000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>KICKO</td></tr><tr><td class="field">Code_Description</td><td>MRN not found on an N record</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>KICKO</td></tr><tr><td class="field">Code_Description</td><td>MRN not found on an N record</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>26. CAT-026-N1000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN1 (N1000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N1000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM501 Annuitant Number pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM501 Annuitant Number pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>27. CAT-027-N2000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN2 (N2000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N2000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM508 Payroll Office Number pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM508 Payroll Office Number pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>28. CAT-028-N3000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN3 (N3000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N3000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM509 Relationship Code pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM509 Relationship Code pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>29. CAT-029-N4000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN4 (N4000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N4000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM502 Member Last Name pending update</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM502 Member Last Name pending update</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>30. CAT-030-N5000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN5 (N5000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N5000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM503 Member First Name pending update</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM503 Member First Name pending update</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>31. CAT-031-N4000_1</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN4_1 (N4000-1)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N4000-1</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM001 PSHBS Member Last Name truncated or invalid</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM001 PSHBS Member Last Name truncated or invalid</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>32. CAT-032-N5000_1</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN5_1 (N5000-1)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N5000-1</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM002 PSHBS Member First Name truncated or invalid</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM002 PSHBS Member First Name truncated or invalid</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member field</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>33. CAT-033-N5000_2</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN5_2 (N5000-2)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N5000-2</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>AE014</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct date of death and coverage end</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>AE014</td></tr><tr><td class="field">Code_Description</td><td>OPM to correct date of death and coverage end</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>34. CAT-034-N6000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN6 (N6000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N6000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM003 Carrier has more accurate Member SSN</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member SSN</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM003 Carrier has more accurate Member SSN</td></tr><tr><td class="field">Code_Description</td><td>OPM to update member SSN</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>35. CAT-035-N7000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN7 (N7000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N7000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM004 Carrier has more accurate Subscriber SSN</td></tr><tr><td class="field">Code_Description</td><td>OPM to update subscriber SSN</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM004 Carrier has more accurate Subscriber SSN</td></tr><tr><td class="field">Code_Description</td><td>OPM to update subscriber SSN</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>36. CAT-036-N8000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN8 (N8000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N8000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM505 Member SSN pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member SSN</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM505 Member SSN pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update member SSN</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>37. CAT-037-N9000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN9 (N9000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N9000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM506 Subscriber SSN pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update subscriber SSN</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM506 Subscriber SSN pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update subscriber SSN</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>38. CAT-038-N91000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN91 (N91000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N91000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM512</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM512</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>39. CAT-039-N92000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN92 (N92000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N92000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM507 Mailing Address pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update mailing address</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM507 Mailing Address pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update mailing address</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>40. CAT-040-N10000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN10 (N10000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N10000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM006 Carrier has more accurate Gender Code</td></tr><tr><td class="field">Code_Description</td><td>OPM to update gender</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM006 Carrier has more accurate Gender Code</td></tr><tr><td class="field">Code_Description</td><td>OPM to update gender</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>41. CAT-041-N11000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN11 (N11000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N11000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM510 Gender Code pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update gender</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM510 Gender Code pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update gender</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>42. CAT-042-N12000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN12 (N12000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N12000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE999</td></tr><tr><td class="field">Code_Description</td><td>Manual business review</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE999</td></tr><tr><td class="field">Code_Description</td><td>Manual business review</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>43. CAT-043-N13000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN13 (N13000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N13000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE501 834 Enrollment Awaiting Processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process enrollment transaction</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE501 834 Enrollment Awaiting Processing</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process enrollment transaction</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>44. CAT-044-N14000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN14 (N14000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N14000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE504</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE504</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>45. CAT-045-N15000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN15 (N15000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N15000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM007 Carrier has more accurate Date of Birth</td></tr><tr><td class="field">Code_Description</td><td>OPM to update birth date</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM007 Carrier has more accurate Date of Birth</td></tr><tr><td class="field">Code_Description</td><td>OPM to update birth date</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>46. CAT-046-N16000</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleN16 (N16000)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Set RCNO column 4 result to N.</li><li>Satisfy specific N-family predicate for this rule while failing prior rules.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N16000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM504 Member Date of Birth pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update birth date</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM504 Member Date of Birth pending update</td></tr><tr><td class="field">Code_Description</td><td>Carrier to update birth date</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>47. CAT-047-AE_1</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleCatchAE (AE-1)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure all catalog rules fail, then satisfy catch-all precondition.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>AE-1</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE*</td></tr><tr><td class="field">Code_Description</td><td>Active enrollment mismatch</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AE*</td></tr><tr><td class="field">Code_Description</td><td>Active enrollment mismatch</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>48. CAT-048-AC_2</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleCatchAC (AC-2)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure all catalog rules fail, then satisfy catch-all precondition.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>AC-2</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC*</td></tr><tr><td class="field">Code_Description</td><td>Active carrier enrollment mismatch</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2: Active Carrier Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>AC*</td></tr><tr><td class="field">Code_Description</td><td>Active carrier enrollment mismatch</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>49. CAT-049-DM_3</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleCatchDM (DM-3)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure all catalog rules fail, then satisfy catch-all precondition.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>DM-3</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM*</td></tr><tr><td class="field">Code_Description</td><td>Active demographic mismatch</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3: Active Demographic Mismatches</td></tr><tr><td class="field">PSHB_Code</td><td>DM*</td></tr><tr><td class="field">Code_Description</td><td>Active demographic mismatch</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>50. CAT-050-CE_4</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for RuleCatchCE (CE-4)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure all catalog rules fail, then satisfy catch-all precondition.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>CE-4</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE*</td></tr><tr><td class="field">Code_Description</td><td>Cancelled enrollment mismatch</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4: Cancelled Enrollment Mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>CE*</td></tr><tr><td class="field">Code_Description</td><td>Cancelled enrollment mismatch</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>51. CAT-051-No_rule99999</h2>
+      <p><strong>Scenario:</strong> Rule-catalog coverage for DefaultRule (No_rule99999)</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">predicateHints</td><td><ol><li>Ensure no catalog or catch-all rule conditions match.</li></ol></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>No_rule99999</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>0000</td></tr><tr><td class="field">Code_Description</td><td>No Rules Applied</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1: Active Enrollment mismatch</td></tr><tr><td class="field">PSHB_Code</td><td>0000</td></tr><tr><td class="field">Code_Description</td><td>No Rules Applied</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>52. VAL-001-PrimaryFieldCount72</h2>
+      <p><strong>Scenario:</strong> Reject invocation with 72-field RCNO row</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>INVALID_RCNO_FIELD_COUNT</td></tr><tr><td class="field">errorMessage</td><td>Primary RCNO field count must be exactly 73.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>53. VAL-002-MalformedLookupRow</h2>
+      <p><strong>Scenario:</strong> Reject malformed MDW lookup candidate</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>INVALID_LOOKUP_FIELD_COUNT</td></tr><tr><td class="field">errorMessage</td><td>Lookup candidate violates canonical contract.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>54. VAL-003-ConflictingDuplicateMembership</h2>
+      <p><strong>Scenario:</strong> Reject conflicting duplicate membership candidates</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>AMBIGUOUS_LOOKUP_DUPLICATE</td></tr><tr><td class="field">errorMessage</td><td>Conflicting duplicate membership candidates found.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>55. VAL-004-ConflictingDuplicateRecent834</h2>
+      <p><strong>Scenario:</strong> Reject conflicting duplicate recent enrollment candidates</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>AMBIGUOUS_LOOKUP_DUPLICATE</td></tr><tr><td class="field">errorMessage</td><td>Conflicting duplicate recent enrollment candidates found.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>56. VAL-005-NoRuleSelectedImpossible</h2>
+      <p><strong>Scenario:</strong> Engine must always resolve one rule or explicit error</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>RULE_SELECTION_FAILED</td></tr><tr><td class="field">errorMessage</td><td>No rule selected and no default applied.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>57. VAL-006-InputMutationGuard</h2>
+      <p><strong>Scenario:</strong> Input arrays must remain unchanged after execution</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">invariant</td><td>no-input-mutation</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>58. VAL-007-N12ApprovedDefault</h2>
+      <p><strong>Scenario:</strong> N12 uses the approved default code</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N12000</td></tr><tr><td class="field">code</td><td>AE999</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>59. VAL-008-I4I5CoverageDiscriminator</h2>
+      <p><strong>Scenario:</strong> I4/I5 use active membership coverage as the discriminator</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">discriminator</td><td>membership-coverage-active-on-business-date</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>60. VAL-009-I6I7CoverageDiscriminator</h2>
+      <p><strong>Scenario:</strong> I6/I7 use active membership coverage as the discriminator</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">discriminator</td><td>membership-coverage-active-on-business-date</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>61. VAL-010-AddressStandardizerRequiredForN91N92</h2>
+      <p><strong>Scenario:</strong> N91/N92 requires configured deterministic address standardizer</p>
+      <p><strong>Expected outcome:</strong> <span class="badge bad">blockingValidationError</span></p>
+
+      <h3>Input</h3>
+      <p class="muted">None</p>
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>blockingValidationError</td></tr><tr><td class="field">errorCode</td><td>ADDRESS_STANDARDIZER_REQUIRED</td></tr><tr><td class="field">errorMessage</td><td>Address standardizer configuration is required for N91/N92.</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+</body>
+</html>

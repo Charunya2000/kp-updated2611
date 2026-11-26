@@ -1,0 +1,18 @@
+| OQ-14 | For Rule A, should RCNO result `Z` ever be treated as a perfect match? | The July 24 user story specifies only `M`, while an earlier working artifact includes `M or Z`. |
+Z - can be ignored.
+
+| OQ-15 | What date should be considered the "current date" for rules: processing timestamp, file business date, or reconciliation cycle date? | Date-sensitive rules must be reproducible when a file is rerun. |
+current date
+
+| OQ-16 | What approved address-standardization product, version, and comparison rules should N91 and N92 use? | Equal/not-equal outcomes must be deterministic and auditable. |
+Yes, n91 and n92 can be used
+
+| OQ-17 | For F1-F3, does "coverage end <= coverage start" correctly identify cancelled coverage, or should cancellation be based on current date and coverage end? | The detailed working logic uses end-versus-start, which may represent a source defect. |
+use current date
+
+
+| OQ-18 | Which SSN should recent-834 matching use for each rule: member SSN or subscriber SSN? | The detailed rules alternate between RCNO columns 20, 21, and 23. |
+subscriber ssn
+
+| OQ-19 | Should a matching recent 834 use PSHBS coverage dates or MENR coverage dates in each F, I, and N rule family? | The detailed rules use different date pairs and contain inconsistent column references. |
+yes - for F we use PSHB dates and N and I -MENR dates

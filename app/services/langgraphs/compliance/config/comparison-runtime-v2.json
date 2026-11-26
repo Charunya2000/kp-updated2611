@@ -1,0 +1,34 @@
+{
+  "search": {
+    "indexName": "geisinger-002"
+  },
+  "data": {
+    "collectionName": "user_collection"
+  },
+  "embedding": {
+    "model": "text-embedding-ada-002",
+    "deployment": "gpt-4o-aisvc",
+    "apiVersion": "2023-05-15"
+  },
+  "heartbeat": {
+    "intervalMs": 8000,
+    "stages": [
+      "Reviewing source and target document structure...",
+      "Retrieving policy evidence for comparison...",
+      "Aligning similar requirements and themes...",
+      "Assessing key differences and overlaps...",
+      "Preparing business-ready comparison summary..."
+    ]
+  },
+  "artifact": {
+    "containerName": "compliance-ai",
+    "pathPrefix": "document-comparisons",
+    "filePattern": "comparison-v2-{timestamp}.xlsx"
+  },
+  "display": {
+    "topicEvidenceLimit": 10,
+    "analysisPreviewLimit": 20,
+    "markdownListLimit": 30,
+    "topicListDeltaMaxItems": 20
+  }
+}

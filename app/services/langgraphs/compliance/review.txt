@@ -1,0 +1,335 @@
+[prepareSharePointPdfsForConversation] Starting preparation
+[prepareSharePointPdfsForConversation] Deleting previous data
+[prepareSharePointPdfsForConversation] Inserting GeisingerConversation doc: id=fffd8d25-9a3a-49eb-acd0-15e8ef66f23a
+[prepareSharePointPdfsForConversation] Streaming SharePoint file to Blob
+[prepareSharePointPdfsForConversation] Extracting PDF structure heuristics
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"GeisingerConfig","collectionName":"Document Conversation","purpose":"GeneralConfig","title":"Document Conversation Config For Conversation Prepare"}}}
+Warning: Setting up fake worker.
+[extractPdfStructure] Inferred heuristics: {"title":{"font_size_min":13,"bold":false,"level":0},"chapter":{"regex":"^Subpart\\s+[A-Z]—","font_size_min":13,"bold":false,"level":1},"section":{"regex":"^§\\d+\\.\\d+","font_size_min":11,"bold":true,"level":2}}
+[parsePdfWithHeuristics] Page changed to: 39
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 13, item.yPos: 48.75, item.content: 507
+[parsePdfWithHeuristics] matchedHeadingType: title for item: 507  (fontSize: 13, yPos: 48.75) on page 39
+[parsePdfWithHeuristics] Skipping heading #1 on page 39: 507
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 12, item.yPos: 48.75, item.content: Dept. of Health and Human Services
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 12, item.yPos: 48.75, item.content: §156.295
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.295  (fontSize: 12, yPos: 48.75) on page 39
+[parsePdfWithHeuristics] Skipping heading #2 on page 39: §156.295
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (e)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Employer choice.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP issuers offer-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ing a QHP through the SHOP must ac-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cept enrollments from groups in ac-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cordance with the employer choice
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: policies applicable to the SHOP under
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §155.706(b)(3) of this subchapter.
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §155.706(b)(3) of this subchapter.  (fontSize: 11, yPos: 48.75) on page 39
+Appended headingContent: §155.706(b)(3) of this subchapter.  (f)
+Final heading after truncation: §155.706(b)(3) of this subchapter.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Identification of SHOP enrollments.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP issuers offering a QHP through
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the SHOP must use a uniform enroll-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ment form, maintain processes suffi-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cient to identify whether a group mar-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ket enrollment is an enrollment
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: through the SHOP, and maintain
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: records of SHOP enrollments for a pe-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: riod of 10 years following the enroll-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ment.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (g)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Applicability date.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: The provisions
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: of this section apply for plan years be-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ginning on or after January 1, 2018.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: [83 FR 17069, Apr. 17, 2018]
+item.bold: true, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §156.290
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.290 (fontSize: 11, yPos: 48.75) on page 39
+Appended headingContent: §156.290 Non-certification and decerti-
+Appended headingContent: §156.290 Non-certification and decerti- fication of QHPs.
+Final heading after truncation: §156.290 Non-certification and decerti- fication of QHPs.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (a)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Non-certification for a subsequent,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: consecutive certification cycle.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: If a QHP
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: issuer elects not to seek certification
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: for a subsequent, consecutive certifi-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cation cycle with the Exchange, the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP issuer, at a minimum, must—
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (1) Notify the Exchange of its deci-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: sion prior to the beginning of the recer-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tification process and adhere to the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: procedures adopted by the Exchange in
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: accordance with §155.1075 of this sub-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: chapter;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (2) Fulfill its obligation to cover ben-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: efits for each enrollee through the end
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: of the plan or benefit year through the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Exchange;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (3) Fulfill data reporting obligations
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: from the last plan or benefit year of
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the certification;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (4) Provide notice to enrollees as de-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: scribed in paragraph (b) of this section;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (5) Terminate the coverage or enroll-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ment through the Exchange of enroll-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ees in the QHP in accordance with
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §156.270, as applicable.
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.270, as applicable.  (fontSize: 11, yPos: 48.75) on page 39
+Appended headingContent: §156.270, as applicable.  (b)
+Final heading after truncation: §156.270, as applicable.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Notice of QHP non-availability.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: When, for a subsequent, consecutive
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: certification cycle, a QHP issuer elects
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: not to seek certification with the Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: change, or the Exchange denies certifi-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cation of a QHP, the QHP issuer must
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: provide written notice to each enrollee
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: in the form and manner specified by
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the Secretary under §147.106 of this
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: subchapter.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (c)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Decertification.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: If a QHP is decerti-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: fied by the Exchange, the QHP issuer
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: must terminate the enrollment of en-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: rollees through the Exchange only
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: after:
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (1) The Exchange has made notifica-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tion as described in §155.1080 of this
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: subchapter; and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (2) Enrollees have an opportunity to
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: enroll in other coverage.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: [77 FR 18469, Mar. 27, 2012, as amended at 80       
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: FR 10875, Feb. 27, 2015; 81 FR 94181, Dec. 22,      
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: 2016]
+item.bold: true, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §156.295
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.295 (fontSize: 11, yPos: 48.75) on page 39
+Appended headingContent: §156.295 Prescription drug distribu-
+Appended headingContent: §156.295 Prescription drug distribu- tion and cost reporting by QHP
+Appended headingContent: §156.295 Prescription drug distribu- tion and cost reporting by QHP  issuers.
+Final heading after truncation: §156.295 Prescription drug distribu- tion and cost reporting by QHP  issuers.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (a)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: General requirement.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: In a form,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: manner, and at such times specified by
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: HHS, a QHP issuer that administers a
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: prescription drug benefit without the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: use of a pharmacy benefit manager
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: must provide to HHS the following in-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: formation:
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (1) The percentage of all prescrip-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tions that were provided under the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP through retail pharmacies com-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: pared to mail order pharmacies, and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the percentage of prescriptions for
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: which a generic drug was available and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: dispensed compared to all drugs dis-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: pensed;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (2) The aggregate amount, and the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: type of rebates, discounts or price con-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cessions (excluding bona fide service
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: fees) that the QHP issuer negotiates
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: that are attributable to patient utiliza-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tion under the QHP, and the aggregate
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: amount of the rebates, discounts, or
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: price concessions that are passed
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: through to the QHP issuer, and the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: total number of prescriptions that were
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: dispensed.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (i) Bona fide service fees means fees
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: paid by a manufacturer to an entity
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: that represent fair market value for a
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: bona fide, itemized service actually
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: performed on behalf of the manufac-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: turer that the manufacturer would oth-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: erwise perform (or contract for) in the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: absence of the service arrangement,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: and that are not passed on in whole or
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: in part to a client or customer of an
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: entity, whether or not the entity takes
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: title to the drug.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (ii) [Reserved]
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (b)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Limitation on disclosure.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Informa-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tion disclosed by a QHP issuer under
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: this section shall not be disclosed by
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: VerDate Sep<11>2014
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: 11:32 Nov 02, 2023
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Jkt 259202
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: PO 00000
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Frm 00517
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Fmt 8010
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Sfmt 8010
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Q:\45\45V2.TXT
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: PC31
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 8, item.yPos: 48.75, item.content: aworley on LAPBH6H6L3 with DISTILLER
+[parsePdfWithHeuristics] Page changed to: 40
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 13, item.yPos: 48.75, item.content: 508
+[parsePdfWithHeuristics] matchedHeadingType: title for item: 508  (fontSize: 13, yPos: 48.75) on page 40
+[parsePdfWithHeuristics] Skipping heading #1 on page 40: 508
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 12, item.yPos: 48.75, item.content: 45 CFR Subtitle A (10–1–23 Edition)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 12, item.yPos: 48.75, item.content: §156.330
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.330  (fontSize: 12, yPos: 48.75) on page 40
+[parsePdfWithHeuristics] Skipping heading #2 on page 40: §156.330
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: HHS, except that HHS may disclose the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: information in a form which does not
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: disclose the identity of a specific QHP
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: or prices charged for specific drugs, for
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the following purposes:
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (1) As HHS determines to be nec-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: essary to carry out section 1150A or
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: part D of title XVIII of the Act;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (2) To permit the Comptroller Gen-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: eral to review the information pro-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: vided;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (3) To permit the Director of the Con-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: gressional Budget Office to review the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: information provided; or
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (4) To States to carry out section 1311
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: of the Affordable Care Act.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (c)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Penalties.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: A QHP issuer that fails
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: to report the information described in
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: paragraph (a) of this section to HHS on
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: a timely basis or knowingly provides
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: false information will be subject to the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: provisions of subsection (b)(3)(C) of sec-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tion 1927 of the Act.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: [77 FR 18469, Mar. 27, 2012, as amended at 86       
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: FR 24292, May 5, 2021]
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 13, item.yPos: 48.75, item.content: Subpart D—Standards for Quali-
+[parsePdfWithHeuristics] matchedHeadingType: title for item: Subpart D—Standards for Quali- (fontSize: 13, yPos: 48.75) on page 40
+Appended headingContent: Subpart D—Standards for Quali- fied Health Plan Issuers for
+Appended headingContent: Subpart D—Standards for Quali- fied Health Plan Issuers for  Specific Types of Exchanges
+Final heading after truncation: Subpart D—Standards for Quali- fied Health Plan Issuers for  Specific Types of Exchanges
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: S
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 8.6, item.yPos: 48.75, item.content: OURCE
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: : 78 FR 54143, Aug. 30, 2013, unless
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: otherwise noted.
+item.bold: true, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §156.330
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.330 (fontSize: 11, yPos: 48.75) on page 40
+Appended headingContent: §156.330 Changes of ownership of
+Appended headingContent: §156.330 Changes of ownership of  issuers of Qualified Health Plans in
+Appended headingContent: §156.330 Changes of ownership of  issuers of Qualified Health Plans in  Federally-facilitated Exchanges.
+Final heading after truncation: §156.330 Changes of ownership of  issuers of Qualified Health Plans in  Federally-facilitated Exchanges.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: When a QHP issuer that offers one or
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: more QHPs in a Federally-facilitated
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Exchange undergoes a change of owner-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ship as recognized by the State in
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: which the issuer offers the QHP, the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP issuer must notify HHS of the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: change in a manner to be specified by
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: HHS, and provide the legal name and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Taxpayer Identification Number (TIN)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: of the new owner and the effective date
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: of the change at least 30 days prior to
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the effective date of the change of own-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ership. The new owner must agree to
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: adhere to all applicable statutes and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: regulations.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 10, item.yPos: 48.75, item.content: [78 FR 65096, Oct. 30, 2013]
+item.bold: true, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §156.340
+[parsePdfWithHeuristics] matchedHeadingType: section for item: §156.340 (fontSize: 11, yPos: 48.75) on page 40
+Appended headingContent: §156.340 Standards for downstream
+Appended headingContent: §156.340 Standards for downstream  and delegated entities.
+Final heading after truncation: §156.340 Standards for downstream  and delegated entities.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (a)
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: General requirement.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Effective Oc-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tober 1, 2013, notwithstanding any rela-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: tionship(s) that a QHP issuer may have
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: with delegated and downstream enti-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ties, a QHP issuer maintains responsi-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: bility for its compliance and the com-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: pliance of any of its delegated or down-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: stream entities with all applicable Fed-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: eral standards related to Exchanges.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: The applicable standards depend on the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Exchange model type in which the QHP
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: is offered, as described in paragraphs
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (a)(1) and (2) of this section.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (1) QHP issuers participating in Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: change models that do not use the Fed-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: eral platform, including State Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: changes and State Exchange SHOPs.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHP issuers maintain responsibility
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: for ensuring their downstream and del-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: egated entities comply with the Fed-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: eral standards related to Exchanges,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: including the standards in subpart C of
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: this part with respect to each of its
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: QHPs on an ongoing basis, as well as
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: the Exchange processes, procedures,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: and standards in accordance with sub-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: parts H and K of part 155 and, in the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: small group market, §§155.705 and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: 155.706 of this subchapter, unless the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: standard is specifically applicable to a
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: Federally-facilitated Exchange or FF–
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: SHOP;
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: (2) QHP issuers participating in Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: changes that use the Federal platform,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: including Federally-facilitated Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: changes, FF–SHOPs, SBE–FPs, and
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: SBE–FP–SHOPs. QHP issuers maintain
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: responsibility for ensuring their down-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: stream and delegated entities comply
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: with Federal standards related to Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: changes, including the standards in
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: subpart C of part 156 with respect to
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: each of its QHPs on an ongoing basis,
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: as well as the Exchange processes, pro-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: cedures, and standards in accordance
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: with subparts H and K of part 155 of
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: this subchapter and, in the small group
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: market, §§155.705 and 155.706 of this
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: subchapter if applicable to the Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: change type in which the QHP issuer is
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: operating. QHP issuers are also respon-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: sible for their downstream and dele-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: gated entities’ compliance with the
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: standards of §155.220 of this subchapter
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: with respect to assisting with enroll-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ment in QHPs, and the standards of
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: §§156.705 and 156.715 of this subchapter
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: for maintenance of records and compli-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: ance reviews if applicable to the Ex-
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: change type in which the QHP issuer is
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 11, item.yPos: 48.75, item.content: operating.
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: VerDate Sep<11>2014
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: 11:32 Nov 02, 2023
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Jkt 259202
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: PO 00000
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Frm 00518
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Fmt 8010
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Sfmt 8010
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: Q:\45\45V2.TXT
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 9.5, item.yPos: 48.75, item.content: PC31
+item.bold: false, item.fontFaceId: 0, item.fontName: quicktype,arial,helvetica,sans-serif,item.fontSize: 8, item.yPos: 48.75, item.content: aworley on LAPBH6H6L3 with DISTILLER
+[prepareSharePointPdfsForConversation] Extracting full PDF structure with heuristics:
+{
+  "title": {
+    "font_size_min": 13,
+    "bold": false,
+    "level": 0
+  },
+  "chapter": {
+    "regex": "^Subpart\\s+[A-Z]—",
+    "font_size_min": 13,
+    "bold": false,
+    "level": 1
+  },
+  "section": {
+    "regex": "^§\\d+\\.\\d+",
+    "font_size_min": 11,
+    "bold": true,
+    "level": 2
+  }
+}
+[prepareSharePointPdfsForConversation] Extracting full PDF structure with heuristics
+[prepareSharePointPdfsForConversation] Indexing chunks in Cognitive Search
+[prepareSharePointPdfsForConversation] Saving hierarchy to MongoDB
+[prepareSharePointPdfsForConversation] Updating status to Complete
+[prepareSharePointPdfsForConversation] ERROR: Error: Simulated error for testing retry logic

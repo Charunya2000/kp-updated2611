@@ -1,0 +1,19 @@
+{
+  "fixtureId": "f13000-processed-834",
+  "version": "1.0.0",
+  "businessDate": "20260810",
+  "membershipRecords": [],
+  "recent834Records": [
+    [
+      "111223333",
+      "20260101",
+      "20261231",
+      "Y"
+    ]
+  ],
+  "priorRcnaRecords": [],
+  "expected": {
+    "ruleId": "F13000",
+    "code": "AE500"
+  }
+}

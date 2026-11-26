@@ -1,0 +1,147 @@
+{
+  "name": "smartnote-file-002-best",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "conversation_id",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "line_of_business",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "file_type",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "file_name",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "searchable": true
+    },
+    {
+      "name": "file_category",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "page",
+      "type": "Edm.Int32",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "sortable": true
+    },
+    {
+      "name": "title",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "sortable": true,
+      "searchable": true
+    },
+    {
+      "name": "level",
+      "type": "Edm.Int32",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "sortable": true
+    },
+    {
+      "name": "parentId",
+      "type": "Edm.String",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "root",
+      "type": "Edm.Boolean",
+      "filterable": true,
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "children",
+      "type": "Collection(Edm.String)",
+      "retrievable": true,
+      "stored": true
+    },
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "retrievable": true,
+      "stored": true,
+      "searchable": true
+    },
+    {
+      "name": "content_vector",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "stored": true,
+      "dimensions": 1536,
+      "vectorSearchProfile": "smartnote-config"
+    },
+    {
+      "name": "createdAt",
+      "type": "Edm.DateTimeOffset",
+      "retrievable": true,
+      "stored": true,
+      "sortable": true
+    }
+  ],
+  "scoringProfiles": [],
+  "suggesters": [],
+  "analyzers": [],
+  "normalizers": [],
+  "tokenizers": [],
+  "tokenFilters": [],
+  "charFilters": [],
+  "similarity": {
+    "@odata.type": "#Microsoft.Azure.Search.BM25Similarity"
+  },
+  "vectorSearch": {
+    "algorithms": [
+      {
+        "name": "smartnote-algo",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "metric": "cosine",
+          "m": 4,
+          "efConstruction": 400,
+          "efSearch": 500
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "name": "smartnote-config",
+        "algorithm": "smartnote-algo"
+      }
+    ],
+    "vectorizers": [],
+    "compressions": []
+  }
+}

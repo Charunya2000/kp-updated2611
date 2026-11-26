@@ -1,0 +1,34 @@
+{
+  "indexName": "geisinger-002",
+  "searchFields": [
+    "content",
+    "title",
+    "smart_file_name"
+  ],
+  "selectFields": [
+    "id",
+    "smartnote_id",
+    "smart_file_name",
+    "smart_file_type",
+    "title",
+    "content",
+    "page",
+    "createdAt"
+  ],
+  "strategy": {
+    "keywordTop": 60,
+    "semanticTop": 60,
+    "maxVariants": 4,
+    "maxLobBatches": 8,
+    "maxConversationIdsPerBatch": 120,
+    "maxCandidatesAfterMerge": 220,
+    "selectedDocEvidenceCount": 16,
+    "allLobEvidenceCount": 28,
+    "perDocumentCapAllLob": 4,
+    "evidenceSnippetMaxLength": 1200
+  },
+  "scopeRules": {
+    "selectedDocument": "Force smartnote_id to selected GeisingerConversation id",
+    "allDocsInLob": "Resolve prepared GeisingerConversation ids by LOB alias in team-<teamName>-db.user_collection"
+  }
+}

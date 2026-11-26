@@ -1,0 +1,622 @@
+{
+  "document": "RCNO-RCNA-EPDS-MDW-TestCases",
+  "version": "1.0.0",
+  "generatedFrom": "RCNO-RCNA-834-Detailed-Design.md",
+  "notes": [
+    "This file defines scenario-oriented test data for RCNO-to-RCNA reconciliation.",
+    "Each success case expects RCNO columns 1-73 to echo into RCNA columns 1-73.",
+    "Only fields relevant to rule selection are overridden per case; other RCNO values come from baselineRcnoTemplate.",
+    "N12 remains a blocking case until an approved PSHB code exists."
+  ],
+  "fieldSchemas": {
+    "rcnoFieldOrder": [
+      "Record_Type",
+      "PSHBS_Subscriber_ID", "MENR_Subscriber_ID", "RCNO_Subscriber_ID_Result",
+      "PSHBS_Member_ID", "MENR_Member_ID", "RCNO_Member_ID_Result",
+      "PSHBS_Annuitant_Number", "MENR_Annuitant_Number", "RCNO_Annuitant_Number_Result",
+      "PSHBS_Last_Name", "MENR_Last_Name", "RCNA_Last_Name_Result",
+      "PSHBS_First_Name", "MENR_First_Name", "RCNO_First_Name_Result",
+      "PSHBS_Birth_Date", "MENR_Birth_Date", "RCNO_Birth_Date_Result",
+      "PSHBS_Member_SSN", "MENR_Member_SSN", "RCNO_Member_SSN_Result",
+      "PSHBS_Subscriber_SSN", "MENR_Subscriber_SSN", "RCNO_Subscriber_SSN_Result",
+      "PSHBS_Plan_Code", "MENR_Plan_Code", "RCNO_Plan_Code_Result",
+      "PSHBS_Coverage_Start_Date", "MENR_Coverage_Start_Date", "RCNA_Coverage_Start_Result",
+      "PSHBS_Coverage_End_Date", "MENR_Coverage_End_Date", "RCNO_Coverage_End_Result",
+      "PSHBS_Address_Line1", "MENR_Address_Line1", "RCNO_Address_Line1_Result",
+      "PSHBS_Address_Line2", "MENR_Address_Line2", "RCNO_Address_Line2_Result",
+      "PSHBS_Address_Line3", "MENR_Address_Line3", "RCNO_Address_Line3_Result",
+      "PSHBS_City", "MENR_City", "RCNO_City_Result",
+      "PSHBS_State", "MENR_State", "RCNO_State_Result",
+      "PSHBS_ZIP", "MENR_ZIP", "RCNO_ZIP_Result",
+      "PSHBS_Country", "MENR_Country", "RCNO_Country_Result",
+      "PSHBS_Phone", "MENR_Phone", "RCNO_Phone_Result",
+      "PSHBS_Email", "MENR_Email", "RCNO_Email_Result",
+      "PSHBS_Payroll_Office_Number", "MENR_Payroll_Office_Number", "RCNO_Payroll_Office_Result",
+      "PSHBS_Relationship_Code", "MENR_Relationship_Code", "RCNO_Relationship_Result",
+      "PSHBS_Extended_Cov_End_Date", "MENR_Extended_Cov_End_Date", "RCNO_Extended_Cov_End_Result",
+      "PSHBS_Gender_Code", "MENR_Gender_Code", "RCNO_Gender_Code_Result"
+    ],
+    "mdwEnrollmentFieldOrder": [
+      "kp_mrn", "Coverage_Start_Date", "Coverage_End_Date", "first_name", "last_name", "member_ssn",
+      "member_gender", "Relationship_Code", "plan_code", "Annuitant_Number", "Payroll_Office_Number",
+      "Member_Deceased", "Subscriber_Deceased", "Member_Age", "Not_Disabled", "Subscriber_SSN",
+      "Medicare_Member", "Member_Birth_Date", "Member_Deceased_Date",
+      "Address_Line1", "Address_Line2", "Address_Line3", "City", "State", "ZIP", "Country",
+      "sourceMembershipId"
+    ],
+    "epdsRecent834FieldOrder": [
+      "Member_or_Subscriber_SSN", "Coverage_Start_Date", "Coverage_End_Date", "834_Processed", "sourceTransactionId"
+    ],
+    "rcnaWorkingFieldOrder": [
+      "RCNO_Columns_1_to_73", "Priority", "PSHB_Code", "Code_Description", "Notes", "Aging_Months"
+    ],
+    "rcnaOutboundFieldOrder": [
+      "RCNO_Columns_1_to_73", "Priority", "PSHB_Code", "Code_Description"
+    ]
+  },
+  "templates": {
+    "baselineRcnoTemplate": {
+      "Record_Type": "01",
+      "PSHBS_Subscriber_ID": "SUB001",
+      "MENR_Subscriber_ID": "SUB001",
+      "RCNO_Subscriber_ID_Result": "M",
+      "PSHBS_Member_ID": "MRN001",
+      "MENR_Member_ID": "MRN001",
+      "RCNO_Member_ID_Result": "M",
+      "PSHBS_Annuitant_Number": "ANN001",
+      "MENR_Annuitant_Number": "ANN001",
+      "RCNO_Annuitant_Number_Result": "M",
+      "PSHBS_Last_Name": "DOE",
+      "MENR_Last_Name": "DOE",
+      "RCNA_Last_Name_Result": "M",
+      "PSHBS_First_Name": "JANE",
+      "MENR_First_Name": "JANE",
+      "RCNO_First_Name_Result": "M",
+      "PSHBS_Birth_Date": "19800101",
+      "MENR_Birth_Date": "19800101",
+      "RCNO_Birth_Date_Result": "M",
+      "PSHBS_Member_SSN": "123456789",
+      "MENR_Member_SSN": "123456789",
+      "RCNO_Member_SSN_Result": "M",
+      "PSHBS_Subscriber_SSN": "123456789",
+      "MENR_Subscriber_SSN": "123456789",
+      "RCNO_Subscriber_SSN_Result": "M",
+      "PSHBS_Plan_Code": "KP1",
+      "MENR_Plan_Code": "KP1",
+      "RCNO_Plan_Code_Result": "M",
+      "PSHBS_Coverage_Start_Date": "20250101",
+      "MENR_Coverage_Start_Date": "20250101",
+      "RCNA_Coverage_Start_Result": "M",
+      "PSHBS_Coverage_End_Date": "20251231",
+      "MENR_Coverage_End_Date": "20251231",
+      "RCNO_Coverage_End_Result": "M",
+      "PSHBS_Address_Line1": "100 MAIN ST",
+      "MENR_Address_Line1": "100 MAIN ST",
+      "RCNO_Address_Line1_Result": "M",
+      "PSHBS_Address_Line2": "APT 1",
+      "MENR_Address_Line2": "APT 1",
+      "RCNO_Address_Line2_Result": "M",
+      "PSHBS_Address_Line3": "",
+      "MENR_Address_Line3": "",
+      "RCNO_Address_Line3_Result": "M",
+      "PSHBS_City": "OAKLAND",
+      "MENR_City": "OAKLAND",
+      "RCNO_City_Result": "M",
+      "PSHBS_State": "CA",
+      "MENR_State": "CA",
+      "RCNO_State_Result": "M",
+      "PSHBS_ZIP": "94612",
+      "MENR_ZIP": "94612",
+      "RCNO_ZIP_Result": "M",
+      "PSHBS_Country": "US",
+      "MENR_Country": "US",
+      "RCNO_Country_Result": "M",
+      "PSHBS_Phone": "5105551234",
+      "MENR_Phone": "5105551234",
+      "RCNO_Phone_Result": "M",
+      "PSHBS_Email": "jane.doe@example.com",
+      "MENR_Email": "jane.doe@example.com",
+      "RCNO_Email_Result": "M",
+      "PSHBS_Payroll_Office_Number": "PO123",
+      "MENR_Payroll_Office_Number": "PO123",
+      "RCNO_Payroll_Office_Result": "M",
+      "PSHBS_Relationship_Code": "18",
+      "MENR_Relationship_Code": "18",
+      "RCNO_Relationship_Result": "M",
+      "PSHBS_Extended_Cov_End_Date": "",
+      "MENR_Extended_Cov_End_Date": "",
+      "RCNO_Extended_Cov_End_Result": "M",
+      "PSHBS_Gender_Code": "F",
+      "MENR_Gender_Code": "F",
+      "RCNO_Gender_Code_Result": "M"
+    }
+  },
+  "testCases": [
+    {
+      "id": "TC-A100-PerfectMatch",
+      "scenario": "Rule A100 perfect match",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "M"
+        },
+        "mdwEnrollmentCandidates": [
+          {
+            "kp_mrn": "MRN001",
+            "Coverage_Start_Date": "20250101",
+            "Coverage_End_Date": "20251231",
+            "first_name": "JANE",
+            "last_name": "DOE",
+            "member_ssn": "123456789",
+            "member_gender": "F",
+            "Relationship_Code": "18",
+            "plan_code": "KP1",
+            "Annuitant_Number": "ANN001",
+            "Payroll_Office_Number": "PO123",
+            "Member_Deceased": "N",
+            "Subscriber_Deceased": "N",
+            "Member_Age": "45",
+            "Not_Disabled": "Y",
+            "Subscriber_SSN": "123456789",
+            "Medicare_Member": "N",
+            "Member_Birth_Date": "19800101",
+            "Member_Deceased_Date": "",
+            "Address_Line1": "100 MAIN ST",
+            "Address_Line2": "APT 1",
+            "Address_Line3": "",
+            "City": "OAKLAND",
+            "State": "CA",
+            "ZIP": "94612",
+            "Country": "US",
+            "sourceMembershipId": "MDW-1001"
+          }
+        ],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "A100",
+        "workingRcna": {
+          "Priority": "5",
+          "PSHB_Code": "MM",
+          "Code_Description": "Matches (no action required)",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "5",
+          "PSHB_Code": "MM",
+          "Code_Description": "Matches (no action required)"
+        }
+      }
+    },
+    {
+      "id": "TC-B200-PriorReuse",
+      "scenario": "Rule B200 prior unchanged reuse",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [
+          {
+            "matchesCurrentRcnoColumns1to73": true,
+            "Priority": "4",
+            "PSHB_Code": "CE001",
+            "Code_Description": "OPM to send 834 cancellation",
+            "Aging_Months": "4",
+            "sourcePriorRcnaId": "RCNA-PRIOR-2001"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "B200",
+        "workingRcna": {
+          "Priority": "4",
+          "PSHB_Code": "CE001",
+          "Code_Description": "OPM to send 834 cancellation",
+          "Notes": "",
+          "Aging_Months": "5"
+        },
+        "outboundRcna": {
+          "Priority": "4",
+          "PSHB_Code": "CE001",
+          "Code_Description": "OPM to send 834 cancellation"
+        }
+      }
+    },
+    {
+      "id": "TC-F13000-NoMembership-ProcessedY",
+      "scenario": "Rule F13000 no membership + matching processed recent 834",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F",
+          "PSHBS_Subscriber_SSN": "222334444",
+          "MENR_Subscriber_SSN": "222334444",
+          "PSHBS_Coverage_Start_Date": "20250601",
+          "PSHBS_Coverage_End_Date": "20251231"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [
+          {
+            "Member_or_Subscriber_SSN": "222334444",
+            "Coverage_Start_Date": "20250601",
+            "Coverage_End_Date": "20251231",
+            "834_Processed": "Y",
+            "sourceTransactionId": "EPDS-834-13000-Y"
+          }
+        ],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F13000",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834"
+        }
+      }
+    },
+    {
+      "id": "TC-F14000-NoMembership-ProcessedN",
+      "scenario": "Rule F14000 no membership + matching pending recent 834",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F",
+          "PSHBS_Subscriber_SSN": "555667777",
+          "MENR_Subscriber_SSN": "555667777",
+          "PSHBS_Coverage_Start_Date": "20250701",
+          "PSHBS_Coverage_End_Date": "20251231"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [
+          {
+            "Member_or_Subscriber_SSN": "555667777",
+            "Coverage_Start_Date": "20250701",
+            "Coverage_End_Date": "20251231",
+            "834_Processed": "N",
+            "sourceTransactionId": "EPDS-834-14000-N"
+          }
+        ],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F14000",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE501",
+          "Code_Description": "Carrier to process the 834 enrollment",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE501",
+          "Code_Description": "Carrier to process the 834 enrollment"
+        }
+      }
+    },
+    {
+      "id": "TC-F20000-NoMembership-No834",
+      "scenario": "Rule F20000 no membership + no recent 834",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F",
+          "PSHBS_Subscriber_SSN": "101224444",
+          "MENR_Subscriber_SSN": "101224444",
+          "PSHBS_Member_SSN": "101224444",
+          "MENR_Member_SSN": "101224444",
+          "PSHBS_Coverage_Start_Date": "20250501",
+          "PSHBS_Coverage_End_Date": "20251231"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F20000",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE013",
+          "Code_Description": "OPM to investigate why an 834 was not sent",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE013",
+          "Code_Description": "OPM to investigate why an 834 was not sent"
+        }
+      }
+    },
+    {
+      "id": "TC-I2000-ActiveI-No834",
+      "scenario": "Rule I2000 membership exists + active MENR + no matching recent 834",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I",
+          "MENR_Coverage_Start_Date": "20250101",
+          "MENR_Coverage_End_Date": "20251231",
+          "PSHBS_Coverage_Start_Date": "20240101",
+          "PSHBS_Coverage_End_Date": "20241231"
+        },
+        "mdwEnrollmentCandidates": [
+          {
+            "kp_mrn": "MRN001",
+            "Coverage_Start_Date": "20250101",
+            "Coverage_End_Date": "20251231",
+            "first_name": "JANE",
+            "last_name": "DOE",
+            "member_ssn": "123456789",
+            "member_gender": "F",
+            "Relationship_Code": "18",
+            "plan_code": "KP1",
+            "Annuitant_Number": "ANN001",
+            "Payroll_Office_Number": "PO123",
+            "Member_Deceased": "N",
+            "Subscriber_Deceased": "N",
+            "Member_Age": "45",
+            "Not_Disabled": "Y",
+            "Subscriber_SSN": "123456789",
+            "Medicare_Member": "N",
+            "Member_Birth_Date": "19800101",
+            "Member_Deceased_Date": "",
+            "Address_Line1": "100 MAIN ST",
+            "Address_Line2": "APT 1",
+            "Address_Line3": "",
+            "City": "OAKLAND",
+            "State": "CA",
+            "ZIP": "94612",
+            "Country": "US",
+            "sourceMembershipId": "MDW-2001"
+          }
+        ],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I2000",
+        "workingRcna": {
+          "Priority": "2",
+          "PSHB_Code": "AC004",
+          "Code_Description": "No 834 termination/cancel received; OPM to investigate",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2",
+          "PSHB_Code": "AC004",
+          "Code_Description": "No 834 termination/cancel received; OPM to investigate"
+        }
+      }
+    },
+    {
+      "id": "TC-N0000-NoMembershipForN",
+      "scenario": "Rule N0000 no MDW membership for N result",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N",
+          "MENR_Member_ID": "MRN-NOT-FOUND",
+          "RCNO_Member_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N0000",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "KICKO",
+          "Code_Description": "MRN not found on an N record",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "KICKO",
+          "Code_Description": "MRN not found on an N record"
+        }
+      }
+    },
+    {
+      "id": "TC-N91000-AddressStandardizedEqual",
+      "scenario": "Rule N91000 address mismatch indicators but standardized addresses equal",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N",
+          "RCNO_Address_Line1_Result": "N",
+          "PSHBS_Address_Line1": "100 MAIN STREET",
+          "MENR_Address_Line1": "100 MAIN ST"
+        },
+        "mdwEnrollmentCandidates": [
+          {
+            "kp_mrn": "MRN001",
+            "Coverage_Start_Date": "20250101",
+            "Coverage_End_Date": "20251231",
+            "first_name": "JANE",
+            "last_name": "DOE",
+            "member_ssn": "123456789",
+            "member_gender": "F",
+            "Relationship_Code": "18",
+            "plan_code": "KP1",
+            "Annuitant_Number": "ANN001",
+            "Payroll_Office_Number": "PO123",
+            "Member_Deceased": "N",
+            "Subscriber_Deceased": "N",
+            "Member_Age": "45",
+            "Not_Disabled": "Y",
+            "Subscriber_SSN": "123456789",
+            "Medicare_Member": "N",
+            "Member_Birth_Date": "19800101",
+            "Member_Deceased_Date": "",
+            "Address_Line1": "100 MAIN ST",
+            "Address_Line2": "APT 1",
+            "Address_Line3": "",
+            "City": "OAKLAND",
+            "State": "CA",
+            "ZIP": "94612",
+            "Country": "US",
+            "sourceMembershipId": "MDW-91000"
+          }
+        ],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N91000",
+        "workingRcna": {
+          "Priority": "3",
+          "PSHB_Code": "DM512",
+          "Code_Description": "No action required",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3",
+          "PSHB_Code": "DM512",
+          "Code_Description": "No action required"
+        }
+      }
+    },
+    {
+      "id": "TC-N12000-Blocking-UnresolvedCode",
+      "scenario": "Rule N12000 should block until final code is approved",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N",
+          "RCNO_Plan_Code_Result": "N",
+          "RCNA_Coverage_Start_Result": "N",
+          "RCNO_Coverage_End_Result": "N",
+          "PSHBS_Plan_Code": "KP2",
+          "MENR_Plan_Code": "KP1"
+        },
+        "mdwEnrollmentCandidates": [
+          {
+            "kp_mrn": "MRN001",
+            "Coverage_Start_Date": "20250101",
+            "Coverage_End_Date": "20251231",
+            "first_name": "JANE",
+            "last_name": "DOE",
+            "member_ssn": "123456789",
+            "member_gender": "F",
+            "Relationship_Code": "18",
+            "plan_code": "KP1",
+            "Annuitant_Number": "ANN001",
+            "Payroll_Office_Number": "PO123",
+            "Member_Deceased": "N",
+            "Subscriber_Deceased": "N",
+            "Member_Age": "45",
+            "Not_Disabled": "Y",
+            "Subscriber_SSN": "123456789",
+            "Medicare_Member": "N",
+            "Member_Birth_Date": "19800101",
+            "Member_Deceased_Date": "",
+            "Address_Line1": "100 MAIN ST",
+            "Address_Line2": "APT 1",
+            "Address_Line3": "",
+            "City": "OAKLAND",
+            "State": "CA",
+            "ZIP": "94612",
+            "Country": "US",
+            "sourceMembershipId": "MDW-N12000"
+          }
+        ],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N12000",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE999",
+          "Code_Description": "Manual business review",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "AE999",
+          "Code_Description": "Manual business review"
+        }
+      }
+    },
+    {
+      "id": "TC-NoRule99999-CatchAllDefault",
+      "scenario": "Fallback when no rule/catch-all applies",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N",
+          "RCNO_Member_ID_Result": "M",
+          "RCNO_Annuitant_Number_Result": "M",
+          "RCNA_Last_Name_Result": "M",
+          "RCNO_First_Name_Result": "M",
+          "RCNO_Birth_Date_Result": "M",
+          "RCNO_Member_SSN_Result": "M",
+          "RCNO_Subscriber_SSN_Result": "M",
+          "RCNO_Plan_Code_Result": "M",
+          "RCNA_Coverage_Start_Result": "M",
+          "RCNO_Coverage_End_Result": "M",
+          "RCNO_Address_Line1_Result": "M",
+          "RCNO_Address_Line2_Result": "M",
+          "RCNO_Address_Line3_Result": "M",
+          "RCNO_City_Result": "M",
+          "RCNO_State_Result": "M",
+          "RCNO_ZIP_Result": "M",
+          "RCNO_Country_Result": "M",
+          "RCNO_Phone_Result": "M",
+          "RCNO_Email_Result": "M",
+          "RCNO_Payroll_Office_Result": "M",
+          "RCNO_Relationship_Result": "M",
+          "RCNO_Extended_Cov_End_Result": "M",
+          "RCNO_Gender_Code_Result": "M"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": []
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "No_rule99999",
+        "workingRcna": {
+          "Priority": "1",
+          "PSHB_Code": "0000",
+          "Code_Description": "No Rules Applied",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1",
+          "PSHB_Code": "0000",
+          "Code_Description": "No Rules Applied"
+        }
+      }
+    }
+  ]
+}

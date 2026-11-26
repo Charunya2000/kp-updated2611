@@ -1,0 +1,104 @@
+loop,segment_id,segment_description,table,business_object,segment_ref,column,data_type,context,notes
+Header,ISA,Interchange Control Header,TAP_IDENTIFIER,trading-partner,ISA05,INTERCHANGE_ID_QUALIFIER,VARCHAR2(40 BYTE),sender,EDI sender qualifier (carrier expects tax-id based qualifier).
+Header,ISA,Interchange Control Header,TAP_IDENTIFIER,trading-partner,ISA06,INTERCHANGE_ID,VARCHAR2(40 BYTE),sender,Interchange sender id supplied by TPA or sponsor.
+Header,ISA,Interchange Control Header,TAP_IDENTIFIER,trading-partner,ISA07,INTERCHANGE_ID_QUALIFIER,VARCHAR2(40 BYTE),receiver,Receiver qualifier maintained for the Kaiser trading partner.
+Header,ISA,Interchange Control Header,TAP_IDENTIFIER,trading-partner,ISA08,INTERCHANGE_ID,VARCHAR2(40 BYTE),receiver,Receiver id (076011108LGAP) bound to the carrier row.
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA09,INFO_RECEIVED_INSTANT_TIMESTAMP,TIMESTAMP(6),,Date component of interchange creation.
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA10,INFO_RECEIVED_INSTANT_TIMESTAMP,TIMESTAMP(6),,Time component of interchange creation (same row as ISA09).
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA13,RUN_ID,VARCHAR2(255 BYTE),,Unique interchange control number.
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA14,ALLOW_EXTERNAL_ERROR_HANDLING,VARCHAR2(20 BYTE),,Y/N flag when ISA14 requests 997/999 acknowledgments.
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA15,SPECIAL_PROCESSING_TYPE_CODE,VARCHAR2(20 BYTE),,Production/Test indicator copied directly from ISA15.
+Header,ISA,Interchange Control Header,TAP_INFORMATION_LOAD,file-run,ISA16,INITIAL_GROUPER_SETTING,VARCHAR2(255 BYTE),,Persist component element separator for audit/debug.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS02,TRADING_PARTNER_ID,VARCHAR2(255 BYTE),,Sender's Federal Tax ID.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS03,TRADING_PARTNER_FILE_NAME,VARCHAR2(255 BYTE),,Application receiver code (GGATRTNSYSINPTY).
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS04,INFO_RECEIVED_INSTANT_TIMESTAMP,TIMESTAMP(6),,Date portion for the functional group.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS05,INFO_RECEIVED_INSTANT_TIMESTAMP,TIMESTAMP(6),,Time portion for the functional group.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS06,BATCH_RUN_NUMBER,NUMBER,,Group control number mirrored into the run record.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS07,REVIEW_GROUP_CODE,VARCHAR2(20 BYTE),,Responsible agency (X) captured for downstream validation.
+Header,GS,Functional Group Header,TAP_INFORMATION_LOAD,file-run,GS08,MANUAL_TRANSACTION_TYPE_CODE,VARCHAR2(20 BYTE),,Version/Release identifier (005010X220A1).
+Header,ST,Transaction Set Header,TAP_STAGING_COMPANION,transaction,ST01,TRANSACTION_TYPE_CODE,VARCHAR2(20 BYTE),,834 transaction indicator.
+Header,ST,Transaction Set Header,TAP_STAGING_COMPANION,transaction,ST02,TRANSACTION_ID,VARCHAR2(255 BYTE),,Transaction set control number.
+Header,ST,Transaction Set Header,TAP_STAGING_COMPANION,transaction,ST03,SUBTYPE_CODE,VARCHAR2(20 BYTE),,Implementation reference kept for validation.
+Header,BGN,Beginning Segment,TAP_STAGING_COMPANION,transaction,BGN01,FILING_STATUS_CODE,VARCHAR2(20 BYTE),,Transaction purpose (00 original).
+Header,BGN,Beginning Segment,TAP_STAGING_COMPANION,transaction,BGN02,TRANSACTION_ID,VARCHAR2(255 BYTE),,Tie-back to ST02 for uniqueness.
+Header,BGN,Beginning Segment,TAP_STAGING_COMPANION,transaction,BGN03,APPLICATION_TIMESTAMP,TIMESTAMP(6),,Creation date.
+Header,BGN,Beginning Segment,TAP_STAGING_COMPANION,transaction,BGN04,APPLICATION_TIMESTAMP,TIMESTAMP(6),,Creation time component.
+Header,BGN,Beginning Segment,TAP_INFORMATION_LOAD,file-run,BGN08,IS_FULL_FILE_IND,VARCHAR2(20 BYTE),,"Map 2=Change, 4=Verify, RX=Replace to downstream run type."
+Header,SE,Transaction Set Trailer,TAP_INFORMATION_LOAD,file-run,SE01,TOTAL_RECORDS,NUMBER,,Number of segments counted for auditing.
+Header,SE,Transaction Set Trailer,TAP_INFORMATION_LOAD,file-run,SE02,INITIAL_OUTSTANDING_CLEAN_COUNT,NUMBER,,Mirror ST02 to maintain segment totals per run.
+Header,GE,Functional Group Trailer,TAP_INFORMATION_LOAD,file-run,GE01,TOTAL_APPLIED_CLEAN,NUMBER,,Count of ST transactions in the group.
+Header,GE,Functional Group Trailer,TAP_INFORMATION_LOAD,file-run,GE02,BATCH_RUN_NUMBER,NUMBER,,Must match GS06 for balancing.
+Header,IEA,Interchange Control Trailer,TAP_INFORMATION_LOAD,file-run,IEA01,TOTAL_RECORDS,NUMBER,,Functional group count for the interchange.
+Header,IEA,Interchange Control Trailer,TAP_INFORMATION_LOAD,file-run,IEA02,RUN_ID,VARCHAR2(255 BYTE),,Must equal ISA13.
+1000A,N1,Sponsor,TAP_PLAN_GROUP,plan-group,N102,PLAN_GROUP_NAME,VARCHAR2(255 BYTE),,Client or sponsor name.
+1000A,N1,Sponsor,TAP_PLAN_GROUP,plan-group,N103,GROUP_ID_TYPE,VARCHAR2(20 BYTE),,Identification qualifier (FI).
+1000A,N1,Sponsor,TAP_PLAN_GROUP,plan-group,N104,PLAN_GROUP_ID,VARCHAR2(255 BYTE),,Sponsor tax id / identifier.
+1000B,N1,Payer,TAP_CARRIER,carrier,N102,CARRIER_NAME,VARCHAR2(255 BYTE),,Insurer name (Kaiser Permanente).
+1000B,N1,Payer,TAP_CARRIER,carrier,N103,CARRIER_TYPE_CODE,VARCHAR2(20 BYTE),,Qualifier (FI) captured as type.
+1000B,N1,Payer,TAP_CARRIER,carrier,N104,CARRIER_ID,VARCHAR2(255 BYTE),,Carrier tax id.
+1000C,N1,Third Party Administrator,TAP_STAGING_COMPANION_TPA_BROKER,tpa,N102,TPA_BROKER_NAME,VARCHAR2(255 BYTE),,TPA legal name.
+1000C,N1,Third Party Administrator,TAP_STAGING_COMPANION_TPA_BROKER,tpa,N103,TPA_BROKER_ID_TYPE_CODE,VARCHAR2(20 BYTE),,Identification qualifier (FI).
+1000C,N1,Third Party Administrator,TAP_STAGING_COMPANION_TPA_BROKER,tpa,N104,TPA_BROKER_ID,VARCHAR2(40 BYTE),,TPA tax id.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS01,PERSON_TYPE_CODE,VARCHAR2(20 BYTE),,Y=Subscriber maps to SUB/DEP indicator.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS02,PERSON_REL_TO_SUBSCRIBER_CODE,VARCHAR2(40 BYTE),,Individual relationship.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS03,MAINTENANCE_TYPE_CODE,VARCHAR2(20 BYTE),,Maintenance type (001/021/024/030).
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS04,MAINTENANCE_REASON_CODE,VARCHAR2(20 BYTE),,Reason (XN/AI).
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS05,BENEFIT_STATUS_CODE,VARCHAR2(20 BYTE),,A/C/S/T codes.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS06,MEDICARE_PLAN_CODE,VARCHAR2(40 BYTE),,Medicare indicator (D/E).
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS07,LATE_ENROLLMENT_IND,VARCHAR2(20 BYTE),,COBRA qualifying indicator.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS08,SUBSCRIBER_EMPLOYMENT_STATUS_CODE,VARCHAR2(20 BYTE),,Employment status for subscribers.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS09,PERSON_COVERAGE_ATTRIBUTE,VARCHAR2(255 BYTE),,Map student status to attribute record.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS10,ATTRIBUTE_COMMENT,VARCHAR2(4000 BYTE),,Handicap indicator captured as comment.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS11,DATE_OF_DEATH,DATE,,Qualifier D8 implies CCYYMMDD.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS12,DATE_OF_DEATH,DATE,,Death date value.
+2000,INS,Member Level Detail,TAP_STAGING_COMPANION,member-staging,INS17,PERSON_LINE_NB_INDEX,VARCHAR2(255 BYTE),,Birth sequence number.
+2000,REF,Subscriber SSN,TAP_COVERAGE,coverage,REF02,SUBSCRIBER_SSN,VARCHAR2(50 BYTE),,SSN tied to qualifier 0F.
+2000,REF,Group Number / Purchaser ID,TAP_COVERAGE,coverage,REF02,EMPLOYER_GROUP_NUMBER,VARCHAR2(255 BYTE),,Group number with qualifier 1L.
+2000,REF,Client Number,TAP_COVERAGE,coverage,REF02,EMPLOYEE_ID,VARCHAR2(40 BYTE),,Employee ID (qualifier 23).
+2000,REF,Subgroup Number,TAP_PLAN_GROUP,plan-group,REF02,ELIGIBILITY_SUBGROUP_ID,VARCHAR2(8 BYTE),,Subgroup DX qualifier.
+2000,REF,Bill Group,TAP_PLAN_GROUP,plan-group,REF02,PPG_GROUP_SUBGROUP,VARCHAR2(60 BYTE),,Billing group (qualifier ZZ).
+2000,DTP,Member Level Dates,TAP_COVERAGE,coverage,DTP01,SUBSCRIBER_EMPLOYMENT_DATE,DATE,,Date qualifier 336 captured as hire date.
+2000,DTP,Member Level Dates,TAP_COVERAGE,coverage,DTP03,SUBSCRIBER_EMPLOYMENT_DATE,DATE,,Actual hire date value.
+2100A,NM1,Member Name,TAP_PERSON,person,NM103,LAST_NAME,VARCHAR2(255 BYTE),,Last name.
+2100A,NM1,Member Name,TAP_PERSON,person,NM104,FIRST_NAME,VARCHAR2(255 BYTE),,First name.
+2100A,NM1,Member Name,TAP_PERSON,person,NM105,MIDDLE_NAME,VARCHAR2(255 BYTE),,Middle initial.
+2100A,NM1,Member Name,TAP_PERSON,person,NM106,PREFIX,VARCHAR2(20 BYTE),,Name prefix.
+2100A,NM1,Member Name,TAP_PERSON,person,NM107,SUFFIX,VARCHAR2(20 BYTE),,Name suffix.
+2100A,NM1,Member Name,TAP_PERSON_EXTERNAL_IDENTIFIER,person-id,NM108,IDENTIFICATION_TYPE_CODE,VARCHAR2(20 BYTE),,Identification qualifier (34).
+2100A,NM1,Member Name,TAP_PERSON_EXTERNAL_IDENTIFIER,person-id,NM109,IDENTIFICATION_VALUE,VARCHAR2(40 BYTE),,SSN or other identifier.
+2100A,PER,Member Communications,TAP_PERSON_PHONE,person-phone,PER03,PHONE_TYPE_CODE,VARCHAR2(20 BYTE),,Phone qualifier (TE/CP).
+2100A,PER,Member Communications,TAP_PERSON_PHONE,person-phone,PER04,PHONE_NUMBER,VARCHAR2(192 BYTE),,10-digit phone.
+2100A,PER,Member Communications,TAP_PERSON_EMAIL,person-email,PER05,EMAIL_TYPE_CODE,VARCHAR2(255 BYTE),,EM qualifier.
+2100A,PER,Member Communications,TAP_PERSON_EMAIL,person-email,PER06,EMAIL_ADDRESS,VARCHAR2(255 BYTE),,Member email.
+2100A,N3,Member Street Address,TAP_PERSON_ADDRESS,person-address,N301,ADDRESS_LINE_1,VARCHAR2(255 BYTE),,Address line 1.
+2100A,N3,Member Street Address,TAP_PERSON_ADDRESS,person-address,N302,ADDRESS_LINE_2,VARCHAR2(255 BYTE),,Address line 2.
+2100A,N4,Member City/State/Zip,TAP_PERSON_ADDRESS,person-address,N401,CITY,VARCHAR2(255 BYTE),,City.
+2100A,N4,Member City/State/Zip,TAP_PERSON_ADDRESS,person-address,N402,STATE_CODE,VARCHAR2(255 BYTE),,State.
+2100A,N4,Member City/State/Zip,TAP_PERSON_ADDRESS,person-address,N403,POSTAL_CODE,VARCHAR2(255 BYTE),,Postal code.
+2100A,N4,Member City/State/Zip,TAP_PERSON_ADDRESS,person-address,N404,COUNTRY_CODE,VARCHAR2(255 BYTE),,Country when not USA.
+2100A,DMG,Member Demographics,TAP_PERSON,person,DMG02,BIRTH_DATE,DATE,,Birth date.
+2100A,DMG,Member Demographics,TAP_PERSON,person,DMG03,LEGAL_SEX_CODE,VARCHAR2(20 BYTE),,Gender code.
+2100A,DMG,Member Demographics,TAP_PERSON,person,DMG04,MARITAL_STATUS_CODE,VARCHAR2(20 BYTE),,Marital status when sent.
+2100A,DMG,Member Demographics,TAP_PERSON,person,DMG05,RACE_CODE,VARCHAR2(20 BYTE),,Race or ethnicity.
+2100A,LUI,Member Language,TAP_PERSON_LANGUAGE,person-language,LUI01,LANGUAGE_TYPE_CODE,VARCHAR2(20 BYTE),,Language qualifier (LD/LE).
+2100A,LUI,Member Language,TAP_PERSON_LANGUAGE,person-language,LUI02,LANGUAGE_CODE,VARCHAR2(20 BYTE),,Language code.
+2100A,LUI,Member Language,TAP_PERSON_LANGUAGE,person-language,LUI04,PRIMARY_SECONDARY_CODE,VARCHAR2(20 BYTE),,Use indicator (5/6/7/8).
+2200,DSB,Disability Information,TAP_PERSON_COVERAGE_ATTRIBUTE,coverage-attribute,DSB01,PERSON_COVERAGE_ATTRIBUTE,VARCHAR2(255 BYTE),,Disability type code.
+2200,DSB,Disability Information,TAP_PERSON_COVERAGE_ATTRIBUTE,coverage-attribute,DSB08,ATTRIBUTE_COMMENT,VARCHAR2(4000 BYTE),,Optional medical code narrative.
+2300,HD,Health Coverage,TAP_COVERAGE,coverage,HD01,COVERAGE_TYPE_CODE,VARCHAR2(20 BYTE),,Maintenance type for coverage.
+2300,HD,Health Coverage,TAP_COVERAGE,coverage,HD05,COVERAGE_STATUS_CODE,VARCHAR2(20 BYTE),,Coverage level / tier (maps to KP codes).
+2300,HD,Health Coverage,TAP_BENEFIT_PLAN,benefit-plan,HD03,PLAN_TYPE_CODE,VARCHAR2(20 BYTE),,Insurance line code (DEN/HMO).
+2300,HD,Health Coverage,TAP_BENEFIT_PLAN,benefit-plan,HD04,BENEFIT_PLAN_NAME,VARCHAR2(255 BYTE),,Plan coverage description.
+2300,DTP,Health Coverage Dates,TAP_COVERAGE,coverage,DTP01,COVERAGE_START_DATE,DATE,,348 = benefit begin.
+2300,DTP,Health Coverage Dates,TAP_COVERAGE,coverage,DTP01,COVERAGE_END_DATE,DATE,,349 = benefit end.
+2300,DTP,Health Coverage Dates,TAP_COVERAGE,coverage,DTP03,COVERAGE_START_DATE,DATE,,Actual date value for start/end depending on qualifier.
+2320,COB,Coordination of Benefits,TAP_COVERAGE_THIRD_PARTY_PAYER,third-party-payer,COB01,TPP_STATE_EXCHANGE_CODE,VARCHAR2(20 BYTE),,Payer responsibility sequence.
+2320,COB,Coordination of Benefits,TAP_COVERAGE_THIRD_PARTY_PAYER,third-party-payer,COB02,TPP_EXTERNAL_ID,VARCHAR2(255 BYTE),,Policy number / other payer id.
+2320,COB,Coordination of Benefits,TAP_COVERAGE_THIRD_PARTY_PAYER,third-party-payer,COB03,TPP_NAME,VARCHAR2(160 BYTE),,Coordination of benefits indicator (set descriptive name).
+2700,LS,Additional Reporting Categories,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,LS01,CATEGORY_CODE,VARCHAR2(20 BYTE),,Use constant 2700 to open reporting category.
+2750,N1,Reporting Category,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,N102,CATEGORY_VALUE,VARCHAR2(255 BYTE),,"Category label (e.g., New Hire)."
+2750,REF,Reporting Category Reference,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,REF01,CATEGORY_CODE,VARCHAR2(20 BYTE),,Client reporting category qualifier (17).
+2750,REF,Reporting Category Reference,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,REF02,CATEGORY_VALUE,VARCHAR2(255 BYTE),,"Code value (e.g., 20)."
+2750,DTP,Reporting Category Date,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,DTP03,CATEGORY_VALUE,VARCHAR2(255 BYTE),,Effective date stored with code 007 context.
+2710,LX,Reporting Category Member Iteration,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,LX01,LINE_NUMBER,NUMBER,,Sequential number for reporting rows.
+2700-LE,LE,Reporting Category Loop Close,TAP_STAGING_COMPANION_SCRATCH_ITEM,reporting,LE01,CATEGORY_CODE,VARCHAR2(20 BYTE),,Use 2700 to mark loop termination.

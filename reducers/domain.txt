@@ -1,0 +1,154 @@
+document
+  id
+  type
+  nuid
+  createdAt
+  updatedAt
+  createdBy
+  updatedBy
+
+withNameDescription
+  document
+  name
+  description
+
+workflow
+  withNameDescription
+
+metadata
+  withNameDescription
+
+workflowStep
+  parentWorkflow
+  withNameDescription
+
+log
+  eventType ('securitySelect' | 'error' | 'applicationEvent')
+  applicationName ('SmartNotes')
+  applicationCategory ('UploadDocument')
+  nuid (user in session)
+  role (parentName, name)
+  eventTimestamp (if needed)
+  eventDetail (query used to pull mongo data)
+
+
+role
+  withNameDescription
+
+domain
+  withNameDescription
+
+app
+  withNameDescription
+
+workflow
+  withNameDescription
+  appId
+
+completionContext
+  withNameDescription
+
+completionConfig
+  withNameDescription
+
+vectorInsertConfig
+  withNameDescription
+
+vectorizationConfig
+  withNameDescription
+
+vectorSearchConfig
+  withNameDescription
+
+smartNote
+  withNameDescription
+  title
+  prelude
+  completionContextId
+  completionConfigId
+  vectorizationConfigId
+  vectorInsertConfigId
+  vectorSearchConfigId
+
+savedNote
+  document
+  title
+  noteType
+  content
+
+uploadedDocument
+  withNameDescription
+  fileType
+  domainId
+
+context
+  document
+
+source
+  document
+  sourceType
+  sourceId
+
+contextSource
+  document
+  contextId
+  sourceId
+
+savedResponse
+  withNameDescription
+  responseType
+  contextId
+
+designReference
+  withNameDescription
+  fileType
+  domain
+
+jiraIssue
+  withNameDescription
+  key
+  summary
+
+suggestedPrompt
+  withNameDescription
+  
+libraryPrompt
+  withNameDescription
+  libraryType
+  roleId
+  
+chatInteraction
+  document
+
+ 
+  
+
+
+
+searchConfig <=> indexName
+
+searchConfigName
+indexName
+searchConfigIndexName
+
+indexUse = 'designIndex'
+indexName = 'pi-planning-001'
+
+
+
+
+Guiding principles are:
+- strongly decoupled
+
+role
+  persona
+  workflow
+indexes
+context
+configTemplates
+
+Submit a prompt
+- LangGraph
+- LangGraph defined as configuration
+
+

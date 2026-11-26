@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "cfg-comparison-env-overrides-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-env-overrides-v2.json",
+      "documentText": "{\"COMPLIANCE_COMPARISON_MAX_SECTIONS_PER_DOCUMENT\":500,\"COMPLIANCE_COMPARISON_SIMILARITY_THRESHOLD\":0.55,\"COMPLIANCE_COMPARISON_AUTO_MATCH_THRESHOLD\":0.86,\"COMPLIANCE_COMPARISON_LLM_ADJUDICATION_THRESHOLD\":0.72,\"COMPLIANCE_COMPARISON_SECONDARY_MATCH_THRESHOLD\":0.84,\"COMPLIANCE_COMPARISON_MARKDOWN_LIST_LIMIT\":500}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Comparison V2 Config"
+    }
+  ]
+}

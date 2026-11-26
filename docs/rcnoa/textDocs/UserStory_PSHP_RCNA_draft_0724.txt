@@ -1,0 +1,481 @@
+Populated Epic User Story - PSHB RCNA File Creation
+Overview
+Description: Create RCNA output records by evaluating RCNO records against Membership, 834 Enrollment, and Prior RCNA files using deterministic rule sequencing.
+Business Requirement: Automate reconciliation and assign priority, PSHB code and descriptions.
+User Story
+Feature: RCNA File Creation
+As a Reconciliation Analyst
+I want the system to evaluate reconciliation rules in sequence
+So that accurate reconciliation dispositions are assigned.
+Scenario 1: A100 - Perfect Match
+Given a file1_RCNO_CURRENT_ALL record exists
+When RCNO Subscriber ID Result (column 4) equals M
+Then Priority=5; Code=MM; Code Desc=Matches (no action required)
+Scenario 2: B200 - Reuse Prior Decision
+Given current RCNO record exists and matching prior RCNA record exists
+When first 73 columns match
+Then Reuse prior Priority, Code, Description and Aging Months plus 1
+Scenario 3: F1300 - F1 Carrier Match
+Given Rule A and B do not apply and membership matches RCNO
+When RCNO result = F
+Then Priority=1; Code=CE502
+Scenario 4: F2400 - F2 Missing Cancellation
+Given membership exists and coverage mismatch and no 834 exists
+When RCNO result = F
+Then Priority=4; Code=CE001
+Scenario 5: F3500 - F3 834 Processing Issue
+Given coverage mismatch and matching 834 exists
+When RCNO result = F
+Then Priority=4; Code=CE500
+Scenario 6: F4600 - F4 Subscriber Deceased
+Given subscriber deceased
+When RCNO result = F
+Then Priority=1; Code=AE002
+Scenario 7: F5700 - F5 Member Deceased
+Given member deceased
+When RCNO result = F
+Then Priority=1; Code=AE003
+Scenario 8: F6800 - F6 Dependent Aged Out
+Given dependent >26 and not disabled
+When RCNO result = F
+Then Priority=1; Code=AE004
+Scenario 9: F7000 - F7 Invalid Scenario
+Given subscriber age scenario invalid
+When RCNO result = F
+Then Priority=1; Code=Z0000
+Scenario 10: F8000 - F8 Coverage Extension
+Given 31-day extension/end date logic met
+When RCNO result = F
+Then Priority=1; Code=AE502
+Scenario 11: F9000 - F9 Age Out Extension
+Given age-out coverage logic met
+When RCNO result = F
+Then Priority=1; Code=AE504
+Scenario 12: F10000 - F10 Coverage End Correction
+Given coverage end dates differ
+When RCNO result = F
+Then Priority=1; Code=AE010
+Scenario 13: F11000 - F11 Pending Enrollment
+Given 834 exists and not processed
+When RCNO result = F
+Then Priority=1; Code=AE001
+Scenario 14: F12000 - F12 Coverage Match
+Given membership dates match RCNO
+When RCNO result = F
+Then Priority=1; Code=AE502
+Scenario 15: F13000 - F13 No Membership Processed 834
+Given no membership and processed 834 exists
+When RCNO result = F
+Then Priority=1; Code=AE500
+Scenario 16: F14000 - F14 No Membership Unprocessed 834
+Given no membership and unprocessed 834 exists
+When RCNO result = F
+Then Priority=1; Code=AE501
+Scenario 17: F20000 - F20 No Membership No 834
+Given no membership and no 834
+When RCNO result = F
+Then Priority=1; Code=AE013
+Scenario 18: I1000 - I1 Ended Coverage
+Given membership coverage ended
+When RCNO result = I
+Then Priority=2; Code=AC002
+Scenario 19: I2000 - I2 Missing Termination
+Given no termination/cancel transaction
+When RCNO result = I
+Then Priority=2; Code=AC004
+Scenario 20: I3000 - I3 Missing Cancellation
+Given no cancellation found
+When RCNO result = I
+Then Priority=4; Code=CE001
+Scenario 21: I4000 - I4 Processed Enrollment Issue
+Given processed 834 exists but issue remains
+When RCNO result = I
+Then Priority=2; Code=AC500
+Scenario 22: I5000 - I5 Reprocess Required
+Given carrier investigation required
+When RCNO result = I
+Then Priority=4; Code=CE500
+Scenario 23: I6000 - I6 Awaiting Processing
+Given 834 exists not processed
+When RCNO result = I
+Then Priority=2; Code=AC501
+Scenario 24: I7000 - I7 Cancellation Awaiting Processing
+Given cancellation waiting processing
+When RCNO result = I
+Then Priority=4; Code=CE501
+Scenario 25: N0000 - N0 MRN Not Found
+Given MRN missing in membership
+When RCNO result = N
+Then Priority=1; Code=KICKO
+Scenario 26: N1000 - N1 Annuitant Mismatch
+Given annuitant numbers differ
+When RCNO result = N
+Then Priority=3; Code=DM501
+Scenario 27: N2000 - N2 Payroll Mismatch
+Given payroll office differs
+When RCNO result = N
+Then Priority=3; Code=DM508
+Scenario 28: N3000 - N3 Relationship Mismatch
+Given relationship code differs
+When RCNO result = N
+Then Priority=3; Code=DM509
+Scenario 29: N4000 - N4 Partial Last Name
+Given partial last-name mismatch
+When RCNO result = N
+Then Priority=3; Code=DM502
+Scenario 30: N5000 - N5 Partial First Name
+Given partial first-name mismatch
+When RCNO result = N
+Then Priority=3; Code=DM503
+Scenario 31: N4000-1 - N4-1 Last Name
+Given last-name mismatch
+When RCNO result = N
+Then Priority=3; Code=DM001
+Scenario 32: N5000-1 - N5-1 First Name
+Given first-name mismatch
+When RCNO result = N
+Then Priority=3; Code=DM002
+Scenario 33: N5000-2 - N5-2 Death Date
+Given date of death discrepancy
+When RCNO result = N
+Then Priority=3; Code=AE014
+Scenario 34: N6000 - N6 Member SSN
+Given member SSN mismatch
+When RCNO result = N
+Then Priority=3; Code=DM003
+Scenario 35: N7000 - N7 Subscriber SSN
+Given subscriber SSN mismatch
+When RCNO result = N
+Then Priority=3; Code=DM004
+Scenario 36: N8000 - N8 Carrier Member SSN
+Given carrier member SSN mismatch
+When RCNO result = N
+Then Priority=3; Code=DM505
+Scenario 37: N9000 - N9 Carrier Subscriber SSN
+Given carrier subscriber SSN mismatch
+When RCNO result = N
+Then Priority=3; Code=DM506
+Scenario 38: N91000 - N91 Standardized Address Match
+Given addresses standardize to same value
+When RCNO result = N
+Then Priority=3; Code=DM512
+Scenario 39: N92000 - N92 Address Update
+Given addresses remain different
+When RCNO result = N
+Then Priority=3; Code=DM507
+Scenario 40: N10000 - N10 Gender Missing
+Given gender unavailable
+When RCNO result = N
+Then Priority=3; Code=DM006
+Scenario 41: N11000 - N11 Gender Mismatch
+Given gender differs
+When RCNO result = N
+Then Priority=3; Code=DM510
+Scenario 42: N12000 - N12 Manual Review
+Given complex enrollment mismatch
+When RCNO result = N
+Then Priority=1; Code=AE???
+Scenario 43: N13000 - N13 Enrollment Required
+Given enrollment transaction required
+When RCNO result = N
+Then Priority=1; Code=AE501
+Scenario 44: N14000 - N14 Age Out No Action
+Given age-out exception
+When RCNO result = N
+Then Priority=1; Code=AE504
+Scenario 45: N15000 - N15 Birth Date OPM
+Given birth date correction by OPM
+When RCNO result = N
+Then Priority=3; Code=DM007
+Scenario 46: N16000 - N16 Birth Date Carrier
+Given birth date correction by carrier
+When RCNO result = N
+Then Priority=3; Code=DM504
+Scenario 47: AE-1 - Catch-all Active Enrollment
+Given no other rule applies and active enrollment mismatch exists
+When rule evaluated
+Then Priority=1; Code=AE*
+Scenario 48: AC-2 - Catch-all Active Carrier
+Given no other rule applies and active carrier mismatch exists
+When rule evaluated
+Then Priority=2; Code=AC*
+Scenario 49: DM-3 - Catch-all Demographic
+Given no other rule applies and demographic mismatch exists
+When rule evaluated
+Then Priority=3; Code=DM*
+Scenario 50: CE-4 - Catch-all Cancelled Enrollment
+Given no other rule applies and cancelled mismatch exists
+When rule evaluated
+Then Priority=4; Code=CE*
+Scenario 51: No_rule99999 - Default Rule
+Given record exists and no rule applied
+When processing completes
+Then Priority=1; Code=0000; No Rules Applied
+
+
+
+Coding rules Specifications:
+
+
+
+PSHB RCNA Complete Rule Catalog for Testing 
+Rule A (A100) 
+Conditions: 
+•	RCNO Column4 = M 
+Expected Result: 
+Priority=5, Code=MM, No Action Required 
+Rule B (B200) 
+Conditions: 
+•	First 73 columns match Prior RCNA 
+Expected Result: 
+Copy prior Priority, Code, Description, Months 
+Rule F1 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code CE502 
+Rule F2 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code CE001 
+Rule F3 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code CE500 
+Rule F4 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE002 
+Rule F5 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE003 
+Rule F6 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE004 
+Rule F7 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code Z0000 
+Rule F8 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE502 
+Rule F9 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE504 
+Rule F10 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE010 
+Rule F11 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE001 
+Rule F12 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE502 
+Rule F13 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE500 
+Rule F14 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE501 
+Rule F20 
+Conditions: 
+•	See source logic: cancelled/active enrollment conditions, membership and 834 matching requirements. 
+Expected Result: 
+Expected code AE013 
+Rule I1 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code AC002 
+Rule I2 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code AC004 
+Rule I3 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code CE001 
+Rule I4 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code AC500 
+Rule I5 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code CE500 
+Rule I6 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code AC501 
+Rule I7 
+Conditions: 
+•	Carrier enrollment mismatch scenario. 
+Expected Result: 
+Expected code CE501 
+Rule N0 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code KICKO 
+Rule N1 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM501 
+Rule N2 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM508 
+Rule N3 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM509 
+Rule N4 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM502 
+Rule N5 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM503 
+Rule N4-1 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM001 
+Rule N5-1 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM002 
+Rule N5-2 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code AE014 
+Rule N6 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM003 
+Rule N7 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM004 
+Rule N8 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM505 
+Rule N9 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM506 
+Rule N91 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM512 
+Rule N92 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM507 
+Rule N10 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM006 
+Rule N11 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM510 
+Rule N12 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code AE??? 
+Rule N13 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code AE501 
+Rule N14 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code AE504 
+Rule N15 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM007 
+Rule N16 
+Conditions: 
+•	Demographic reconciliation scenario. 
+Expected Result: 
+Expected code DM504 
+AE-1 Catchall 
+Conditions: 
+•	No previous rule applied 
+•	Active enrollment mismatch 
+Expected Result: 
+Code AE* 
+AC-2 Catchall 
+Conditions: 
+•	No previous rule applied 
+•	Carrier enrollment mismatch 
+Expected Result: 
+Code AC* 
+DM-3 Catchall 
+Conditions: 
+•	No previous rule applied 
+•	Demographic mismatch 
+Expected Result: 
+Code DM* 
+CE-4 Catchall 
+Conditions: 
+•	No previous rule applied 
+•	Cancelled enrollment mismatch 
+Expected Result: 
+Code CE* 
+Default Rule 
+Conditions: 
+•	No rules matched 
+Expected Result: 
+Priority=1 Code=0000 
+

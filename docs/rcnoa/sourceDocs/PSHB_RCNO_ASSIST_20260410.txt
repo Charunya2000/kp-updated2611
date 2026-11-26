@@ -1,0 +1,711 @@
+Feature: RCNA File Creation
+
+  # =====================================================================
+  # Global constraints and execution model
+  # =====================================================================
+
+  Background:
+    Given the following input files are available:
+      | File No. | File Name               | Description                    |
+      | File 1   | RCNO file               | Current month RECON file       |
+      | File 3   | Membership system file  | Kaiser membership data         |
+      | File 5   | 834 file (last 30 days) | Recent enrollment transactions |
+      | File 6   | Last month RCNA file    | Prior RCNA file                |
+    And the columns in all files start as "Column 1", "Column 2", etc.
+    And all input column values are trimmed, converted to uppercase, and control characters are removed
+
+
+CRITICAL RULES (DO NOT VIOLATE):
+
+1. DO NOT infer, drop, rename, reorder, or merge columns.
+2. Read ALL columns, including:
+   - empty columns
+   - sparsely populated columns
+   - columns with placeholder values
+3. Ignore Excel formatting, filters, hidden rows, cell styles, comments, and formulas.
+4. Treat the first row as the ONLY header row.
+5. Preserve column order exactly as defined in the schema below.
+6. Treat ALL column values as STRING (no type inference).
+7. Empty cells must be returned as empty strings ("").
+8. Do NOT perform validation, cleansing, or enrichment during ingestion.
+9. If a column has no data in any row, it MUST still appear in the output.
+10. If any column is missing, HALT and return an explicit error listing the missing columns.
+
+
+- Ignore any outputs, variables, or assumptions from previous runs
+- Do not reuse derived values unless they are explicitly provided in the current input
+- Treat this run as stateless
+
+
+---------------------------- file layouts -----------------------------
+File 1 layout
+Read the Excel file using the following fixed schema.
+Do not drop or infer columns.
+
+record:
+  record_type: "01"
+  description: RCNO / RCNA Detail Record
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: Record_Type
+    type: CHAR(2)
+    fixed_value: "01"
+
+  - column: 2
+    name: PSHBS_Subscriber_ID
+    role: INPUT
+
+  - column: 3
+    name: MENR_Subscriber_ID
+    role: INPUT
+
+  - column: 4
+    name: RCNO_Subscriber_ID_Result
+    role: INPUT
+
+  - column: 5
+    name: PSHBS_Member_ID
+    role: INPUT
+
+  - column: 6
+    name: MENR_Member_ID
+    role: INPUT
+
+  - column: 7
+    name: RCNO_Member_ID_Result
+    role: RULE_RESULT
+
+  - column: 8
+    name: PSHBS_Annuitant_Number
+    role: INPUT
+
+  - column: 9
+    name: MENR_Annuitant_Number
+    role: INPUT
+
+  - column: 10
+    name: RCNO_Annuitant_Number_Result
+    role: RULE_RESULT
+
+  - column: 11
+    name: PSHBS_Last_Name
+    role: INPUT
+
+  - column: 12
+    name: MENR_Last_Name
+    role: INPUT
+
+  - column: 13
+    name: RCNA_Last_Name_Result
+    role: RULE_RESULT
+
+  - column: 14
+    name: PSHBS_First_Name
+    role: INPUT
+
+  - column: 15
+    name: MENR_First_Name
+    role: INPUT
+
+  - column: 16
+    name: RCNO_First_Name_Result
+    role: RULE_RESULT
+
+  - column: 17
+    name: PSHBS_Birth_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 18
+    name: MENR_Birth_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 19
+    name: RCNO_Birth_Date_Result
+    role: RULE_RESULT
+
+  - column: 20
+    name: PSHBS_Member_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 21
+    name: MENR_Member_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 22
+    name: RCNO_Member_SSN_Result
+    role: RULE_RESULT
+
+  - column: 23
+    name: PSHBS_Subscriber_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 24
+    name: MENR_Subscriber_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 25
+    name: RCNO_Subscriber_SSN_Result
+    role: RULE_RESULT
+
+  - column: 26
+    name: PSHBS_Plan_Code
+    type: CHAR(3)
+    role: INPUT
+
+  - column: 27
+    name: MENR_Plan_Code
+    type: CHAR(3)
+    role: INPUT
+
+  - column: 28
+    name: RCNO_Plan_Code_Result
+    role: RULE_RESULT
+
+  - column: 29
+    name: PSHBS_Coverage_Start_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 30
+    name: MENR_Coverage_Start_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 31
+    name: RCNA_Coverage_Start_Result
+    role: RULE_RESULT
+
+  - column: 32
+    name: PSHBS_Coverage_End_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 33
+    name: MENR_Coverage_End_Date
+    type: DATE
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 34
+    name: RCNO_Coverage_End_Result
+    role: RULE_RESULT
+
+  - column: 35
+    name: PSHBS_Address_Line1
+    role: INPUT
+
+  - column: 36
+    name: MENR_Address_Line1
+    role: INPUT
+
+  - column: 37
+    name: RCNO_Address_Line1_Result
+    role: RULE_RESULT
+
+  - column: 38
+    name: PSHBS_Address_Line2
+    role: INPUT
+
+  - column: 39
+    name: MENR_Address_Line2
+    role: INPUT
+
+  - column: 40
+    name: RCNO_Address_Line2_Result
+    role: RULE_RESULT
+
+  - column: 41
+    name: PSHBS_Address_Line3
+    role: INPUT
+
+  - column: 42
+    name: MENR_Address_Line3
+    role: INPUT
+
+  - column: 43
+    name: RCNO_Address_Line3_Result
+    role: RULE_RESULT
+
+  - column: 44
+    name: PSHBS_City
+    role: INPUT
+
+  - column: 45
+    name: MENR_City
+    role: INPUT
+
+  - column: 46
+    name: RCNO_City_Result
+    role: RULE_RESULT
+
+  - column: 47
+    name: PSHBS_State
+    type: CHAR(2)
+    role: INPUT
+
+  - column: 48
+    name: MENR_State
+    type: CHAR(2)
+    role: INPUT
+
+  - column: 49
+    name: RCNO_State_Result
+    role: RULE_RESULT
+
+  - column: 50
+    name: PSHBS_ZIP
+    role: INPUT
+
+  - column: 51
+    name: MENR_ZIP
+    role: INPUT
+
+  - column: 52
+    name: RCNO_ZIP_Result
+    role: RULE_RESULT
+
+  - column: 53
+    name: PSHBS_Country
+    role: INPUT
+
+  - column: 54
+    name: MENR_Country
+    role: INPUT
+
+  - column: 55
+    name: RCNO_Country_Result
+    role: RULE_RESULT
+
+  - column: 56
+    name: PSHBS_Phone
+    role: INPUT
+
+  - column: 57
+    name: MENR_Phone
+    role: INPUT
+
+  - column: 58
+    name: RCNO_Phone_Result
+    role: RULE_RESULT
+
+  - column: 59
+    name: PSHBS_Email
+    role: INPUT
+
+  - column: 60
+    name: MENR_Email
+    role: INPUT
+
+  - column: 61
+    name: RCNO_Email_Result
+    role: RULE_RESULT
+
+  - column: 62
+    name: PSHBS_Payroll_Office_Number
+    role: INPUT
+
+  - column: 63
+    name: MENR_Payroll_Office_Number
+    role: INPUT
+
+  - column: 64
+    name: RCNO_Payroll_Office_Result
+    role: RULE_RESULT
+
+  - column: 65
+    name: PSHBS_Relationship_Code
+    role: INPUT
+
+  - column: 66
+    name: MENR_Relationship_Code
+    role: INPUT
+
+  - column: 67
+    name: RCNO_Relationship_Result
+    role: RULE_RESULT
+
+  - column: 68
+    name: PSHBS_Extended_Cov_End_Date
+    role: INPUT
+
+  - column: 69
+    name: MENR_Extended_Cov_End_Date
+    role: INPUT
+
+  - column: 70
+    name: RCNO_Extended_Cov_End_Result
+    role: RULE_RESULT
+
+  - column: 71
+    name: PSHBS_Gender_Code
+    role: INPUT
+
+  - column: 72
+    name: MENR_Gender_Code
+    role: INPUT
+
+  - column: 73
+    name: RCNO_Gender_Code_Result
+    role: RULE_RESULT
+
+file 3 layout
+
+record:
+  name: layoutkp_mrn
+  description: KP Membership Reference Layout
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: kp_mrn
+    type: string
+    role: INPUT
+    key: true
+
+  - column: 2
+    name: Coverage_Start_Date
+    type: date
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 3
+    name: Coverage_End_Date
+    type: date
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 4
+    name: first_name
+    type: string
+    role: INPUT
+
+  - column: 5
+    name: last_name
+    type: string
+    role: INPUT
+
+  - column: 6
+    name: member_ssn
+    type: char(9)
+    role: INPUT
+
+  - column: 7
+    name: member_gender
+    type: string
+    allowed_values: ["M", "F", "U"]
+    role: INPUT
+
+  - column: 8
+    name: Relationship_Code
+    type: string
+    role: INPUT
+
+  - column: 9
+    name: plan_code
+    type: char(3)
+    role: INPUT
+
+  - column: 10
+    name: Annuitant_Number
+    type: string
+    role: INPUT
+
+  - column: 11
+    name: Payroll_Office_Number
+    type: string
+    role: INPUT
+
+constraints:
+  expose_source_identity: false
+  allow_derived_fields: false
+
+
+
+file 5 layout
+
+record:
+  name: layoutENROLL_834
+  description: ENROLL_834 Enrollment Transaction Layout
+  source_system: ENROLL_834
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: Member_ssn
+    type: char(9)
+    role: INPUT
+    required: true
+
+  - column: 2
+    name: Coverage_End_Date
+    type: date
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 3
+    name: Coverage_Start_Date
+    type: date
+    format: YYYYMMDD
+    role: INPUT
+    required: true
+
+constraints:
+  allow_derived_fields: false
+  expose_source_identity: false
+  use_for_rule_evaluation_only: true
+``
+
+
+file 6 layout
+
+  name: RCNA_Record_01
+  record_type: "01"
+  description: RCNO / RCNA Detail Record with Rule Metadata
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+
+first 73 columns same as file 1
+
+- column: 74
+    name: priority
+    role: OUTPUT
+    description: Rule execution priority
+
+  - column: 75
+    name: code
+    role: OUTPUT
+    description: Applied rule code
+
+  - column: 76
+    name: code_desc
+    role: OUTPUT
+    description: Applied rule description
+
+
+-------------------------------------------------------------------------
+    # Excel Schema Preservation – applies to all files
+    And when reading any Excel spreadsheet
+      Then the Excel schema (headers and column order) MUST be treated as authoritative
+      And ALL columns MUST be preserved exactly as they appear in the spreadsheet
+      And NO column may be dropped, skipped, inferred away, or ignored for any reason
+      And columns MUST be retained even if they contain only NULL values, empty cells, control characters, 
+       non‑breaking spaces, whitespace‑only values, or empty‑string formula results
+
+
+
+    # Deterministic rule execution model
+    And the agent MUST operate as a deterministic rule executor
+    And the agent MUST NOT infer intent
+    And the agent MUST NOT optimize outcomes
+    And the agent MUST NOT skip, reorder, or reinterpret rules
+    And the agent MUST NOT apply unstated logic
+    And rules MUST be evaluated strictly in the order defined:
+      | Order | Rule Name   |
+      | 1     | Rule A      |
+      | 2     | Rule B      |
+      | 3     | Rule F-1    |
+      | 4     | DefaultRule |
+    And the coded rules are the single source of truth
+    And natural language reasoning MUST NOT override coded logic
+    And if code and reasoning differ, the coded logic MUST always win
+    And output values MUST be derived ONLY from rule execution
+
+    And no value may be inferred or defaulted
+
+    # Output file contract
+    And the output RCNA file "RCNA_CURRENT.xlsx" MUST be created
+    And "RCNA_CURRENT.xlsx" MUST contain a sheet named "DERIVED_DATA"
+    And for each input RCNO row, exactly one output row MUST be written
+    And each output row MUST contain:
+      | Output Field               |
+      |  76 columns                   |
+  
+    And each output row MUST reference exactly one executed rule
+    And no rule decision may be silently skipped
+    And no output value may be inferred
+
+  # =====================================================================
+  # Rule A
+  # =====================================================================
+
+  @RuleA
+  Scenario: Apply Rule A
+    Given a file1 RCNO record exists
+    When file1.column4 is equal to "M" or file1.column4 is equal to "Z"
+    Then create a new RCNA row using File 6 schema (76 columns)
+    and copy columns 1 through 73 from File 1 into the RCNA row
+
+    And
+        append  RCNA.column74 = "2" 
+    And
+        append  RCNA.column75 = "ZM" 
+    And
+        append  RCNA.column76 = "COPY ZM" 
+
+    And do not add any other columns beyond the copied 73 columns and these three derived columns
+    And preserve column order so that:
+      | position | description                                  |
+      | 1-73     | RCNO                                         |
+      | 74       | derived field "priority"                     |
+      | 75       | derived field "code"                         |
+      | 76       | derived field "code_desc"                    |
+
+       Do not add any other columns beyond the copied 73 columns and the three derived columns listed above.
+       Preserve column order: copied columns first, then priority, code, code_desc
+
+    And do not apply any other rules for this file1 record
+
+  # =====================================================================
+  # Rule B
+  # =====================================================================
+
+  @RuleB
+  Scenario: Apply Rule B
+    Given a file1 RCNO record exists
+    And a matching file6 RCNA record exists such that
+        the first 73 columns of the file1 record are equal to the first 73 columns of the file6 record
+    When Rule A does not apply to this file1 record
+    Then create a new RCNA row using File 6 schema (76 columns)
+    and copy columns 1 through 73 from File 1 into the RCNA row
+    And
+        append  RCNA.column74 = "1" 
+    And
+        append  RCNA.column75 = "Copy" 
+    And
+        append  RCNA.column76 = "Last RCNA" 
+
+    
+    And do not add any other columns beyond the copied 73 columns and these three derived columns
+    And preserve column order so that:
+      | position | description                                  |
+      | 1-73     | RCNO                                         |
+      | 74       | derived field "priority"                     |
+      | 75       | derived field "code"                         |
+      | 76       | derived field "code_desc"                    |
+
+
+       Do not add any other columns beyond the copied 73 columns and the three derived columns listed above.
+       Preserve column order: copied columns first, then priority, code, code_desc
+
+
+    And do not apply any other rules for this file1 record
+
+  # =====================================================================
+  # Rule F-1
+  # =====================================================================
+
+  @RuleF1
+  Scenario: Apply Rule F-1
+    Given a file1 RCNO record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And file1.PSHBS_Coverage_End_Date is populated
+    And file1.PSHBS_Coverage_End_Date is not an end-of-year coverage end date
+      # Assumption: an end-of-year coverage end date is any date of the form 12/31/YYYY
+    And a file3 membership record exists such that
+      | file1 field                   | file3 field              |
+      | PSHBS_Coverage_Start_Date     | Coverage_Start_Date      |
+      | PSHBS_Coverage_End_Date       | Coverage_End_Date        |
+      | PSHBS_Last_Name               | last_name                |
+      | PSHBS_First_Name              | first_name               |
+      | PSHBS_Member_SSN              | member_ssn               |
+    When file1.column4 equals "F"
+    Then create a new RCNA row using File 6 schema (76 columns)
+    and copy columns 1 through 73 from File 1 into the RCNA row
+    And
+        append  RCNA.column74 = "1" 
+    And
+        append RCNA.column75 = "F-1" 
+    And
+        append RCNA.column76 = "Enroll" 
+
+    And do not add any other columns beyond the copied 73 columns and these three derived columns
+    And preserve column order so that:
+      | position | description                                  |
+      | 1-73     |  RCNO                                        |
+      | 74       | derived field "priority"                     |
+      | 75       | derived field "code"                         |
+      | 76       | derived field "code_desc"                    |
+
+
+
+      And do not apply any other rules for this file1 record
+
+  
+
+  # =====================================================================
+  # Default Rule
+  # =====================================================================
+
+  @DefaultRule
+  Scenario: Apply Default Rule when no other rules match
+    Given a File 1 RCNO record exists
+    And Rule A does not apply to this File 1 record
+    And Rule B does not apply to this File 1 record
+    And Rule F-1 does not apply to this File 1 record
+    When processing this File 1 record under DefaultRule
+    Then create a new RCNA row using File 6 schema (76 columns)
+    and copy columns 1 through 73 from File 1 into the RCNA row
+    And
+        append  RCNA.column74 = "1" 
+    And
+        append  RCNA.column75 = "Default" 
+    And
+        append  RCNA.column76 = "SKIPPED" 
+
+    And do not add any other columns beyond the copied 73 columns and these three derived columns
+    And preserve column order so that:
+      | position | description                                  |
+      | 1-73     | RCNO                                         |
+      | 74       | derived field "priority"                     |
+      | 75       | derived field "code"                         |
+      | 76       | derived field "code_desc"                    |
+
+
+  # =====================================================================
+  # Output validation, explanation, and error handling
+  # =====================================================================
+
+  @Validation
+  Scenario: Validate and review RCNA output
+    Given RCNA_CURRENT.xlsx has been generated with sheet "DERIVED_DATA"
+    Then display all records from RCNA_CURRENT.DERIVED_DATA
+    And display the total count of records in RCNA_CURRENT.DERIVED_DATA
+    And for every rule (Rule A, Rule B, Rule F-1, DefaultRule) and every file1 input row, 
+       explain why the rule did not apply when it was not selected
+    And perform error analysis on all RCNA rows and rule applications
+    And reprocess any error records according to the same deterministic rule order (Rule A, Rule B, Rule F-1, DefaultRule)
+    And ensure that each RCNA output row references exactly one executed rule 
+    And ensure that no rule decision is silently skipped
+    And ensure that no output value is inferred or defaulted
+    And if any validation step fails
+      Then discard the current RCNA output
+      And re-execute the RCNA File Creation process from the beginning using the same input files

@@ -1,0 +1,38 @@
+This is the configuration for preparing documents for conversation:
+
+```json
+{
+  "pdfParsing": {
+    "minChunkLength": 700,
+    "headingTypes": [
+      { "key": "title", "font_size_min": 16, "y_position_max": 100, "bold": true, "level": 0 },
+      { "key": "chapter", "regex": "^PART\\s\\d+|^Chapter\\s+\\d+", "font_size_min": 14, "level": 1 },
+      { "key": "section", "regex": "^Subpart\\s[A-Z]|^\\d+\\.\\s", "font_size_min": 12, "level": 2 },
+      { "key": "subsection", "regex": "^§?\\s*\\d+\\.\\d+", "font_size_min": 10, "level": 3 }
+    ]
+  },
+  "embedding": {
+    "batchSize": 10,
+    "throttleMs": 250
+  },
+  "azure": {
+    "blobContainer": "compliance-ai",
+    "embeddingsDeployment": "gpt-4o-aisvc",
+    "embeddingsApiVersion": "2023-05-15",
+    "completionsDeployment": "gpt-4o-aisvc",
+    "completionsApiVersion": "2024-08-01-preview",
+    "searchIndex": "geisinger-002"
+  },
+  "indexing": {
+    "defaultFields": [
+      "id", "nuid", "smartnote_id", "smart_file_type", "smart_file_name",
+      "page", "title", "level", "parentId", "root", "children",
+      "content", "content_vector", "createdAt"
+    ]
+  },
+  "categoryClassification": {
+    "categories": ["simple", "moderate", "complex", "regulatory"],
+    "default": "unknown"
+  }
+}
+```

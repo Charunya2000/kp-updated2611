@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@services/*": [
+        "./app/services/*"
+      ],
+      "@clientServices/*": [
+        "./app/clientServices/*"
+      ],
+      "@db/*": [
+        "./db/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@styles/*": [
+        "./styles/*"
+      ],
+      "@reducers/*": [
+        "./reducers/*"
+      ],
+      "@scripts/*": [
+        "./scripts/*"
+      ]
+    }
+  },
+  "include": [
+    "app/**/*.js",
+    "db/**/*.js",
+    "utils/**/*.js",
+    "styles/**/*.js",
+    "reducers/**/*.js",
+    "scripts/**/*.js"
+  ]
+}

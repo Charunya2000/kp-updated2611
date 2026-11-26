@@ -1,0 +1,28 @@
+flowchart TD
+    A["rcnoaProcessingService.processRcnoaRun()<br/>advanceStage('TRANSFORMING')"] --> B["transformRcnoRowsIsolatedInBatches()<br/>rcnoaCore.js"]
+    B --> C["for offset = 0; offset < N; offset += 100"]
+    C --> D["transformRcnoRowsIsolated()<br/>batch of 100 rows"]
+    D --> E["rcnoRecords.forEach(row)"]
+    E --> F["transformer.transform([row])<br/>RcnoToRcnaService.js - SYNCHRONOUS"]
+    F --> G["#createContext()<br/>re-maps + re-filters FULL<br/>membership/recent834/priorRcna<br/>arrays on EVERY row"]
+    G --> H{"Row completes<br/>quickly?"}
+    H -- "Yes" --> I["push to workingRecords/audit<br/>continue forEach loop"]
+    I --> E
+    H -- "No: row hangs or<br/>is extremely slow" --> J["Main thread blocked.<br/>No exception thrown.<br/>Nothing else can run."]
+    J --> K["Batch of 100 NEVER completes"]
+    K --> L["onProgress() NEVER called<br/>(only fires after full batch)"]
+    L --> M["transitionRcnoaRun() heartbeatAt<br/>NEVER refreshed"]
+    M --> N["recoverStaleRcnoaRuns()<br/>heartbeatAt older than<br/>processingInactivityMinutes"]
+    N --> O["Run marked ERROR:<br/>RCNOA_PROCESSING_STALE<br/>after 30-90 min"]
+
+    D --> P["Ordinary thrown errors<br/>ARE caught per row<br/>(try/catch in transformRcnoRowsIsolated)"]
+    P --> Q["Pushed to failures[]<br/>Job continues fine"]
+
+    style J fill:#ffcccc,stroke:#cc0000
+    style K fill:#ffcccc,stroke:#cc0000
+    style L fill:#ffcccc,stroke:#cc0000
+    style M fill:#ffcccc,stroke:#cc0000
+    style O fill:#ff8080,stroke:#cc0000
+    style G fill:#fff3cd,stroke:#cc8800
+    style P fill:#d4edda,stroke:#28a745
+    style Q fill:#d4edda,stroke:#28a745

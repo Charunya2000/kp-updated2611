@@ -1,0 +1,35 @@
+{
+  "conversation": {
+    "id": "fixture-conversation-001",
+    "fileAName": "CHIP Procedures Handbook Dec 2018.pdf",
+    "lob": "CHIP",
+    "preparationVersion": "1"
+  },
+  "sections": [
+    {
+      "heading": "7.2. Complaint Requirements",
+      "startPage": 88,
+      "startIndex": 1000,
+      "endIndex": 3000,
+      "content": "The MCO must maintain complaint procedures and must notify the enrollee of decisions.",
+      "subsections": [
+        {
+          "heading": "7.2.1. First Level Complaint Process",
+          "startPage": 88,
+          "startIndex": 1200,
+          "endIndex": 1999,
+          "content": "The MCO must send a first level complaint acknowledgment letter and complete review within thirty (30) calendar days.",
+          "subsections": []
+        },
+        {
+          "heading": "7.2.2. Second Level Complaint Process",
+          "startPage": 91,
+          "startIndex": 2000,
+          "endIndex": 2600,
+          "content": "The MCO must permit a second level complaint and must complete review within forty five (45) calendar days.",
+          "subsections": []
+        }
+      ]
+    }
+  ]
+}

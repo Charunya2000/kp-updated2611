@@ -1,0 +1,19 @@
+{
+  "similarityThreshold": 0.55,
+  "autoMatchThreshold": 0.86,
+  "llmAdjudicationThreshold": 0.72,
+  "secondaryMatchThreshold": 0.88,
+  "maxTargetCandidatesPerSource": 4,
+  "fallbackSearch": {
+    "enabled": true,
+    "onlyWhenNoPrimaryCandidate": true,
+    "maxVariants": 2,
+    "keywordTop": 18,
+    "semanticTop": 18,
+    "maxCandidatesAfterMerge": 32,
+    "maxTargetCandidatesPerSource": 3,
+    "autoMatchThreshold": 0.9,
+    "llmAdjudicationThreshold": 0.6,
+    "maxSourceOnlyTopicsToProbe": 20
+  }
+}

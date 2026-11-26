@@ -1,0 +1,2059 @@
+{
+  "document": "RCNO-RCNA-Complete-TestCases",
+  "version": "1.0.0",
+  "generatedFrom": "RCNO-RCNA-834-Detailed-Design.md",
+  "notes": [
+    "Comprehensive suite for RCNO-to-RCNA test design coverage.",
+    "Includes all 51 ordered rules from the rule catalog.",
+    "Includes additional validation and determinism scenarios.",
+    "Some scenarios are marked as blocked or requiring business clarification based on Outstanding Questions."
+  ],
+  "strictOrderedCoreSubset": [
+    {
+      "order": 1,
+      "ruleName": "RuleA",
+      "selectedRuleId": "A100"
+    },
+    {
+      "order": 2,
+      "ruleName": "RuleB",
+      "selectedRuleId": "B200"
+    },
+    {
+      "order": 3,
+      "ruleName": "RuleF1",
+      "selectedRuleId": "F1300"
+    },
+    {
+      "order": 4,
+      "ruleName": "RuleF2",
+      "selectedRuleId": "F2400"
+    },
+    {
+      "order": 5,
+      "ruleName": "RuleF3",
+      "selectedRuleId": "F3500"
+    },
+    {
+      "order": 6,
+      "ruleName": "RuleF4",
+      "selectedRuleId": "F4600"
+    },
+    {
+      "order": 7,
+      "ruleName": "RuleF5",
+      "selectedRuleId": "F5700"
+    },
+    {
+      "order": 8,
+      "ruleName": "RuleF6",
+      "selectedRuleId": "F6800"
+    },
+    {
+      "order": 9,
+      "ruleName": "RuleF7",
+      "selectedRuleId": "F7000"
+    }
+  ],
+  "coverageSummary": {
+    "totalCatalogRules": 51,
+    "totalCatalogCases": 51,
+    "totalValidationCases": 10,
+    "totalTestCases": 61,
+    "blockedOrClarificationRequiredRules": []
+  },
+  "fieldSchemas": {
+    "rcnoReference": "Use baselineRcnoTemplate from RCNO-RCNA-EPDS-MDW-TestCases.json",
+    "mdwReference": "Use canonical MDW enrollment candidate fields from section 8.4.2",
+    "epdsReference": "Use canonical EPDS recent enrollment fields from section 8.4.1"
+  },
+  "testCases": [
+    {
+      "id": "CAT-001-A100",
+      "scenario": "Rule-catalog coverage for RuleA (A100)",
+      "category": "rule-catalog",
+      "ruleOrder": 1,
+      "ruleName": "RuleA",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "M"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to M."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "A100",
+        "workingRcna": {
+          "Priority": "5: Matches (no action required)",
+          "PSHB_Code": "MM",
+          "Code_Description": "Matches (no action required)",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "5: Matches (no action required)",
+          "PSHB_Code": "MM",
+          "Code_Description": "Matches (no action required)"
+        }
+      }
+    },
+    {
+      "id": "CAT-002-B200",
+      "scenario": "Rule-catalog coverage for RuleB (B200)",
+      "category": "rule-catalog",
+      "ruleOrder": 2,
+      "ruleName": "RuleB",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [
+          {
+            "matchesCurrentRcnoColumns1to73": true,
+            "Priority": "4: Cancelled Enrollment Mismatch",
+            "PSHB_Code": "CE001 No 834 cancellation received",
+            "Code_Description": "OPM to send 834 cancellation",
+            "Aging_Months": "2",
+            "sourcePriorRcnaId": "PRIOR-B200-01"
+          }
+        ],
+        "predicateHints": [
+          "Ensure RuleA does not match.",
+          "Provide prior RCNA candidate with exact RCNO columns 1-73 match."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "B200",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation",
+          "Notes": "",
+          "Aging_Months": "3"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation"
+        }
+      }
+    },
+    {
+      "id": "CAT-003-F1300",
+      "scenario": "Rule-catalog coverage for RuleF1 (F1300)",
+      "category": "rule-catalog",
+      "ruleOrder": 3,
+      "ruleName": "RuleF1",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F1300",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "CE502 Erroneous cancellation reported on MENR",
+          "Code_Description": "Carrier data matches RCNO; no action",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "CE502 Erroneous cancellation reported on MENR",
+          "Code_Description": "Carrier data matches RCNO; no action"
+        }
+      }
+    },
+    {
+      "id": "CAT-004-F2400",
+      "scenario": "Rule-catalog coverage for RuleF2 (F2400)",
+      "category": "rule-catalog",
+      "ruleOrder": 4,
+      "ruleName": "RuleF2",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F2400",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation"
+        }
+      }
+    },
+    {
+      "id": "CAT-005-F3500",
+      "scenario": "Rule-catalog coverage for RuleF3 (F3500)",
+      "category": "rule-catalog",
+      "ruleOrder": 5,
+      "ruleName": "RuleF3",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F3500",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834"
+        }
+      }
+    },
+    {
+      "id": "CAT-006-F4600",
+      "scenario": "Rule-catalog coverage for RuleF4 (F4600)",
+      "category": "rule-catalog",
+      "ruleOrder": 6,
+      "ruleName": "RuleF4",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F4600",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE002 Deceased Subscriber",
+          "Code_Description": "OPM to match ended coverage",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE002 Deceased Subscriber",
+          "Code_Description": "OPM to match ended coverage"
+        }
+      }
+    },
+    {
+      "id": "CAT-007-F5700",
+      "scenario": "Rule-catalog coverage for RuleF5 (F5700)",
+      "category": "rule-catalog",
+      "ruleOrder": 7,
+      "ruleName": "RuleF5",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F5700",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE003 Deceased Member",
+          "Code_Description": "OPM to match carrier record",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE003 Deceased Member",
+          "Code_Description": "OPM to match carrier record"
+        }
+      }
+    },
+    {
+      "id": "CAT-008-F6800",
+      "scenario": "Rule-catalog coverage for RuleF6 (F6800)",
+      "category": "rule-catalog",
+      "ruleOrder": 8,
+      "ruleName": "RuleF6",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F6800",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE004 Coverage end date set for aged off dependent",
+          "Code_Description": "OPM to investigate missing 834 / age-out handling",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE004 Coverage end date set for aged off dependent",
+          "Code_Description": "OPM to investigate missing 834 / age-out handling"
+        }
+      }
+    },
+    {
+      "id": "CAT-009-F7000",
+      "scenario": "Rule-catalog coverage for RuleF7 (F7000)",
+      "category": "rule-catalog",
+      "ruleOrder": 9,
+      "ruleName": "RuleF7",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F7000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "Z0000",
+          "Code_Description": "Invalid scenario",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "Z0000",
+          "Code_Description": "Invalid scenario"
+        }
+      }
+    },
+    {
+      "id": "CAT-010-F8000",
+      "scenario": "Rule-catalog coverage for RuleF8 (F8000)",
+      "category": "rule-catalog",
+      "ruleOrder": 10,
+      "ruleName": "RuleF8",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F8000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE502 No 834 Enrollment Received",
+          "Code_Description": "Carrier data matches RCNO; no action",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE502 No 834 Enrollment Received",
+          "Code_Description": "Carrier data matches RCNO; no action"
+        }
+      }
+    },
+    {
+      "id": "CAT-011-F9000",
+      "scenario": "Rule-catalog coverage for RuleF9 (F9000)",
+      "category": "rule-catalog",
+      "ruleOrder": 11,
+      "ruleName": "RuleF9",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F9000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE504",
+          "Code_Description": "No action required",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE504",
+          "Code_Description": "No action required"
+        }
+      }
+    },
+    {
+      "id": "CAT-012-F10000",
+      "scenario": "Rule-catalog coverage for RuleF10 (F10000)",
+      "category": "rule-catalog",
+      "ruleOrder": 12,
+      "ruleName": "RuleF10",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F10000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE010 Conflicting enrollment coverage end date",
+          "Code_Description": "OPM to correct coverage end date",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE010 Conflicting enrollment coverage end date",
+          "Code_Description": "OPM to correct coverage end date"
+        }
+      }
+    },
+    {
+      "id": "CAT-013-F11000",
+      "scenario": "Rule-catalog coverage for RuleF11 (F11000)",
+      "category": "rule-catalog",
+      "ruleOrder": 13,
+      "ruleName": "RuleF11",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F11000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE001 Conflicting enrollment coverage start date",
+          "Code_Description": "OPM to correct coverage start date / pending enrollment",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE001 Conflicting enrollment coverage start date",
+          "Code_Description": "OPM to correct coverage start date / pending enrollment"
+        }
+      }
+    },
+    {
+      "id": "CAT-014-F12000",
+      "scenario": "Rule-catalog coverage for RuleF12 (F12000)",
+      "category": "rule-catalog",
+      "ruleOrder": 14,
+      "ruleName": "RuleF12",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F12000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE502 No 834 Enrollment Received",
+          "Code_Description": "Carrier data matches RCNO; no action",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE502 No 834 Enrollment Received",
+          "Code_Description": "Carrier data matches RCNO; no action"
+        }
+      }
+    },
+    {
+      "id": "CAT-015-F13000",
+      "scenario": "Rule-catalog coverage for RuleF13 (F13000)",
+      "category": "rule-catalog",
+      "ruleOrder": 15,
+      "ruleName": "RuleF13",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F13000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE500",
+          "Code_Description": "Carrier to investigate and reprocess the 834"
+        }
+      }
+    },
+    {
+      "id": "CAT-016-F14000",
+      "scenario": "Rule-catalog coverage for RuleF14 (F14000)",
+      "category": "rule-catalog",
+      "ruleOrder": 16,
+      "ruleName": "RuleF14",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F14000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE501 834 Enrollment Awaiting Processing",
+          "Code_Description": "Carrier to process the 834 enrollment",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE501 834 Enrollment Awaiting Processing",
+          "Code_Description": "Carrier to process the 834 enrollment"
+        }
+      }
+    },
+    {
+      "id": "CAT-017-F20000",
+      "scenario": "Rule-catalog coverage for RuleF20 (F20000)",
+      "category": "rule-catalog",
+      "ruleOrder": 17,
+      "ruleName": "RuleF20",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to F.",
+          "Satisfy specific F-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "F20000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE013",
+          "Code_Description": "OPM to investigate why an 834 was not sent",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE013",
+          "Code_Description": "OPM to investigate why an 834 was not sent"
+        }
+      }
+    },
+    {
+      "id": "CAT-018-I1000",
+      "scenario": "Rule-catalog coverage for RuleI1 (I1000)",
+      "category": "rule-catalog",
+      "ruleOrder": 18,
+      "ruleName": "RuleI1",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I1000",
+        "workingRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC002 Active Carrier enrollment now ended",
+          "Code_Description": "OPM to match ended coverage",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC002 Active Carrier enrollment now ended",
+          "Code_Description": "OPM to match ended coverage"
+        }
+      }
+    },
+    {
+      "id": "CAT-019-I2000",
+      "scenario": "Rule-catalog coverage for RuleI2 (I2000)",
+      "category": "rule-catalog",
+      "ruleOrder": 19,
+      "ruleName": "RuleI2",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I2000",
+        "workingRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC004",
+          "Code_Description": "No 834 termination/cancel received; OPM to investigate",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC004",
+          "Code_Description": "No 834 termination/cancel received; OPM to investigate"
+        }
+      }
+    },
+    {
+      "id": "CAT-020-I3000",
+      "scenario": "Rule-catalog coverage for RuleI3 (I3000)",
+      "category": "rule-catalog",
+      "ruleOrder": 20,
+      "ruleName": "RuleI3",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I3000",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE001 No 834 cancellation received",
+          "Code_Description": "OPM to send 834 cancellation"
+        }
+      }
+    },
+    {
+      "id": "CAT-021-I4000",
+      "scenario": "Rule-catalog coverage for RuleI4 (I4000)",
+      "category": "rule-catalog",
+      "ruleOrder": 21,
+      "ruleName": "RuleI4",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I4000",
+        "workingRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC500",
+          "Code_Description": "Carrier to investigate and reprocess processed enrollment",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC500",
+          "Code_Description": "Carrier to investigate and reprocess processed enrollment"
+        }
+      }
+    },
+    {
+      "id": "CAT-022-I5000",
+      "scenario": "Rule-catalog coverage for RuleI5 (I5000)",
+      "category": "rule-catalog",
+      "ruleOrder": 22,
+      "ruleName": "RuleI5",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I5000",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE500",
+          "Code_Description": "Carrier investigation/reprocessing required",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE500",
+          "Code_Description": "Carrier investigation/reprocessing required"
+        }
+      }
+    },
+    {
+      "id": "CAT-023-I6000",
+      "scenario": "Rule-catalog coverage for RuleI6 (I6000)",
+      "category": "rule-catalog",
+      "ruleOrder": 23,
+      "ruleName": "RuleI6",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I6000",
+        "workingRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC501 No 834 Enrollment Received",
+          "Code_Description": "Cancellation/termination awaiting processing",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC501 No 834 Enrollment Received",
+          "Code_Description": "Cancellation/termination awaiting processing"
+        }
+      }
+    },
+    {
+      "id": "CAT-024-I7000",
+      "scenario": "Rule-catalog coverage for RuleI7 (I7000)",
+      "category": "rule-catalog",
+      "ruleOrder": 24,
+      "ruleName": "RuleI7",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to I.",
+          "Satisfy specific I-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "I7000",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE501 834 cancellation awaiting processing",
+          "Code_Description": "Carrier to process cancellation",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE501 834 cancellation awaiting processing",
+          "Code_Description": "Carrier to process cancellation"
+        }
+      }
+    },
+    {
+      "id": "CAT-025-N0000",
+      "scenario": "Rule-catalog coverage for RuleN0 (N0000)",
+      "category": "rule-catalog",
+      "ruleOrder": 25,
+      "ruleName": "RuleN0",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N0000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "KICKO",
+          "Code_Description": "MRN not found on an N record",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "KICKO",
+          "Code_Description": "MRN not found on an N record"
+        }
+      }
+    },
+    {
+      "id": "CAT-026-N1000",
+      "scenario": "Rule-catalog coverage for RuleN1 (N1000)",
+      "category": "rule-catalog",
+      "ruleOrder": 26,
+      "ruleName": "RuleN1",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N1000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM501 Annuitant Number pending update",
+          "Code_Description": "Carrier to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM501 Annuitant Number pending update",
+          "Code_Description": "Carrier to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-027-N2000",
+      "scenario": "Rule-catalog coverage for RuleN2 (N2000)",
+      "category": "rule-catalog",
+      "ruleOrder": 27,
+      "ruleName": "RuleN2",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N2000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM508 Payroll Office Number pending update",
+          "Code_Description": "Carrier to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM508 Payroll Office Number pending update",
+          "Code_Description": "Carrier to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-028-N3000",
+      "scenario": "Rule-catalog coverage for RuleN3 (N3000)",
+      "category": "rule-catalog",
+      "ruleOrder": 28,
+      "ruleName": "RuleN3",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N3000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM509 Relationship Code pending update",
+          "Code_Description": "Carrier to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM509 Relationship Code pending update",
+          "Code_Description": "Carrier to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-029-N4000",
+      "scenario": "Rule-catalog coverage for RuleN4 (N4000)",
+      "category": "rule-catalog",
+      "ruleOrder": 29,
+      "ruleName": "RuleN4",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N4000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM502 Member Last Name pending update",
+          "Code_Description": "OPM to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM502 Member Last Name pending update",
+          "Code_Description": "OPM to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-030-N5000",
+      "scenario": "Rule-catalog coverage for RuleN5 (N5000)",
+      "category": "rule-catalog",
+      "ruleOrder": 30,
+      "ruleName": "RuleN5",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N5000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM503 Member First Name pending update",
+          "Code_Description": "OPM to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM503 Member First Name pending update",
+          "Code_Description": "OPM to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-031-N4000_1",
+      "scenario": "Rule-catalog coverage for RuleN4_1 (N4000-1)",
+      "category": "rule-catalog",
+      "ruleOrder": 31,
+      "ruleName": "RuleN4_1",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N4000-1",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM001 PSHBS Member Last Name truncated or invalid",
+          "Code_Description": "OPM to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM001 PSHBS Member Last Name truncated or invalid",
+          "Code_Description": "OPM to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-032-N5000_1",
+      "scenario": "Rule-catalog coverage for RuleN5_1 (N5000-1)",
+      "category": "rule-catalog",
+      "ruleOrder": 32,
+      "ruleName": "RuleN5_1",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N5000-1",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM002 PSHBS Member First Name truncated or invalid",
+          "Code_Description": "OPM to update member field",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM002 PSHBS Member First Name truncated or invalid",
+          "Code_Description": "OPM to update member field"
+        }
+      }
+    },
+    {
+      "id": "CAT-033-N5000_2",
+      "scenario": "Rule-catalog coverage for RuleN5_2 (N5000-2)",
+      "category": "rule-catalog",
+      "ruleOrder": 33,
+      "ruleName": "RuleN5_2",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N5000-2",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "AE014",
+          "Code_Description": "OPM to correct date of death and coverage end",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "AE014",
+          "Code_Description": "OPM to correct date of death and coverage end"
+        }
+      }
+    },
+    {
+      "id": "CAT-034-N6000",
+      "scenario": "Rule-catalog coverage for RuleN6 (N6000)",
+      "category": "rule-catalog",
+      "ruleOrder": 34,
+      "ruleName": "RuleN6",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N6000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM003 Carrier has more accurate Member SSN",
+          "Code_Description": "OPM to update member SSN",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM003 Carrier has more accurate Member SSN",
+          "Code_Description": "OPM to update member SSN"
+        }
+      }
+    },
+    {
+      "id": "CAT-035-N7000",
+      "scenario": "Rule-catalog coverage for RuleN7 (N7000)",
+      "category": "rule-catalog",
+      "ruleOrder": 35,
+      "ruleName": "RuleN7",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N7000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM004 Carrier has more accurate Subscriber SSN",
+          "Code_Description": "OPM to update subscriber SSN",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM004 Carrier has more accurate Subscriber SSN",
+          "Code_Description": "OPM to update subscriber SSN"
+        }
+      }
+    },
+    {
+      "id": "CAT-036-N8000",
+      "scenario": "Rule-catalog coverage for RuleN8 (N8000)",
+      "category": "rule-catalog",
+      "ruleOrder": 36,
+      "ruleName": "RuleN8",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N8000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM505 Member SSN pending update",
+          "Code_Description": "Carrier to update member SSN",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM505 Member SSN pending update",
+          "Code_Description": "Carrier to update member SSN"
+        }
+      }
+    },
+    {
+      "id": "CAT-037-N9000",
+      "scenario": "Rule-catalog coverage for RuleN9 (N9000)",
+      "category": "rule-catalog",
+      "ruleOrder": 37,
+      "ruleName": "RuleN9",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N9000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM506 Subscriber SSN pending update",
+          "Code_Description": "Carrier to update subscriber SSN",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM506 Subscriber SSN pending update",
+          "Code_Description": "Carrier to update subscriber SSN"
+        }
+      }
+    },
+    {
+      "id": "CAT-038-N91000",
+      "scenario": "Rule-catalog coverage for RuleN91 (N91000)",
+      "category": "rule-catalog",
+      "ruleOrder": 38,
+      "ruleName": "RuleN91",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N91000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM512",
+          "Code_Description": "No action required",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM512",
+          "Code_Description": "No action required"
+        }
+      }
+    },
+    {
+      "id": "CAT-039-N92000",
+      "scenario": "Rule-catalog coverage for RuleN92 (N92000)",
+      "category": "rule-catalog",
+      "ruleOrder": 39,
+      "ruleName": "RuleN92",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N92000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM507 Mailing Address pending update",
+          "Code_Description": "Carrier to update mailing address",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM507 Mailing Address pending update",
+          "Code_Description": "Carrier to update mailing address"
+        }
+      }
+    },
+    {
+      "id": "CAT-040-N10000",
+      "scenario": "Rule-catalog coverage for RuleN10 (N10000)",
+      "category": "rule-catalog",
+      "ruleOrder": 40,
+      "ruleName": "RuleN10",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N10000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM006 Carrier has more accurate Gender Code",
+          "Code_Description": "OPM to update gender",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM006 Carrier has more accurate Gender Code",
+          "Code_Description": "OPM to update gender"
+        }
+      }
+    },
+    {
+      "id": "CAT-041-N11000",
+      "scenario": "Rule-catalog coverage for RuleN11 (N11000)",
+      "category": "rule-catalog",
+      "ruleOrder": 41,
+      "ruleName": "RuleN11",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N11000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM510 Gender Code pending update",
+          "Code_Description": "Carrier to update gender",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM510 Gender Code pending update",
+          "Code_Description": "Carrier to update gender"
+        }
+      }
+    },
+    {
+      "id": "CAT-042-N12000",
+      "scenario": "Rule-catalog coverage for RuleN12 (N12000)",
+      "category": "rule-catalog",
+      "ruleOrder": 42,
+      "ruleName": "RuleN12",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N12000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE999",
+          "Code_Description": "Manual business review",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE999",
+          "Code_Description": "Manual business review"
+        }
+      }
+    },
+    {
+      "id": "CAT-043-N13000",
+      "scenario": "Rule-catalog coverage for RuleN13 (N13000)",
+      "category": "rule-catalog",
+      "ruleOrder": 43,
+      "ruleName": "RuleN13",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N13000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE501 834 Enrollment Awaiting Processing",
+          "Code_Description": "Carrier to process enrollment transaction",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE501 834 Enrollment Awaiting Processing",
+          "Code_Description": "Carrier to process enrollment transaction"
+        }
+      }
+    },
+    {
+      "id": "CAT-044-N14000",
+      "scenario": "Rule-catalog coverage for RuleN14 (N14000)",
+      "category": "rule-catalog",
+      "ruleOrder": 44,
+      "ruleName": "RuleN14",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N14000",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE504",
+          "Code_Description": "No action required",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE504",
+          "Code_Description": "No action required"
+        }
+      }
+    },
+    {
+      "id": "CAT-045-N15000",
+      "scenario": "Rule-catalog coverage for RuleN15 (N15000)",
+      "category": "rule-catalog",
+      "ruleOrder": 45,
+      "ruleName": "RuleN15",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N15000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM007 Carrier has more accurate Date of Birth",
+          "Code_Description": "OPM to update birth date",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM007 Carrier has more accurate Date of Birth",
+          "Code_Description": "OPM to update birth date"
+        }
+      }
+    },
+    {
+      "id": "CAT-046-N16000",
+      "scenario": "Rule-catalog coverage for RuleN16 (N16000)",
+      "category": "rule-catalog",
+      "ruleOrder": 46,
+      "ruleName": "RuleN16",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Set RCNO column 4 result to N.",
+          "Satisfy specific N-family predicate for this rule while failing prior rules."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N16000",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM504 Member Date of Birth pending update",
+          "Code_Description": "Carrier to update birth date",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM504 Member Date of Birth pending update",
+          "Code_Description": "Carrier to update birth date"
+        }
+      }
+    },
+    {
+      "id": "CAT-047-AE_1",
+      "scenario": "Rule-catalog coverage for RuleCatchAE (AE-1)",
+      "category": "rule-catalog",
+      "ruleOrder": 47,
+      "ruleName": "RuleCatchAE",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Ensure all catalog rules fail, then satisfy catch-all precondition."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "AE-1",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE*",
+          "Code_Description": "Active enrollment mismatch",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "AE*",
+          "Code_Description": "Active enrollment mismatch"
+        }
+      }
+    },
+    {
+      "id": "CAT-048-AC_2",
+      "scenario": "Rule-catalog coverage for RuleCatchAC (AC-2)",
+      "category": "rule-catalog",
+      "ruleOrder": 48,
+      "ruleName": "RuleCatchAC",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "I"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Ensure all catalog rules fail, then satisfy catch-all precondition."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "AC-2",
+        "workingRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC*",
+          "Code_Description": "Active carrier enrollment mismatch",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "2: Active Carrier Enrollment Mismatch",
+          "PSHB_Code": "AC*",
+          "Code_Description": "Active carrier enrollment mismatch"
+        }
+      }
+    },
+    {
+      "id": "CAT-049-DM_3",
+      "scenario": "Rule-catalog coverage for RuleCatchDM (DM-3)",
+      "category": "rule-catalog",
+      "ruleOrder": 49,
+      "ruleName": "RuleCatchDM",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Ensure all catalog rules fail, then satisfy catch-all precondition."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "DM-3",
+        "workingRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM*",
+          "Code_Description": "Active demographic mismatch",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "3: Active Demographic Mismatches",
+          "PSHB_Code": "DM*",
+          "Code_Description": "Active demographic mismatch"
+        }
+      }
+    },
+    {
+      "id": "CAT-050-CE_4",
+      "scenario": "Rule-catalog coverage for RuleCatchCE (CE-4)",
+      "category": "rule-catalog",
+      "ruleOrder": 50,
+      "ruleName": "RuleCatchCE",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "F"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Ensure all catalog rules fail, then satisfy catch-all precondition."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "CE-4",
+        "workingRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE*",
+          "Code_Description": "Cancelled enrollment mismatch",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "4: Cancelled Enrollment Mismatch",
+          "PSHB_Code": "CE*",
+          "Code_Description": "Cancelled enrollment mismatch"
+        }
+      }
+    },
+    {
+      "id": "CAT-051-No_rule99999",
+      "scenario": "Rule-catalog coverage for DefaultRule (No_rule99999)",
+      "category": "rule-catalog",
+      "ruleOrder": 51,
+      "ruleName": "DefaultRule",
+      "status": "ready",
+      "input": {
+        "rcnoTemplate": "baselineRcnoTemplate",
+        "rcnoOverrides": {
+          "RCNO_Subscriber_ID_Result": "N"
+        },
+        "mdwEnrollmentCandidates": [],
+        "epds834Candidates": [],
+        "priorRcnaCandidates": [],
+        "predicateHints": [
+          "Ensure no catalog or catch-all rule conditions match."
+        ]
+      },
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "No_rule99999",
+        "workingRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "0000",
+          "Code_Description": "No Rules Applied",
+          "Notes": "",
+          "Aging_Months": "0"
+        },
+        "outboundRcna": {
+          "Priority": "1: Active Enrollment mismatch",
+          "PSHB_Code": "0000",
+          "Code_Description": "No Rules Applied"
+        }
+      }
+    },
+    {
+      "id": "VAL-001-PrimaryFieldCount72",
+      "scenario": "Reject invocation with 72-field RCNO row",
+      "category": "contract-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "INVALID_RCNO_FIELD_COUNT",
+        "errorMessage": "Primary RCNO field count must be exactly 73."
+      }
+    },
+    {
+      "id": "VAL-002-MalformedLookupRow",
+      "scenario": "Reject malformed MDW lookup candidate",
+      "category": "contract-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "INVALID_LOOKUP_FIELD_COUNT",
+        "errorMessage": "Lookup candidate violates canonical contract."
+      }
+    },
+    {
+      "id": "VAL-003-ConflictingDuplicateMembership",
+      "scenario": "Reject conflicting duplicate membership candidates",
+      "category": "determinism-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "AMBIGUOUS_LOOKUP_DUPLICATE",
+        "errorMessage": "Conflicting duplicate membership candidates found."
+      }
+    },
+    {
+      "id": "VAL-004-ConflictingDuplicateRecent834",
+      "scenario": "Reject conflicting duplicate recent enrollment candidates",
+      "category": "determinism-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "AMBIGUOUS_LOOKUP_DUPLICATE",
+        "errorMessage": "Conflicting duplicate recent enrollment candidates found."
+      }
+    },
+    {
+      "id": "VAL-005-NoRuleSelectedImpossible",
+      "scenario": "Engine must always resolve one rule or explicit error",
+      "category": "engine-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "RULE_SELECTION_FAILED",
+        "errorMessage": "No rule selected and no default applied."
+      }
+    },
+    {
+      "id": "VAL-006-InputMutationGuard",
+      "scenario": "Input arrays must remain unchanged after execution",
+      "category": "immutability-validation",
+      "expected": {
+        "outcome": "success",
+        "invariant": "no-input-mutation"
+      }
+    },
+    {
+      "id": "VAL-007-N12ApprovedDefault",
+      "scenario": "N12 uses the approved default code",
+      "category": "business-validation",
+      "expected": {
+        "outcome": "success",
+        "selectedRuleId": "N12000",
+        "code": "AE999"
+      }
+    },
+    {
+      "id": "VAL-008-I4I5CoverageDiscriminator",
+      "scenario": "I4/I5 use active membership coverage as the discriminator",
+      "category": "business-validation",
+      "expected": {
+        "outcome": "success",
+        "discriminator": "membership-coverage-active-on-business-date"
+      }
+    },
+    {
+      "id": "VAL-009-I6I7CoverageDiscriminator",
+      "scenario": "I6/I7 use active membership coverage as the discriminator",
+      "category": "business-validation",
+      "expected": {
+        "outcome": "success",
+        "discriminator": "membership-coverage-active-on-business-date"
+      }
+    },
+    {
+      "id": "VAL-010-AddressStandardizerRequiredForN91N92",
+      "scenario": "N91/N92 requires configured deterministic address standardizer",
+      "category": "business-validation",
+      "expected": {
+        "outcome": "blockingValidationError",
+        "errorCode": "ADDRESS_STANDARDIZER_REQUIRED",
+        "errorMessage": "Address standardizer configuration is required for N91/N92."
+      }
+    }
+  ]
+}

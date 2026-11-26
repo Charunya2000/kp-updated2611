@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "id": "admin-overrides-file",
+      "description": "Admin Geisinger config should override file values for engine and key refs.",
+      "configFile": {
+        "engines": {
+          "prepEngine": "legacy",
+          "conversationEngine": "service3",
+          "comparisonEngine": "service3"
+        },
+        "firstPrinciples": {
+          "searchEndpointKeyRef": "searchEndpoint.new.t3",
+          "searchQueryKeyRef": "aisearch.new.t3.api.key",
+          "searchUploadKeyRef": "aiupload.new.t3.api.key",
+          "chunkIndexName": "compliance-chunks-v1",
+          "requirementIndexName": "compliance-requirements-v1"
+        }
+      },
+      "geisingerConfigDocuments": [
+        {
+          "id": "cfg-admin-1",
+          "inferredLob": "Commercial",
+          "documentText": "{\"engines\":{\"prepEngine\":\"first-principles\",\"conversationEngine\":\"first-principles\",\"comparisonEngine\":\"first-principles\"},\"firstPrinciples\":{\"searchEndpointKeyRef\":\"searchEndpoint.new.t3.admin\",\"searchQueryKeyRef\":\"aisearch.new.t3.api.key.admin\",\"searchUploadKeyRef\":\"aiupload.new.t3.api.key.admin\",\"chunkIndexName\":\"compliance-chunks-v1\",\"requirementIndexName\":\"compliance-requirements-v1\"},\"rolloutScope\":{\"teamAllowlist\":[\"geisinger\"],\"lobAllowlist\":[\"Commercial\"]},\"firstPrinciplesCompare\":{\"sampleSize\":300,\"nearDedupThreshold\":0.92,\"gapRescueThreshold\":0.65,\"enableNearDedup\":true,\"enableGapRescue\":true}}"
+        }
+      ],
+      "inferredLob": "Commercial",
+      "expected": {
+        "config.engines.conversationEngine": "first-principles",
+        "config.engines.prepEngine": "first-principles",
+        "config.firstPrinciples.searchEndpointKeyRef": "searchEndpoint.new.t3",
+        "config.firstPrinciplesCompare.sampleSize": 300,
+        "sources.firstPrinciplesCompare": "admin-document-text",
+        "sources.conversationEngine": "admin",
+        "sources.firstPrinciplesSearchEndpointKeyRef": "code-default"
+      }
+    },
+    {
+      "id": "file-fallback-when-admin-empty",
+      "description": "File config should be used when admin values are absent.",
+      "configFile": {
+        "engines": {
+          "prepEngine": "legacy",
+          "conversationEngine": "first-principles",
+          "comparisonEngine": "service3"
+        },
+        "firstPrinciples": {
+          "searchEndpointKeyRef": "searchEndpoint.new.t3.file",
+          "searchQueryKeyRef": "aisearch.new.t3.api.key.file",
+          "searchUploadKeyRef": "aiupload.new.t3.api.key.file",
+          "chunkIndexName": "compliance-chunks-file",
+          "requirementIndexName": "compliance-requirements-file"
+        }
+      },
+      "geisingerConfigDocuments": [
+        {
+          "id": "cfg-admin-2",
+          "inferredLob": "Commercial"
+        }
+      ],
+      "inferredLob": "Commercial",
+      "expected": {
+        "config.engines.conversationEngine": "first-principles",
+        "config.firstPrinciples.chunkIndexName": "compliance-chunks-file",
+        "sources.conversationEngine": "file",
+        "sources.firstPrinciplesChunkIndexName": "file"
+      }
+    },
+    {
+      "id": "default-fallback-without-file-or-admin",
+      "description": "In-code defaults should be used when both admin and file are missing.",
+      "skipConfigFile": true,
+      "geisingerConfigDocuments": [],
+      "inferredLob": "Marketplace",
+      "expected": {
+        "config.engines.conversationEngine": "service3",
+        "config.firstPrinciples.requirementIndexName": "compliance-requirements-v1",
+        "sources.conversationEngine": "default",
+        "sources.firstPrinciplesRequirementIndexName": "default"
+      }
+    },
+    {
+      "id": "use-vault-maps-first-principles-to-legacy-keys",
+      "description": "When USE_VAULT=true, first-principles key refs intentionally map to legacy/service3 key family.",
+      "env": {
+        "USE_VAULT": "true"
+      },
+      "skipConfigFile": true,
+      "geisingerConfigDocuments": [],
+      "inferredLob": "Commercial",
+      "expected": {
+        "config.firstPrinciples.searchEndpointKeyRef": "searchEndpoint",
+        "config.firstPrinciples.searchQueryKeyRef": "aisearch.api.key",
+        "config.firstPrinciples.searchUploadKeyRef": "aiupload.api.key",
+        "sources.firstPrinciplesSearchEndpointKeyRef": "code-use-vault",
+        "sources.firstPrinciplesSearchQueryKeyRef": "code-use-vault",
+        "sources.firstPrinciplesSearchUploadKeyRef": "code-use-vault"
+      }
+    }
+  ]
+}

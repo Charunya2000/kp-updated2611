@@ -1,0 +1,11 @@
+{
+  "name": "efs-s-x12",
+  "version": "1.0.0",
+  "description": "ClojureScript X12 parser and companion-guide enrichment library",
+  "main": "index.js",
+  "type": "commonjs",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "oracledb": "6.8.0"
+  }
+}

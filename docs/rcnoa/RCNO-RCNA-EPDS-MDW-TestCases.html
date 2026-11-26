@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RCNO-RCNA-EPDS-MDW-TestCases</title>
+  <style>
+    body {
+      font-family: Calibri, Arial, sans-serif;
+      margin: 24px;
+      color: #1f2937;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+    }
+    h1, h2, h3 { margin: 0 0 10px 0; color: #0f3d75; }
+    h1 { font-size: 22pt; margin-bottom: 8px; }
+    h2 { font-size: 16pt; margin-top: 12px; }
+    h3 { font-size: 12pt; margin-top: 10px; }
+    p { margin: 8px 0; }
+    ul, ol { margin: 6px 0 6px 20px; }
+    .muted { color: #6b7280; }
+    .card {
+      border: 1px solid #d5deea;
+      border-radius: 8px;
+      padding: 14px;
+      margin: 14px 0;
+      background: #fbfdff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+    th, td {
+      border: 1px solid #cfd8e3;
+      padding: 6px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #eaf1f9;
+      color: #143a63;
+      font-weight: 700;
+    }
+    td.field {
+      font-weight: 600;
+      background: #f7fbff;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10pt;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .badge.good {
+      color: #14532d;
+      border-color: #86efac;
+      background: #dcfce7;
+    }
+    .badge.bad {
+      color: #7f1d1d;
+      border-color: #fca5a5;
+      background: #fee2e2;
+    }
+    .meta {
+      margin: 6px 0 12px 0;
+      padding: 10px;
+      border-left: 4px solid #93c5fd;
+      background: #f0f7ff;
+    }
+    .page-break {
+      page-break-inside: avoid;
+    }
+    @media print {
+      body { margin: 0.4in; }
+      .page-break { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <h1>RCNO-RCNA-EPDS-MDW-TestCases</h1>
+  <div class="meta">
+    <p><strong>Version:</strong> 1.0.0</p>
+    <p><strong>Generated from:</strong> RCNO-RCNA-834-Detailed-Design.md</p>
+    <p><strong>Total test cases:</strong> 10</p>
+  </div>
+
+  <section class="card">
+    <h2>Notes</h2>
+    <ul><li>This file defines scenario-oriented test data for RCNO-to-RCNA reconciliation.</li><li>Each success case expects RCNO columns 1-73 to echo into RCNA columns 1-73.</li><li>Only fields relevant to rule selection are overridden per case; other RCNO values come from baselineRcnoTemplate.</li><li>N12 remains a blocking case until an approved PSHB code exists.</li></ul>
+  </section>
+
+  <h2>Field Schemas</h2>
+  
+      <section class="card">
+        <h3>rcnoFieldOrder</h3>
+        <ol><li>Record_Type</li><li>PSHBS_Subscriber_ID</li><li>MENR_Subscriber_ID</li><li>RCNO_Subscriber_ID_Result</li><li>PSHBS_Member_ID</li><li>MENR_Member_ID</li><li>RCNO_Member_ID_Result</li><li>PSHBS_Annuitant_Number</li><li>MENR_Annuitant_Number</li><li>RCNO_Annuitant_Number_Result</li><li>PSHBS_Last_Name</li><li>MENR_Last_Name</li><li>RCNA_Last_Name_Result</li><li>PSHBS_First_Name</li><li>MENR_First_Name</li><li>RCNO_First_Name_Result</li><li>PSHBS_Birth_Date</li><li>MENR_Birth_Date</li><li>RCNO_Birth_Date_Result</li><li>PSHBS_Member_SSN</li><li>MENR_Member_SSN</li><li>RCNO_Member_SSN_Result</li><li>PSHBS_Subscriber_SSN</li><li>MENR_Subscriber_SSN</li><li>RCNO_Subscriber_SSN_Result</li><li>PSHBS_Plan_Code</li><li>MENR_Plan_Code</li><li>RCNO_Plan_Code_Result</li><li>PSHBS_Coverage_Start_Date</li><li>MENR_Coverage_Start_Date</li><li>RCNA_Coverage_Start_Result</li><li>PSHBS_Coverage_End_Date</li><li>MENR_Coverage_End_Date</li><li>RCNO_Coverage_End_Result</li><li>PSHBS_Address_Line1</li><li>MENR_Address_Line1</li><li>RCNO_Address_Line1_Result</li><li>PSHBS_Address_Line2</li><li>MENR_Address_Line2</li><li>RCNO_Address_Line2_Result</li><li>PSHBS_Address_Line3</li><li>MENR_Address_Line3</li><li>RCNO_Address_Line3_Result</li><li>PSHBS_City</li><li>MENR_City</li><li>RCNO_City_Result</li><li>PSHBS_State</li><li>MENR_State</li><li>RCNO_State_Result</li><li>PSHBS_ZIP</li><li>MENR_ZIP</li><li>RCNO_ZIP_Result</li><li>PSHBS_Country</li><li>MENR_Country</li><li>RCNO_Country_Result</li><li>PSHBS_Phone</li><li>MENR_Phone</li><li>RCNO_Phone_Result</li><li>PSHBS_Email</li><li>MENR_Email</li><li>RCNO_Email_Result</li><li>PSHBS_Payroll_Office_Number</li><li>MENR_Payroll_Office_Number</li><li>RCNO_Payroll_Office_Result</li><li>PSHBS_Relationship_Code</li><li>MENR_Relationship_Code</li><li>RCNO_Relationship_Result</li><li>PSHBS_Extended_Cov_End_Date</li><li>MENR_Extended_Cov_End_Date</li><li>RCNO_Extended_Cov_End_Result</li><li>PSHBS_Gender_Code</li><li>MENR_Gender_Code</li><li>RCNO_Gender_Code_Result</li></ol>
+      </section>
+    
+      <section class="card">
+        <h3>mdwEnrollmentFieldOrder</h3>
+        <ol><li>kp_mrn</li><li>Coverage_Start_Date</li><li>Coverage_End_Date</li><li>first_name</li><li>last_name</li><li>member_ssn</li><li>member_gender</li><li>Relationship_Code</li><li>plan_code</li><li>Annuitant_Number</li><li>Payroll_Office_Number</li><li>Member_Deceased</li><li>Subscriber_Deceased</li><li>Member_Age</li><li>Not_Disabled</li><li>Subscriber_SSN</li><li>Medicare_Member</li><li>Member_Birth_Date</li><li>Member_Deceased_Date</li><li>Address_Line1</li><li>Address_Line2</li><li>Address_Line3</li><li>City</li><li>State</li><li>ZIP</li><li>Country</li><li>sourceMembershipId</li></ol>
+      </section>
+    
+      <section class="card">
+        <h3>epdsRecent834FieldOrder</h3>
+        <ol><li>Member_or_Subscriber_SSN</li><li>Coverage_Start_Date</li><li>Coverage_End_Date</li><li>834_Processed</li><li>sourceTransactionId</li></ol>
+      </section>
+    
+      <section class="card">
+        <h3>rcnaWorkingFieldOrder</h3>
+        <ol><li>RCNO_Columns_1_to_73</li><li>Priority</li><li>PSHB_Code</li><li>Code_Description</li><li>Notes</li><li>Aging_Months</li></ol>
+      </section>
+    
+      <section class="card">
+        <h3>rcnaOutboundFieldOrder</h3>
+        <ol><li>RCNO_Columns_1_to_73</li><li>Priority</li><li>PSHB_Code</li><li>Code_Description</li></ol>
+      </section>
+    
+
+  <h2>Templates</h2>
+  
+    <section class="card">
+      <h3>baselineRcnoTemplate</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Record_Type</td><td>01</td></tr><tr><td class="field">PSHBS_Subscriber_ID</td><td>SUB001</td></tr><tr><td class="field">MENR_Subscriber_ID</td><td>SUB001</td></tr><tr><td class="field">RCNO_Subscriber_ID_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Member_ID</td><td>MRN001</td></tr><tr><td class="field">MENR_Member_ID</td><td>MRN001</td></tr><tr><td class="field">RCNO_Member_ID_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Annuitant_Number</td><td>ANN001</td></tr><tr><td class="field">MENR_Annuitant_Number</td><td>ANN001</td></tr><tr><td class="field">RCNO_Annuitant_Number_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Last_Name</td><td>DOE</td></tr><tr><td class="field">MENR_Last_Name</td><td>DOE</td></tr><tr><td class="field">RCNA_Last_Name_Result</td><td>M</td></tr><tr><td class="field">PSHBS_First_Name</td><td>JANE</td></tr><tr><td class="field">MENR_First_Name</td><td>JANE</td></tr><tr><td class="field">RCNO_First_Name_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Birth_Date</td><td>19800101</td></tr><tr><td class="field">MENR_Birth_Date</td><td>19800101</td></tr><tr><td class="field">RCNO_Birth_Date_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Member_SSN</td><td>123456789</td></tr><tr><td class="field">MENR_Member_SSN</td><td>123456789</td></tr><tr><td class="field">RCNO_Member_SSN_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Subscriber_SSN</td><td>123456789</td></tr><tr><td class="field">MENR_Subscriber_SSN</td><td>123456789</td></tr><tr><td class="field">RCNO_Subscriber_SSN_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Plan_Code</td><td>KP1</td></tr><tr><td class="field">MENR_Plan_Code</td><td>KP1</td></tr><tr><td class="field">RCNO_Plan_Code_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Coverage_Start_Date</td><td>20250101</td></tr><tr><td class="field">MENR_Coverage_Start_Date</td><td>20250101</td></tr><tr><td class="field">RCNA_Coverage_Start_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Coverage_End_Date</td><td>20251231</td></tr><tr><td class="field">MENR_Coverage_End_Date</td><td>20251231</td></tr><tr><td class="field">RCNO_Coverage_End_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Address_Line1</td><td>100 MAIN ST</td></tr><tr><td class="field">MENR_Address_Line1</td><td>100 MAIN ST</td></tr><tr><td class="field">RCNO_Address_Line1_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Address_Line2</td><td>APT 1</td></tr><tr><td class="field">MENR_Address_Line2</td><td>APT 1</td></tr><tr><td class="field">RCNO_Address_Line2_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Address_Line3</td><td></td></tr><tr><td class="field">MENR_Address_Line3</td><td></td></tr><tr><td class="field">RCNO_Address_Line3_Result</td><td>M</td></tr><tr><td class="field">PSHBS_City</td><td>OAKLAND</td></tr><tr><td class="field">MENR_City</td><td>OAKLAND</td></tr><tr><td class="field">RCNO_City_Result</td><td>M</td></tr><tr><td class="field">PSHBS_State</td><td>CA</td></tr><tr><td class="field">MENR_State</td><td>CA</td></tr><tr><td class="field">RCNO_State_Result</td><td>M</td></tr><tr><td class="field">PSHBS_ZIP</td><td>94612</td></tr><tr><td class="field">MENR_ZIP</td><td>94612</td></tr><tr><td class="field">RCNO_ZIP_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Country</td><td>US</td></tr><tr><td class="field">MENR_Country</td><td>US</td></tr><tr><td class="field">RCNO_Country_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Phone</td><td>5105551234</td></tr><tr><td class="field">MENR_Phone</td><td>5105551234</td></tr><tr><td class="field">RCNO_Phone_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Email</td><td>jane.doe@example.com</td></tr><tr><td class="field">MENR_Email</td><td>jane.doe@example.com</td></tr><tr><td class="field">RCNO_Email_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Payroll_Office_Number</td><td>PO123</td></tr><tr><td class="field">MENR_Payroll_Office_Number</td><td>PO123</td></tr><tr><td class="field">RCNO_Payroll_Office_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Relationship_Code</td><td>18</td></tr><tr><td class="field">MENR_Relationship_Code</td><td>18</td></tr><tr><td class="field">RCNO_Relationship_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Extended_Cov_End_Date</td><td></td></tr><tr><td class="field">MENR_Extended_Cov_End_Date</td><td></td></tr><tr><td class="field">RCNO_Extended_Cov_End_Result</td><td>M</td></tr><tr><td class="field">PSHBS_Gender_Code</td><td>F</td></tr><tr><td class="field">MENR_Gender_Code</td><td>F</td></tr><tr><td class="field">RCNO_Gender_Code_Result</td><td>M</td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+
+  <h2>Test Cases</h2>
+  
+    <section class="card page-break">
+      <h2>1. TC-A100-PerfectMatch</h2>
+      <p><strong>Scenario:</strong> Rule A100 perfect match</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>M</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>kp_mrn</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>first_name</th><th>last_name</th><th>member_ssn</th><th>member_gender</th><th>Relationship_Code</th><th>plan_code</th><th>Annuitant_Number</th><th>Payroll_Office_Number</th><th>Member_Deceased</th><th>Subscriber_Deceased</th><th>Member_Age</th><th>Not_Disabled</th><th>Subscriber_SSN</th><th>Medicare_Member</th><th>Member_Birth_Date</th><th>Member_Deceased_Date</th><th>Address_Line1</th><th>Address_Line2</th><th>Address_Line3</th><th>City</th><th>State</th><th>ZIP</th><th>Country</th><th>sourceMembershipId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MRN001</td><td>20250101</td><td>20251231</td><td>JANE</td><td>DOE</td><td>123456789</td><td>F</td><td>18</td><td>KP1</td><td>ANN001</td><td>PO123</td><td>N</td><td>N</td><td>45</td><td>Y</td><td>123456789</td><td>N</td><td>19800101</td><td></td><td>100 MAIN ST</td><td>APT 1</td><td></td><td>OAKLAND</td><td>CA</td><td>94612</td><td>US</td><td>MDW-1001</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>A100</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>5</td></tr><tr><td class="field">PSHB_Code</td><td>MM</td></tr><tr><td class="field">Code_Description</td><td>Matches (no action required)</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>5</td></tr><tr><td class="field">PSHB_Code</td><td>MM</td></tr><tr><td class="field">Code_Description</td><td>Matches (no action required)</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>2. TC-B200-PriorReuse</h2>
+      <p><strong>Scenario:</strong> Rule B200 prior unchanged reuse</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>matchesCurrentRcnoColumns1to73</th><th>Priority</th><th>PSHB_Code</th><th>Code_Description</th><th>Aging_Months</th><th>sourcePriorRcnaId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>true</td><td>4</td><td>CE001</td><td>OPM to send 834 cancellation</td><td>4</td><td>RCNA-PRIOR-2001</td></tr>
+        </tbody>
+      </table>
+    </td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>B200</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4</td></tr><tr><td class="field">PSHB_Code</td><td>CE001</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>5</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>4</td></tr><tr><td class="field">PSHB_Code</td><td>CE001</td></tr><tr><td class="field">Code_Description</td><td>OPM to send 834 cancellation</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>3. TC-F13000-NoMembership-ProcessedY</h2>
+      <p><strong>Scenario:</strong> Rule F13000 no membership + matching processed recent 834</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr><tr><td class="field">PSHBS_Subscriber_SSN</td><td>222334444</td></tr><tr><td class="field">MENR_Subscriber_SSN</td><td>222334444</td></tr><tr><td class="field">PSHBS_Coverage_Start_Date</td><td>20250601</td></tr><tr><td class="field">PSHBS_Coverage_End_Date</td><td>20251231</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td>
+      <table>
+        <thead>
+          <tr><th>Member_or_Subscriber_SSN</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>834_Processed</th><th>sourceTransactionId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>222334444</td><td>20250601</td><td>20251231</td><td>Y</td><td>EPDS-834-13000-Y</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F13000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE500</td></tr><tr><td class="field">Code_Description</td><td>Carrier to investigate and reprocess the 834</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>4. TC-F14000-NoMembership-ProcessedN</h2>
+      <p><strong>Scenario:</strong> Rule F14000 no membership + matching pending recent 834</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr><tr><td class="field">PSHBS_Subscriber_SSN</td><td>555667777</td></tr><tr><td class="field">MENR_Subscriber_SSN</td><td>555667777</td></tr><tr><td class="field">PSHBS_Coverage_Start_Date</td><td>20250701</td></tr><tr><td class="field">PSHBS_Coverage_End_Date</td><td>20251231</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td>
+      <table>
+        <thead>
+          <tr><th>Member_or_Subscriber_SSN</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>834_Processed</th><th>sourceTransactionId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>555667777</td><td>20250701</td><td>20251231</td><td>N</td><td>EPDS-834-14000-N</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F14000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE501</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process the 834 enrollment</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE501</td></tr><tr><td class="field">Code_Description</td><td>Carrier to process the 834 enrollment</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>5. TC-F20000-NoMembership-No834</h2>
+      <p><strong>Scenario:</strong> Rule F20000 no membership + no recent 834</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>F</td></tr><tr><td class="field">PSHBS_Subscriber_SSN</td><td>101224444</td></tr><tr><td class="field">MENR_Subscriber_SSN</td><td>101224444</td></tr><tr><td class="field">PSHBS_Member_SSN</td><td>101224444</td></tr><tr><td class="field">MENR_Member_SSN</td><td>101224444</td></tr><tr><td class="field">PSHBS_Coverage_Start_Date</td><td>20250501</td></tr><tr><td class="field">PSHBS_Coverage_End_Date</td><td>20251231</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>F20000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE013</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate why an 834 was not sent</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE013</td></tr><tr><td class="field">Code_Description</td><td>OPM to investigate why an 834 was not sent</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>6. TC-I2000-ActiveI-No834</h2>
+      <p><strong>Scenario:</strong> Rule I2000 membership exists + active MENR + no matching recent 834</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>I</td></tr><tr><td class="field">MENR_Coverage_Start_Date</td><td>20250101</td></tr><tr><td class="field">MENR_Coverage_End_Date</td><td>20251231</td></tr><tr><td class="field">PSHBS_Coverage_Start_Date</td><td>20240101</td></tr><tr><td class="field">PSHBS_Coverage_End_Date</td><td>20241231</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>kp_mrn</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>first_name</th><th>last_name</th><th>member_ssn</th><th>member_gender</th><th>Relationship_Code</th><th>plan_code</th><th>Annuitant_Number</th><th>Payroll_Office_Number</th><th>Member_Deceased</th><th>Subscriber_Deceased</th><th>Member_Age</th><th>Not_Disabled</th><th>Subscriber_SSN</th><th>Medicare_Member</th><th>Member_Birth_Date</th><th>Member_Deceased_Date</th><th>Address_Line1</th><th>Address_Line2</th><th>Address_Line3</th><th>City</th><th>State</th><th>ZIP</th><th>Country</th><th>sourceMembershipId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MRN001</td><td>20250101</td><td>20251231</td><td>JANE</td><td>DOE</td><td>123456789</td><td>F</td><td>18</td><td>KP1</td><td>ANN001</td><td>PO123</td><td>N</td><td>N</td><td>45</td><td>Y</td><td>123456789</td><td>N</td><td>19800101</td><td></td><td>100 MAIN ST</td><td>APT 1</td><td></td><td>OAKLAND</td><td>CA</td><td>94612</td><td>US</td><td>MDW-2001</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>I2000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2</td></tr><tr><td class="field">PSHB_Code</td><td>AC004</td></tr><tr><td class="field">Code_Description</td><td>No 834 termination/cancel received; OPM to investigate</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>2</td></tr><tr><td class="field">PSHB_Code</td><td>AC004</td></tr><tr><td class="field">Code_Description</td><td>No 834 termination/cancel received; OPM to investigate</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>7. TC-N0000-NoMembershipForN</h2>
+      <p><strong>Scenario:</strong> Rule N0000 no MDW membership for N result</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr><tr><td class="field">MENR_Member_ID</td><td>MRN-NOT-FOUND</td></tr><tr><td class="field">RCNO_Member_ID_Result</td><td>N</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N0000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>KICKO</td></tr><tr><td class="field">Code_Description</td><td>MRN not found on an N record</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>KICKO</td></tr><tr><td class="field">Code_Description</td><td>MRN not found on an N record</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>8. TC-N91000-AddressStandardizedEqual</h2>
+      <p><strong>Scenario:</strong> Rule N91000 address mismatch indicators but standardized addresses equal</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr><tr><td class="field">RCNO_Address_Line1_Result</td><td>N</td></tr><tr><td class="field">PSHBS_Address_Line1</td><td>100 MAIN STREET</td></tr><tr><td class="field">MENR_Address_Line1</td><td>100 MAIN ST</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>kp_mrn</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>first_name</th><th>last_name</th><th>member_ssn</th><th>member_gender</th><th>Relationship_Code</th><th>plan_code</th><th>Annuitant_Number</th><th>Payroll_Office_Number</th><th>Member_Deceased</th><th>Subscriber_Deceased</th><th>Member_Age</th><th>Not_Disabled</th><th>Subscriber_SSN</th><th>Medicare_Member</th><th>Member_Birth_Date</th><th>Member_Deceased_Date</th><th>Address_Line1</th><th>Address_Line2</th><th>Address_Line3</th><th>City</th><th>State</th><th>ZIP</th><th>Country</th><th>sourceMembershipId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MRN001</td><td>20250101</td><td>20251231</td><td>JANE</td><td>DOE</td><td>123456789</td><td>F</td><td>18</td><td>KP1</td><td>ANN001</td><td>PO123</td><td>N</td><td>N</td><td>45</td><td>Y</td><td>123456789</td><td>N</td><td>19800101</td><td></td><td>100 MAIN ST</td><td>APT 1</td><td></td><td>OAKLAND</td><td>CA</td><td>94612</td><td>US</td><td>MDW-91000</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N91000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3</td></tr><tr><td class="field">PSHB_Code</td><td>DM512</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>3</td></tr><tr><td class="field">PSHB_Code</td><td>DM512</td></tr><tr><td class="field">Code_Description</td><td>No action required</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>9. TC-N12000-Blocking-UnresolvedCode</h2>
+      <p><strong>Scenario:</strong> Rule N12000 should block until final code is approved</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr><tr><td class="field">RCNO_Plan_Code_Result</td><td>N</td></tr><tr><td class="field">RCNA_Coverage_Start_Result</td><td>N</td></tr><tr><td class="field">RCNO_Coverage_End_Result</td><td>N</td></tr><tr><td class="field">PSHBS_Plan_Code</td><td>KP2</td></tr><tr><td class="field">MENR_Plan_Code</td><td>KP1</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td>
+      <table>
+        <thead>
+          <tr><th>kp_mrn</th><th>Coverage_Start_Date</th><th>Coverage_End_Date</th><th>first_name</th><th>last_name</th><th>member_ssn</th><th>member_gender</th><th>Relationship_Code</th><th>plan_code</th><th>Annuitant_Number</th><th>Payroll_Office_Number</th><th>Member_Deceased</th><th>Subscriber_Deceased</th><th>Member_Age</th><th>Not_Disabled</th><th>Subscriber_SSN</th><th>Medicare_Member</th><th>Member_Birth_Date</th><th>Member_Deceased_Date</th><th>Address_Line1</th><th>Address_Line2</th><th>Address_Line3</th><th>City</th><th>State</th><th>ZIP</th><th>Country</th><th>sourceMembershipId</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MRN001</td><td>20250101</td><td>20251231</td><td>JANE</td><td>DOE</td><td>123456789</td><td>F</td><td>18</td><td>KP1</td><td>ANN001</td><td>PO123</td><td>N</td><td>N</td><td>45</td><td>Y</td><td>123456789</td><td>N</td><td>19800101</td><td></td><td>100 MAIN ST</td><td>APT 1</td><td></td><td>OAKLAND</td><td>CA</td><td>94612</td><td>US</td><td>MDW-N12000</td></tr>
+        </tbody>
+      </table>
+    </td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>N12000</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE999</td></tr><tr><td class="field">Code_Description</td><td>Manual business review</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>AE999</td></tr><tr><td class="field">Code_Description</td><td>Manual business review</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+    <section class="card page-break">
+      <h2>10. TC-NoRule99999-CatchAllDefault</h2>
+      <p><strong>Scenario:</strong> Fallback when no rule/catch-all applies</p>
+      <p><strong>Expected outcome:</strong> <span class="badge good">success</span></p>
+
+      <h3>Input</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">rcnoTemplate</td><td>baselineRcnoTemplate</td></tr><tr><td class="field">rcnoOverrides</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">RCNO_Subscriber_ID_Result</td><td>N</td></tr><tr><td class="field">RCNO_Member_ID_Result</td><td>M</td></tr><tr><td class="field">RCNO_Annuitant_Number_Result</td><td>M</td></tr><tr><td class="field">RCNA_Last_Name_Result</td><td>M</td></tr><tr><td class="field">RCNO_First_Name_Result</td><td>M</td></tr><tr><td class="field">RCNO_Birth_Date_Result</td><td>M</td></tr><tr><td class="field">RCNO_Member_SSN_Result</td><td>M</td></tr><tr><td class="field">RCNO_Subscriber_SSN_Result</td><td>M</td></tr><tr><td class="field">RCNO_Plan_Code_Result</td><td>M</td></tr><tr><td class="field">RCNA_Coverage_Start_Result</td><td>M</td></tr><tr><td class="field">RCNO_Coverage_End_Result</td><td>M</td></tr><tr><td class="field">RCNO_Address_Line1_Result</td><td>M</td></tr><tr><td class="field">RCNO_Address_Line2_Result</td><td>M</td></tr><tr><td class="field">RCNO_Address_Line3_Result</td><td>M</td></tr><tr><td class="field">RCNO_City_Result</td><td>M</td></tr><tr><td class="field">RCNO_State_Result</td><td>M</td></tr><tr><td class="field">RCNO_ZIP_Result</td><td>M</td></tr><tr><td class="field">RCNO_Country_Result</td><td>M</td></tr><tr><td class="field">RCNO_Phone_Result</td><td>M</td></tr><tr><td class="field">RCNO_Email_Result</td><td>M</td></tr><tr><td class="field">RCNO_Payroll_Office_Result</td><td>M</td></tr><tr><td class="field">RCNO_Relationship_Result</td><td>M</td></tr><tr><td class="field">RCNO_Extended_Cov_End_Result</td><td>M</td></tr><tr><td class="field">RCNO_Gender_Code_Result</td><td>M</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">mdwEnrollmentCandidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">epds834Candidates</td><td><p class="muted">None</p></td></tr><tr><td class="field">priorRcnaCandidates</td><td><p class="muted">None</p></td></tr>
+      </tbody>
+    </table>
+  
+
+      <h3>Expected</h3>
+      
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">outcome</td><td>success</td></tr><tr><td class="field">selectedRuleId</td><td>No_rule99999</td></tr><tr><td class="field">workingRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>0000</td></tr><tr><td class="field">Code_Description</td><td>No Rules Applied</td></tr><tr><td class="field">Notes</td><td></td></tr><tr><td class="field">Aging_Months</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </td></tr><tr><td class="field">outboundRcna</td><td>
+    <table>
+      <thead>
+        <tr><th style="width: 260px;">Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="field">Priority</td><td>1</td></tr><tr><td class="field">PSHB_Code</td><td>0000</td></tr><tr><td class="field">Code_Description</td><td>No Rules Applied</td></tr>
+      </tbody>
+    </table>
+  </td></tr>
+      </tbody>
+    </table>
+  
+    </section>
+  
+</body>
+</html>

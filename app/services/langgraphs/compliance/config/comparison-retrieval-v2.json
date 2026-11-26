@@ -1,0 +1,45 @@
+{
+  "searchFields": [
+    "content",
+    "title",
+    "smart_file_name"
+  ],
+  "selectFields": [
+    "id",
+    "smartnote_id",
+    "smart_file_name",
+    "title",
+    "content",
+    "page",
+    "createdAt"
+  ],
+  "topicMode": {
+    "keywordTop": 120,
+    "semanticTop": 120,
+    "maxVariants": 8,
+    "maxCandidatesAfterMerge": 420,
+    "evidencePerDocument": 36,
+    "evidenceSnippetMaxLength": 1600,
+    "listRescueEnabled": true,
+    "listRescueTop": 1200,
+    "listRescueMaxAdditions": 300,
+    "listRescueMinRoleCandidates": 2,
+    "listMinRoleEvidenceInFinal": 8,
+    "topicExpansionEnabled": true,
+    "topicExpansionMaxQueries": 4,
+    "topicExpansionQueriesForPositions": [
+      "administrative positions",
+      "key administrative positions",
+      "key personnel positions",
+      "positions must be reported"
+    ],
+    "listDeterministicScanEnabled": true,
+    "listDeterministicScanEvidencePerDocument": 60
+  },
+  "comprehensiveMode": {
+    "maxSectionsPerDocument": 220,
+    "chunkFetchTop": 1200,
+    "minTitleLength": 2,
+    "minContentLength": 20
+  }
+}

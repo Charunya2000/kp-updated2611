@@ -1,0 +1,44 @@
+Technical Stack
+- Azure Cognitive Search: Use @azure/search-documents Node.js SDK for semantic, keyword, and hybrid search over PDF chunks for both documents.
+- Azure OpenAI GPT-4o: Use openai Node.js SDK for intent parsing and embeddings.
+- MongoDB: Use mongodb Node.js driver for metadata, hierarchy, and relationship queries.
+
+Comparison Workflow Overview
+- Goal: Compare two GeisingerConversation documents (A and B) by retrieving, aligning, and contrasting relevant sections, metadata, and entities.
+- Each document is chunked and indexed in Azure Cognitive Search and MongoDB, with hierarchical structure and metadata.
+
+Comparison Search Node Responsibilities
+- Accepts parsed intent, search plan, and embeddings for both documents.
+- Executes parallel or coordinated searches in Cognitive Search and/or MongoDB for both documents, using filters and search fields from intent.
+- Retrieves relevant chunks/nodes for each document, scoped by smartnote_id (A and B), and any additional filters (e.g., page, title, level).
+- Supports semantic, keyword, and hybrid search strategies as specified in intent.
+- Returns search results for both documents, including all fields needed for downstream alignment and summarization.
+
+Comparison Search Plan Guidance
+- Use the same schema and conventions as conversationIntent.txt, but apply to both documents:
+  - Always filter by smartnote_id for A and B.
+  - Use additional filters from intent for focused comparison (e.g., page, title, level).
+  - Specify searchFields and select fields for both documents.
+  - For hybrid search, merge and deduplicate results, rank by score.
+  - For MongoDB, specify mongoSelect and mongoFilters for both documents.
+- Return results as { searchResultsA, searchResultsB } for downstream alignment.
+
+Advanced Comparison Strategies
+- If intent specifies a specific section, entity, or metadata, apply filters to both documents and retrieve matching nodes.
+- For semantic comparison, use embeddings to find similar or contrasting chunks in both documents.
+- For hybrid comparison, combine semantic and keyword results, deduplicate, and align by hierarchy or content similarity.
+- For metadata comparison, retrieve and align nodes by title, level, page, or parentId.
+
+Output Schema for comparisonSearchNode
+{
+  searchResultsA: [ ... ], // Array of relevant nodes/chunks from document A
+  searchResultsB: [ ... ], // Array of relevant nodes/chunks from document B
+  ...state // Pass through all state for downstream nodes
+}
+
+Best Practices
+- Always filter by smartnote_id for each document.
+- Use intent-driven filters and search fields for focused retrieval.
+- Return all fields needed for alignment, summarization, and formatting.
+- Support semantic, keyword, and hybrid search as specified in intent.
+- Structure output for easy downstream alignment and comparison.

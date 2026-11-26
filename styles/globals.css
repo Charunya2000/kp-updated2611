@@ -1,0 +1,181 @@
+/* styles/globals.css */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+*::-webkit-scrollbar { 
+  width: 8px; 
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #b0c4de;
+  border-radius: 6px; 
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.reduced-line-spacing p {
+  margin-bottom: 0.5rem !important;
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  .reduced-line-spacing p {
+    margin-bottom: 0.5rem !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+/* Add this class to handle word wrapping */
+.word-wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* Ensure code blocks and preformatted text also wrap */
+.word-wrap code,
+.word-wrap pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+pre {
+  background-color: #dadada;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+pre:has(code[class^="language-"])::before {
+  display: block;
+  position: relative;
+  top: -10px;
+  left: 0px;
+  /* color: #333; */
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Specific labels for known languages */
+pre:has(code.language-python)::before {
+  content: "Python";
+}
+
+pre:has(code.language-javascript)::before {
+  content: "JavaScript";
+}
+
+pre:has(code.language-html)::before {
+  content: "HTML";
+}
+
+pre:has(code.language-css)::before {
+  content: "CSS";
+}
+
+pre:has(code.language-json)::before {
+  content: "JSON";
+}
+
+pre:has(code.language-sql)::before {
+  content: "SQL";
+}
+
+pre:has(code.language-java)::before {
+  content: "Java";
+}
+
+pre:has(code.language-csharp)::before {
+  content: "C#";
+}
+
+pre:has(code.language-cpp)::before {
+  content: "C++";
+}
+
+pre:has(code.language-ruby)::before {
+  content: "Ruby";
+}
+
+pre:has(code.language-php)::before {
+  content: "PHP";
+}
+
+pre:has(code.language-go)::before {
+  content: "Go";
+}
+
+pre:has(code.language-shell)::before {
+  content: "Shell";
+}
+
+pre:has(code.language-kotlin)::before {
+  content: "Kotlin";
+}
+
+pre:has(code.language-r)::before {
+  content: "R";
+}
+
+pre:has(code.language-swift)::before {
+  content: "Swift";
+}
+
+pre:has(code.language-perl)::before {
+  content: "Perl";
+}
+
+pre:has(code.language-lua)::before {
+  content: "Lua";
+}
+
+pre:has(code.language-markdown)::before {
+  content: "Markdown";
+}
+
+pre:has(code.language-plaintext)::before {
+  content: "Plain Text";
+}
+
+[id^="dmermaid-"] {
+  visibility: hidden;
+  position: absolute
+}

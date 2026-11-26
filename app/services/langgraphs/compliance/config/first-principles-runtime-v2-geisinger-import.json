@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "first-principles-runtime-v1-geisinger-import",
+      "type": "GeisingerConfig",
+      "title": "first-principles-runtime-v1-geisinger-import.json",
+      "documentText": "{\"engines\":{\"prepEngine\":\"legacy\",\"conversationEngine\":\"service3\",\"comparisonEngine\":\"service3\"},\"firstPrinciples\":{\"chunkIndexName\":\"compliance-chunks-v1\",\"requirementIndexName\":\"compliance-requirements-v1\"},\"rolloutScope\":{\"teamAllowlist\":[\"geisinger\"],\"lobAllowlist\":[\"Commercial\"]},\"firstPrinciplesCompare\":{\"sampleSize\":300,\"nearDedupThreshold\":0.92,\"gapRescueThreshold\":0.65,\"enableNearDedup\":true,\"enableGapRescue\":true}}",
+      "inferredLob": "Commercial",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Conversation"
+    }
+  ]
+}

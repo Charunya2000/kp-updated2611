@@ -1,0 +1,12 @@
+{
+  "fixtureId": "n0000-missing-membership",
+  "version": "1.0.0",
+  "businessDate": "20260810",
+  "membershipRecords": [],
+  "recent834Records": [],
+  "priorRcnaRecords": [],
+  "expected": {
+    "ruleId": "N0000",
+    "code": "KICKO"
+  }
+}

@@ -1,0 +1,41 @@
+Analyze this PDF data from a CFR (Code of Federal Regulations) document to infer heuristics for identifying titles, chapters, sections, and subsections.
+
+PDF data is a collection of text chunks in this format:
+
+{
+  "content":"teria will include but are not limited",
+  "fontFaceId":0,
+  "fontName":"quicktype,arial,helvetica,sans-serif",
+  "bold":false,
+  "fontSize":11,
+  "yPos":48.75,
+  "xPos":-0.25,
+  "page":0
+}
+
+You're looking for chunks whose 'content' could be interpreted as a title, chapter, section, or subsection. Or you're looking for chunks with larger font or bold of true rather than bold of false.
+
+IMPORTANT CFR Document Structure:
+- Titles: Large headings, often with "PART XXX" 
+- Chapters: "Subpart X—Description" format
+- Sections: "§XXX.XXX" format (these are the most important granular sections)
+- Subsections: Sub-parts of sections
+
+
+
+For each type, output JSON rules with fields like font_size_min, y_position_max, regex, bold, level.
+
+CRITICAL: A defined title, chapter, section, or subsection is restricted as follows:
+1. The font_size_min must be greater than or equal to 11 as that is the font size of the regular body content.
+2. If the font_size_min: 11 then then the bold: true to differentiate the definition from regular body content.
+3. YOU MUST NOT EVER HAVE THE COMBINATION OF "font_size_min": 11 and "bold": false.
+
+ 
+Pay special attention to:
+1. §XXX.XXX patterns - these should be "section" level
+2. "Subpart X—" patterns - these should be "chapter" level  
+3. Bold formatting for section headers
+
+Expected hierarchy: title=0, chapter=1, section=2, subsection=3
+
+Data: "${samplePdf}"

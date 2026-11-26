@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "id": "cfg-preparation-runtime-v1",
+      "type": "GeisingerConfig",
+      "title": "preparation-runtime-v1.json",
+      "documentText": "{\"job\":{\"jobType\":\"GeisingerDocumentPreparation\",\"maxConcurrency\":10,\"defaultConcurrency\":1},\"discovery\":{\"defaultRootFolder\":\"Shared Documents/Regulatory and Contractual Documents\",\"preparableExtensions\":[\"pdf\",\"docx\"],\"requireSingleLobWhenFileNameFilterPresent\":true},\"collections\":{\"conversationCollectionName\":\"user_collection\"},\"preparationVersion\":{\"envVar\":\"GEISINGER_PREPARATION_VERSION\",\"defaultValue\":\"1\"},\"sharePoint\":{\"domainToggleEnvVar\":\"USE_VAULT\",\"vaultDomain\":\"geisinger.sharepoint.com\",\"legacyDomain\":\"sp-cloud.kp.org\"}}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Preparation Config"
+    },
+    {
+      "id": "cfg-preparation-ui-v1",
+      "type": "GeisingerConfig",
+      "title": "preparation-ui-v1.json",
+      "documentText": "{\"defaults\":{\"concurrency\":1,\"discoveryRootFolder\":\"Shared Documents/Regulatory and Contractual Documents\",\"pollingIntervalMs\":3000},\"limits\":{\"concurrencyInputMin\":1,\"concurrencyInputMax\":10},\"inventorySample\":{\"lob\":\"CHIP\",\"preparationVersion\":\"1\",\"status\":\"Not Prepared\",\"siteName\":\"your-site-name\",\"fileAName\":\"example.pdf\",\"relativeAUrl\":\"/Shared Documents/CHIP/example.pdf\"}}",
+      "inferredLob": "All",
+      "purpose": "FormatConfig",
+      "collectionName": "Document Preparation Config"
+    },
+    {
+      "id": "cfg-preparation-v1-config-manifest",
+      "type": "GeisingerConfig",
+      "title": "preparation-v1-config-manifest.md",
+      "documentText": "# Geisinger Preparation Config Manifest V1\n\nPrimary files reviewed:\n- `app/[teamName]/admin/geisinger-preparation/page.js`\n- `app/services/geisingerPreparationService.js`\n- `app/api/admin/[teamName]/geisinger-preparation/*/route.js`\n\n## Current Config Surface\n- Hard-coded: job type, max concurrency, discovery root folder, preparable extensions, collection name.\n- Env-driven: `GEISINGER_PREPARATION_VERSION`, `USE_VAULT`.\n- UI defaults: concurrency=1, polling interval=3000ms, discovery root folder default.\n\n## New File Assets Added\n- `preparation-runtime-v1.json`\n- `preparation-ui-v1.json`\n\n## Import Payload\n- `preparation-v1-geisinger-import.json`\n",
+      "inferredLob": "All",
+      "purpose": "Background",
+      "collectionName": "Document Preparation Config"
+    }
+  ]
+}

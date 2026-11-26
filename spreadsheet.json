@@ -1,0 +1,28 @@
+{
+  "workbookName": "workbook1.xlsx",
+  "worksheets": [
+    {
+      "worksheetName": "workSheet1",
+      "rows": [
+        {
+          "rowNumber": 1,
+          "Name": "Jane",
+          "Age": "23",
+          "Location": "Seattle"
+        },
+        {
+          "rowNumber": 2,
+          "Name": "Jim",
+          "Age": "31",
+          "Location": "Los Angeles"
+        },
+        {
+          "rowNumber": 3,
+          "Name": "Jacob",
+          "Age": "40",
+          "Location": "New York"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "defaults": {
+    "concurrency": 1,
+    "discoveryRootFolder": "Shared Documents/Regulatory and Contractual Documents",
+    "pollingIntervalMs": 3000
+  },
+  "limits": {
+    "concurrencyInputMin": 1,
+    "concurrencyInputMax": 10
+  },
+  "inventorySample": {
+    "lob": "CHIP",
+    "preparationVersion": "1",
+    "status": "Not Prepared",
+    "siteName": "your-site-name",
+    "fileAName": "example.pdf",
+    "relativeAUrl": "/Shared Documents/CHIP/example.pdf"
+  }
+}

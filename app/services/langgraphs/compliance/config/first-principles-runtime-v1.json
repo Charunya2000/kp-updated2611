@@ -1,0 +1,22 @@
+{
+  "engines": {
+    "prepEngine": "legacy",
+    "conversationEngine": "service3",
+    "comparisonEngine": "service3"
+  },
+  "firstPrinciples": {
+    "searchEndpointKeyRef": "searchEndpoint.new.t3",
+    "searchQueryKeyRef": "aisearch.new.t3.api.key",
+    "searchUploadKeyRef": "aiupload.new.t3.api.key",
+    "chunkIndexName": "compliance-chunks-v1",
+    "requirementIndexName": "compliance-requirements-v1"
+  },
+  "firstPrinciplesCompare": {
+    "enableNearDedup": true,
+    "enableGapRescue": true
+  },
+  "rolloutScope": {
+    "teamAllowlist": [],
+    "lobAllowlist": []
+  }
+}

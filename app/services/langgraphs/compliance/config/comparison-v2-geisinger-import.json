@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "cfg-comparison-mode-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-mode-v2.json",
+      "documentText": "{\"comprehensiveKeywords\":[\"whole document\",\"entire document\",\"comprehensive comparison\",\"full comparison\",\"compare documents\",\"all differences\",\"complete comparison\",\"overall differences\",\"structural differences\",\"content differences\"]}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Comparison V2 Config"
+    },
+    {
+      "id": "cfg-comparison-retrieval-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-retrieval-v2.json",
+      "documentText": "{\"searchFields\":[\"content\",\"title\",\"smart_file_name\"],\"selectFields\":[\"id\",\"smartnote_id\",\"smart_file_name\",\"title\",\"content\",\"page\",\"createdAt\"],\"topicMode\":{\"keywordTop\":120,\"semanticTop\":120,\"maxVariants\":8,\"maxCandidatesAfterMerge\":420,\"evidencePerDocument\":36,\"evidenceSnippetMaxLength\":1600,\"listRescueEnabled\":true,\"listRescueTop\":1200,\"listRescueMaxAdditions\":300,\"listRescueMinRoleCandidates\":2,\"listMinRoleEvidenceInFinal\":8,\"topicExpansionEnabled\":true,\"topicExpansionMaxQueries\":4,\"topicExpansionQueriesForPositions\":[\"administrative positions\",\"key administrative positions\",\"key personnel positions\",\"positions must be reported\"],\"listDeterministicScanEnabled\":true,\"listDeterministicScanEvidencePerDocument\":60},\"comprehensiveMode\":{\"maxSectionsPerDocument\":220,\"chunkFetchTop\":1200,\"minTitleLength\":2,\"minContentLength\":20}}",
+      "inferredLob": "All",
+      "purpose": "SearchConfig",
+      "collectionName": "Document Comparison V2 Config"
+    },
+    {
+      "id": "cfg-comparison-ranking-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-ranking-v2.json",
+      "documentText": "{\"scoreWeight\":1,\"exactSectionBoost\":3.5,\"titleTermBoost\":1.8,\"contentTermBoost\":0.9,\"exactPromptBoost\":4,\"listRoleSignalBoost\":6,\"listHeadingBoost\":4,\"listStructureBoost\":2,\"listOffTopicPenalty\":8,\"variantBoost\":{\"exact\":0.8,\"normalized\":0.5,\"sectionOnly\":0.7,\"quotedClause\":0.3}}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Comparison V2 Config"
+    },
+    {
+      "id": "cfg-comparison-alignment-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-alignment-v2.json",
+      "documentText": "{\"similarityThreshold\":0.55,\"autoMatchThreshold\":0.86,\"llmAdjudicationThreshold\":0.72,\"secondaryMatchThreshold\":0.88,\"maxTargetCandidatesPerSource\":4,\"fallbackSearch\":{\"enabled\":true,\"onlyWhenNoPrimaryCandidate\":true,\"maxVariants\":2,\"keywordTop\":18,\"semanticTop\":18,\"maxCandidatesAfterMerge\":32,\"maxTargetCandidatesPerSource\":3,\"autoMatchThreshold\":0.9,\"llmAdjudicationThreshold\":0.6,\"maxSourceOnlyTopicsToProbe\":20}}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Comparison V2 Config"
+    },
+    {
+      "id": "cfg-comparison-completion-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-completion-v2.json",
+      "documentText": "{\"preferredModels\":[\"openai-5.1\",\"gpt-4o\"],\"temperature\":0.2,\"maxTokens\":1400,\"maxShortTokens\":800}",
+      "inferredLob": "All",
+      "purpose": "ChatCompletionConfig",
+      "collectionName": "Document Comparison V2 Config"
+    },
+    {
+      "id": "cfg-comparison-runtime-v2",
+      "type": "GeisingerConfig",
+      "title": "comparison-runtime-v2.json",
+      "documentText": "{\"search\":{\"indexName\":\"geisinger-002\"},\"data\":{\"collectionName\":\"user_collection\"},\"embedding\":{\"model\":\"text-embedding-ada-002\",\"deployment\":\"gpt-4o-aisvc\",\"apiVersion\":\"2023-05-15\"},\"heartbeat\":{\"intervalMs\":8000,\"stages\":[\"Reviewing source and target document structure...\",\"Retrieving policy evidence for comparison...\",\"Aligning similar requirements and themes...\",\"Assessing key differences and overlaps...\",\"Preparing business-ready comparison summary...\"]},\"artifact\":{\"containerName\":\"compliance-ai\",\"pathPrefix\":\"document-comparisons\",\"filePattern\":\"comparison-v2-{timestamp}.xlsx\"},\"display\":{\"topicEvidenceLimit\":10,\"analysisPreviewLimit\":20,\"markdownListLimit\":30,\"topicListDeltaMaxItems\":20}}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Comparison V2 Config"
+    }
+  ]
+}

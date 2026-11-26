@@ -1,0 +1,2056 @@
+Feature: RCNA File Creation
+
+  # =====================================================================
+  # Global constraints and execution model
+  # =====================================================================
+
+  Background:
+    Given the following input files are available:
+      | Files.                   | File Name               | Description                    |
+      | file1_RCNO_CURRENT_ALL   | RCNO file               | Current month RECON file       |
+      | file3_MEMBERSHIP_KP_ALL  | Membership system file  | Kaiser membership data         |
+      | file5_ENROLL_834_ALL     | 834 file (last 30 days) | Recent enrollment transactions |
+      | file6_RCNA_PRIOR_TEST    | Last month RCNA file    | Prior RCNA file                |
+      | file7_RCNA_ALL           | RCNA output file        | Output file
+    And the columns in all files start as "Column 1", "Column 2", etc.
+    And all input column values are trimmed, converted to uppercase, and control characters are removed
+
+
+
+1. Source category: file upload.
+2. Files:
+   - Driver file: file1_RCNO_CURRENT_ALL
+   - Lookup files:
+     - file3_MEMBERSHIP_KP_ALL
+     - file5_ENROLL_834_ALL
+     - file6_RCNA_PRIOR_TEST
+   -OUTPUT file 
+     - file7_RCNA_ALL
+3. Driver rule:
+   - Process EVERY row in file1_RCNO_CURRENT_ALL.
+   - Never drop a driver row because of missing matches.
+   - For each RCNO row in file1_RCNO_CURRENT_ALL,  file7_RCNA_aALL record will be created
+
+4. Matching rules:
+   - For each driver row:
+     - Try to match to file3_MEMBERSHIP_KP_ALL using [last_name, first_name, Subscriber_ssn].
+     - Try to match to file5_ENROLL_834_ALL using [last_name, first_name, Subscriber_ssn].
+     - Try to match to file6_RCNA_PRIOR_TEST using [all columns].
+
+5. No‑match behavior:
+   - If no  file3_MEMBERSHIP_KP_ALL row found, continue.
+   - If no file5_ENROLL_834_ALL row found,  continue.
+   - If no file6_RCNA_PRIOR_TEST row found, continue
+   - Still output a result for the driver row.
+
+6. Output cardinality:
+   - Output one result row per driver row in RCNO_CURRENT_ALL.
+   - do not invent results, just follow the instructions
+
+CRITICAL RULES (DO NOT VIOLATE):
+
+1. DO NOT infer, drop, rename, reorder, or merge columns.
+2. Read ALL columns, including:
+   - empty columns
+   - sparsely populated columns
+   - columns with placeholder values
+3. Ignore Excel formatting, filters, hidden rows, cell styles, comments, and formulas.
+4. Treat the first row as the ONLY header row.
+5. Preserve column order exactly as defined in the schema below.
+6. Treat ALL column values as STRING (no type inference).
+7. Empty cells must be returned as empty strings ("").
+8. Do NOT perform validation, cleansing, or enrichment during ingestion.
+9. If a column has no data in any row, it MUST still appear in the output.
+10. If any column is missing, HALT and return an explicit error listing the missing columns.
+
+
+- Ignore any outputs, variables, or assumptions from previous runs
+- Do not reuse derived values unless they are explicitly provided in the current input
+- Treat this run as stateless
+
+Set the model's temperature setting to 0 
+Do not invent any new codes, messages, or rules.
+
+---------------------------- file layouts -----------------------------
+file1_RCNO_CURRENT_ALL layout
+Read the Excel file using the following fixed schema.
+Do not drop or infer columns.
+
+  name: file1_RCNO_CURRENT_ALL
+  description: KP Membership Reference Layout
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+record:
+  record_type: "01"
+  description: RCNO / RCNA Detail Record
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: Record_Type
+    type: CHAR(2)
+    fixed_value: "01"
+
+  - column: 2
+    name: PSHBS_Subscriber_ID
+    role: INPUT
+
+  - column: 3
+    name: MENR_Subscriber_ID
+    role: INPUT
+
+  - column: 4
+    name: RCNO_Subscriber_ID_Result
+    role: INPUT
+
+  - column: 5
+    name: PSHBS_Member_ID
+    role: INPUT
+
+  - column: 6
+    name: MENR_Member_ID
+    role: INPUT
+
+  - column: 7
+    name: RCNO_Member_ID_Result
+    role: RULE_RESULT
+
+  - column: 8
+    name: PSHBS_Annuitant_Number
+    role: INPUT
+
+  - column: 9
+    name: MENR_Annuitant_Number
+    role: INPUT
+
+  - column: 10
+    name: RCNO_Annuitant_Number_Result
+    role: RULE_RESULT
+
+  - column: 11
+    name: PSHBS_Last_Name
+    role: INPUT
+
+  - column: 12
+    name: MENR_Last_Name
+    role: INPUT
+
+  - column: 13
+    name: RCNA_Last_Name_Result
+    role: RULE_RESULT
+
+  - column: 14
+    name: PSHBS_First_Name
+    role: INPUT
+
+  - column: 15
+    name: MENR_First_Name
+    role: INPUT
+
+  - column: 16
+    name: RCNO_First_Name_Result
+    role: RULE_RESULT
+
+  - column: 17
+    name: PSHBS_Birth_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 18
+    name: MENR_Birth_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 19
+    name: RCNO_Birth_Date_Result
+    role: RULE_RESULT
+
+  - column: 20
+    name: PSHBS_Member_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 21
+    name: MENR_Member_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 22
+    name: RCNO_Member_SSN_Result
+    role: RULE_RESULT
+
+  - column: 23
+    name: PSHBS_Subscriber_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 24
+    name: MENR_Subscriber_SSN
+    type: CHAR(9)
+    role: INPUT
+
+  - column: 25
+    name: RCNO_Subscriber_SSN_Result
+    role: RULE_RESULT
+
+  - column: 26
+    name: PSHBS_Plan_Code
+    type: CHAR(3)
+    role: INPUT
+
+  - column: 27
+    name: MENR_Plan_Code
+    type: CHAR(3)
+    role: INPUT
+
+  - column: 28
+    name: RCNO_Plan_Code_Result
+    role: RULE_RESULT
+
+  - column: 29
+    name: PSHBS_Coverage_Start_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 30
+    name: MENR_Coverage_Start_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 31
+    name: RCNA_Coverage_Start_Result
+    role: RULE_RESULT
+
+  - column: 32
+    name: PSHBS_Coverage_End_Date
+    type: DATE
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 33
+    name: MENR_Coverage_End_Date
+    type: DATE
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 34
+    name: RCNO_Coverage_End_Result
+    role: RULE_RESULT
+
+  - column: 35
+    name: PSHBS_Address_Line1
+    role: INPUT
+
+  - column: 36
+    name: MENR_Address_Line1
+    role: INPUT
+
+  - column: 37
+    name: RCNO_Address_Line1_Result
+    role: RULE_RESULT
+
+  - column: 38
+    name: PSHBS_Address_Line2
+    role: INPUT
+
+  - column: 39
+    name: MENR_Address_Line2
+    role: INPUT
+
+  - column: 40
+    name: RCNO_Address_Line2_Result
+    role: RULE_RESULT
+
+  - column: 41
+    name: PSHBS_Address_Line3
+    role: INPUT
+
+  - column: 42
+    name: MENR_Address_Line3
+    role: INPUT
+
+  - column: 43
+    name: RCNO_Address_Line3_Result
+    role: RULE_RESULT
+
+  - column: 44
+    name: PSHBS_City
+    role: INPUT
+
+  - column: 45
+    name: MENR_City
+    role: INPUT
+
+  - column: 46
+    name: RCNO_City_Result
+    role: RULE_RESULT
+
+  - column: 47
+    name: PSHBS_State
+    type: CHAR(2)
+    role: INPUT
+
+  - column: 48
+    name: MENR_State
+    type: CHAR(2)
+    role: INPUT
+
+  - column: 49
+    name: RCNO_State_Result
+    role: RULE_RESULT
+
+  - column: 50
+    name: PSHBS_ZIP
+    role: INPUT
+
+  - column: 51
+    name: MENR_ZIP
+    role: INPUT
+
+  - column: 52
+    name: RCNO_ZIP_Result
+    role: RULE_RESULT
+
+  - column: 53
+    name: PSHBS_Country
+    role: INPUT
+
+  - column: 54
+    name: MENR_Country
+    role: INPUT
+
+  - column: 55
+    name: RCNO_Country_Result
+    role: RULE_RESULT
+
+  - column: 56
+    name: PSHBS_Phone
+    role: INPUT
+
+  - column: 57
+    name: MENR_Phone
+    role: INPUT
+
+  - column: 58
+    name: RCNO_Phone_Result
+    role: RULE_RESULT
+
+  - column: 59
+    name: PSHBS_Email
+    role: INPUT
+
+  - column: 60
+    name: MENR_Email
+    role: INPUT
+
+  - column: 61
+    name: RCNO_Email_Result
+    role: RULE_RESULT
+
+  - column: 62
+    name: PSHBS_Payroll_Office_Number
+    role: INPUT
+
+  - column: 63
+    name: MENR_Payroll_Office_Number
+    role: INPUT
+
+  - column: 64
+    name: RCNO_Payroll_Office_Result
+    role: RULE_RESULT
+
+  - column: 65
+    name: PSHBS_Relationship_Code
+    role: INPUT
+
+  - column: 66
+    name: MENR_Relationship_Code
+    role: INPUT
+
+  - column: 67
+    name: RCNO_Relationship_Result
+    role: RULE_RESULT
+
+  - column: 68
+    name: PSHBS_Extended_Cov_End_Date
+    role: INPUT
+
+  - column: 69
+    name: MENR_Extended_Cov_End_Date
+    role: INPUT
+
+  - column: 70
+    name: RCNO_Extended_Cov_End_Result
+    role: RULE_RESULT
+
+  - column: 71
+    name: PSHBS_Gender_Code
+    role: INPUT
+
+  - column: 72
+    name: MENR_Gender_Code
+    role: INPUT
+
+  - column: 73
+    name: RCNO_Gender_Code_Result
+    role: RULE_RESULT
+
+file3_MEMBERSHIP_KP_ALLlayout
+
+record:
+  name: file3_MEMBERSHIP_KP_ALL
+  description: KP Membership Reference Layout
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: kp_mrn
+    type: string
+    role: INPUT
+    key: true
+
+  - column: 2
+    name: Coverage_Start_Date
+    type: date
+    format: YYYYMMDD
+    role: INPUT
+
+  - column: 3
+    name: Coverage_End_Date
+    type: date
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 4
+    name: first_name
+    type: string
+    role: INPUT
+
+  - column: 5
+    name: last_name
+    type: string
+    role: INPUT
+
+  - column: 6
+    name: member_ssn
+    type: char(9)
+    role: INPUT
+
+  - column: 7
+    name: member_gender
+    type: string
+    allowed_values: ["M", "F", "U"]
+    role: INPUT
+
+  - column: 8
+    name: Relationship_Code
+    type: string
+    role: INPUT
+
+  - column: 9
+    name: plan_code
+    type: char(3)
+    role: INPUT
+
+  - column: 10
+    name: Annuitant_Number
+    type: string
+    role: INPUT
+
+  - column: 11
+    name: Payroll_Office_Number
+    type: string
+    role: INPUT
+
+  - column: 12
+    name: Member_Deceased
+    type: string
+    role: Data
+
+ - column: 13
+    name: Subscriber_deceased
+    type: string
+    role: Data
+
+ - column: 14 
+    name: MEMBER_AGE  # if member is born on feb 15 member will turn 26 on march 1
+    type: Numeric
+    role: Data
+
+ - column: 15
+    name: NOT_DISABLED
+    type: String
+    role: Data
+
+ - column: 16
+    name: SUBSC_SSN
+    type: String
+    role: Data
+
+ - column: 17
+    name: MEDICARE_MEMBER
+    type: String
+    role: Data
+
+constraints:
+  expose_source_identity: false
+  allow_derived_fields: false
+
+
+
+file5_ENROLL_834_ALL layout
+
+record:
+  name: file5_ENROLL_834_ALL
+  description: ENROLL_834 Enrollment Transaction Layout
+  source_system: ENROLL_834
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+columns:
+  - column: 1
+    name: Member_ssn
+    type: char(9)
+    role: INPUT
+    required: true
+
+  - column: 2
+    name: Coverage_Start_Date
+    type: date
+    format: YYYYMMDD
+    nullable: true
+    role: INPUT
+
+  - column: 3
+    name: Coverage_End_Date
+    type: date
+    format: YYYYMMDD
+    role: INPUT
+    required: true
+
+  - column: 4
+    name: 834_processed
+    type: char(1)
+    role: DATA
+    required: true
+
+constraints:
+  allow_derived_fields: false
+  expose_source_identity: false
+  use_for_rule_evaluation_only: true
+``
+
+
+file7_RCNA_ALL layout
+
+  name: RCNA_Record_01
+  record_type: "01"
+  description: RCNO / RCNA Detail Record with Rule Metadata
+  position_locked: true
+  allow_reordering: false
+  allow_inference: false
+  allow_missing_fields: false
+
+The output MUST contain EXACTLY 76 columns.
+Any output containing more or fewer than 76 columns is INVALID.
+
+The following columns are NO LONGER ALLOWED:
+- Column 75
+- column 76
+
+
+first 73 columns same as file1_RCNO_CURRENT_ALL
+
+- column: 74
+    name: Priority
+    role: DATA
+    description: priority
+- column: 75
+    name: PSHB_CODE
+    role: DATA
+    description: PSHB_CODE
+- column: 76
+    name: CODE_DESC
+    role: DATA
+    description: CODE_DESC
+
+- column: 77
+    name: Month_old
+    role: DATA
+    description: lst months
+
+file6_RCNA_PRIOR_TEST record layout same as file7_RCNA_ALL
+-------------------------------------------------------------------------
+    # Excel Schema Preservation – applies to all files
+    And when reading any Excel spreadsheet
+      Then the Excel schema (headers and column order) MUST be treated as authoritative
+      And ALL columns MUST be preserved exactly as they appear in the spreadsheet
+      And NO column may be dropped, skipped, inferred away, or ignored for any reason
+      And columns MUST be retained even if they contain only NULL values, empty cells, control characters, 
+       non‑breaking spaces, whitespace‑only values, or empty‑string formula results
+
+    # Deterministic rule execution model
+    And the agent MUST operate as a deterministic rule executor
+    And the agent MUST NOT infer intent
+    And the agent MUST NOT optimize outcomes
+    And the agent MUST NOT skip, reorder, or reinterpret rules
+    And the agent MUST NOT apply unstated logic
+    And rules MUST be evaluated strictly in the order defined:
+        | Order | Rule Name        |
+	| 1     | RuleA            |
+	| 2     | RuleB            |
+        | 3     | RuleF1           |
+        | 4     | RuleF2           |
+        | 5     | RuleF3           |
+        | 6     | RuleF4           |
+        | 7     | RuleF5           |
+        | 8     | RuleF6           |
+	| 9     | DefaultRule      |
+    And the coded rules are the single source of truth
+    And natural language reasoning MUST NOT override coded logic
+    And if code and reasoning differ, the coded logic MUST always win
+    And output values MUST be derived ONLY from rule execution
+
+    And no value may be inferred or defaulted
+
+    # Output file contract
+    And the output RCNA file "RCNA_CURRENT.xlsx" MUST be created
+    And "RCNA_CURRENT.xlsx" MUST contain a sheet named "DERIVED_DATA"
+    And for each input RCNO row, exactly one output row MUST be written
+    And each output row MUST contain:
+      | Output Field               |
+      |  7 columns                |
+  
+    And each output row MUST reference exactly one executed rule
+    And no rule decision may be silently skipped
+    And no output value may be inferred
+
+
+# RCNA rule chaining
+
+For each file1_RCNO_CURRENT_ALL record:
+
+  - Evaluate RCNA rules in the following order: Rule A, Rule B, Rule F1, Rule F2 , Rule F3 , Rule F4 , Rule F5...
+  - A rule "applies" when its When conditions are satisfied.
+  - If a rule applied or does not apply (its conditions are not met), move on to the next rule in sequence.
+  - Do not change my column references; use them exactly as written.
+
+  # =====================================================================
+  # Rule A
+  # =====================================================================
+
+For each file1_RCNO_CURRENT_ALL record:
+
+  # Step 0: initialize variables
+
+  set varD = RULE_ID
+  Temp_1 = ' '
+  Temp_2 = ' '
+  Temp_3 = ' '
+  Temp_4 = 0    # no of months
+  
+
+@RuleA
+
+{
+Rule_ID = A100
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL record exists
+  When file1_RCNO_CURRENT_ALL.column4 is equal to "M"
+    Or file1_RCNO_CURRENT_ALL.column4 is equal to "Z"]
+  
+
+   varD = RULE_ID
+   Temp_1 =  "2" 
+   Temp_2 = "ZM" 
+   Temp_3 = "COPY ZM"
+   Temp_4 = 0 
+   
+   }
+
+  # =====================================================================
+  # Rule B
+  # =====================================================================
+
+@RuleB
+Rule_ID = B200
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL record exists
+    And a matching file6_RCNA_PRIOR_TEST record exists such that
+        the first 73 columns of the file1_RCNO_CURRENT_ALL record are equal to the first 73 columns of the 
+         file6_RCNA_PRIOR_TEST record]
+  
+
+   varD = RULE_ID
+   Temp_1 =  file6_RCNA_PRIOR_TEST.column74
+   Temp_2 = file6_RCNA_PRIOR_TEST.column75
+   Temp_3 = file6_RCNA_PRIOR_TEST.column76
+   Temp_4 = file6_RCNA_PRIOR_TEST.column77 # no of months
+
+   }
+
+    
+---------------------------------------------------------------------------------------------------------------------------------
+ 
+@RuleF1
+{
+Rule_ID = F1300
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL RCNO record exists
+    And Rule A does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule B does not apply to this file1_RCNO_CURRENT_ALL record
+
+    And file1_RCNO_CURRENT_ALL.column 32 is populated
+    And file1_RCNO_CURRENT_ALL.column 32 is <= file1_RCNO_CURRENT_ALL.column 29
+
+      # Assumption: an end-of-year coverage end date is any date of the form 12/31/YYYY
+    And a file3_MEMBERSHIP_KP_ALL record exists such that
+      | file1_RCNO_CURRENT_ALL field | file3_MEMBERSHIP_KP_ALL field   |
+      | column 29                    | column 2                        |
+      | column 32       	     | column 3                        |
+      | column 11                    | column 5                        |
+      | column 14              	     | column 4                        |
+      | column 23              	     | column 16                       |
+    and file1_RCNO_CURRENT_ALL.column4 equals "F"]
+  
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "CE502" 
+   Temp_3 = "Carrier data matches RCNO no Action " 
+
+   }
+
+
+@RuleF2
+
+{
+Rule_ID = F2400
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL record exists
+    And Rule A does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule B does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule F1 does not apply to this file1_RCNO_CURRENT_ALL record
+
+    And file1_RCNO_CURRENT_ALL.column 32 is populated
+    And file1_RCNO_CURRENT_ALL.column 32 is <= file1_RCNO_CURRENT_ALL.column 29
+
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5 -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4 -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+             
+      And (file1_RCNO_CURRENT_ALL.column29      does not equal file3_MEMBERSHIP_KP_ALL.COLUMN 2
+             or file1_RCNO_CURRENT_ALL.column32 does not equal file3_MEMBERSHIP_KP_ALL.COLUMN 3)
+
+     # Matching on SSN to check existence of the member in 834 file
+     
+         And no record in file5_ENROLL_834_ALL is found such that:
+              file5_ENROLL_834_ALL.column 1  - Subsciber_SSN             = file1_RCNO_CURRENT_ALL.column 23 -PSHBS_Subscriber_SSN 
+         and  file5_ENROLL_834_ALL.COLUMN 2  -Coverage_Start_Date        = file1_RCNO_CURRENT_ALL.COLUMN 29 -PSHB_Coverage_Start_Date              
+         and  file5_ENROLL_834_ALL.COLUMN 3  -Coverage_End_Date          = file1_RCNO_CURRENT_ALL.COLUMN 32 -PSHB_Coverage_End_Date                
+
+    and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+     varD = RULE_ID
+     Temp_1 =  "4" 
+     Temp_2 = "CE001" 
+     Temp_3 = "OPM to send 834 cancellation." 
+
+   }
+
+
+
+@RuleF3
+{
+Rule_ID = F3500
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL record exists
+    And Rule A does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule B does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule F1 does not apply to this file1_RCNO_CURRENT_ALL record
+    And Rule F2 does not apply to this file1_RCNO_CURRENT_ALL record
+ 
+    And file1_RCNO_CURRENT_ALL.column 32 -PSHB_Coverage_End_Date  is populated  and is not the end of the year
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5 -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4 -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+           
+      And (file1_RCNO_CURRENT_ALL.column29      does not equal file3_MEMBERSHIP_KP_ALL.COLUMN 2
+             or file1_RCNO_CURRENT_ALL.column32 does not equal file3_MEMBERSHIP_KP_ALL.COLUMN 3)
+
+     # Matching on SSN to check existence of the member in 834 file
+      And there is at least 1 file5_ENROLL_834_ALL record such that :
+              file5_ENROLL_834_ALL.column 1  - Subsciber_SSN             = file1_RCNO_CURRENT_ALL.column 23 -PSHBS_Subscriber_SSN 
+         and  file5_ENROLL_834_ALL.COLUMN 2  -Coverage_Start_Date        = file1_RCNO_CURRENT_ALL.COLUMN 29 -PSHB_Coverage_Start_Date              
+         and  file5_ENROLL_834_ALL.COLUMN 3  -Coverage_End_Date          = file1_RCNO_CURRENT_ALL.COLUMN 32 -PSHB_Coverage_End_Date                
+
+
+    and  file1_RCNO_CURRENT_ALL.column4 -RCNO_Subscriber_ID_Result equals "F"]
+  
+   varD = RULE_ID
+   Temp_1 =  "4" 
+   Temp_2 = "CE500" 
+   Temp_3 = "Carrier to investigate and reprocess the 834" 
+
+
+   }
+
+
+@RuleF4
+
+{
+Rule_ID = F4600
+Condition 
+
+  [Given a file1_RCNO_CURRENT_ALL record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule F1 does not apply to this file1 record
+    And Rule F2 does not apply to this file1 record
+    And Rule F3 does not apply to this file1 record
+
+    # Active RCNO membership
+    And file1_RCNO_CURRENT_ALL.column32 is populated
+    and file1_RCNO_CURRENT_ALL.column32 > file1_RCNO_CURRENT_ALL.column29
+
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+      And file3_MEMBERSHIP_KP_ALL.column13   - Subscriber_deceased  = "Y"
+
+      and file1_RCNO_CURRENT_ALL.column4 equals "F"]
+  
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE002" 
+   Temp_3 = "OPM to match to ended coverage" 
+
+  }
+
+@RuleF5
+{
+ Rule_ID = F5700
+condition 
+  [Given a file1_RCNO_CURRENT_ALL record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule F1 does not apply to this file1 record
+    And Rule F2 does not apply to this file1 record
+    And Rule F4 does not apply to this file1 record
+
+       # Active RCNO membership
+    And file1_RCNO_CURRENT_ALL.column32 is populated
+    and file1_RCNO_CURRENT_ALL.column32 > file1_RCNO_CURRENT_ALL.column29
+
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+      And file3_MEMBERSHIP_KP_ALL.column13   - Member_deceased      = "Y"
+ 
+
+  and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+
+   Temp_1 =  "1" 
+   Temp_2 = "AE003" 
+   Temp_3 = "OPM to match the Carrier record" 
+
+   }
+
+  
+@RuleF6
+{
+ Rule_ID = F6800
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+
+       # Active RCNO membership
+    And file1_RCNO_CURRENT_ALL.column32 is populated
+    and file1_RCNO_CURRENT_ALL.column32 > file1_RCNO_CURRENT_ALL.column29
+
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+
+      And  file3_MEMBERSHIP_KP_ALL.column13   - Member_deceased  = "N" Relationship_Code
+
+      And  file3_MEMBERSHIP_KP_ALL.column8   - Relationship_Code  <> "1" 
+      And file3_MEMBERSHIP_KP_ALL.column 14 - Member_age  is greater than 26    
+      And file3_MEMBERSHIP_KP_ALL.column 15 NOT_DISABLED equals "Y"
+
+      and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE004" 
+   Temp_3 = "OPM to investigate why 834 not sent to Carrier" 
+
+   }
+
+
+@RuleF7
+{
+ Rule_ID = F7000
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+
+        # Active RCNO membership
+    And file1_RCNO_CURRENT_ALL.column32 is populated
+    and file1_RCNO_CURRENT_ALL.column32 > file1_RCNO_CURRENT_ALL.column29
+
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+
+      And  file3_MEMBERSHIP_KP_ALL.column13   - Member_deceased  = "N" 
+
+      And  file3_MEMBERSHIP_KP_ALL.column8   - Relationship_Code  = "1" 
+      And file3_MEMBERSHIP_KP_ALL.column 14 - Member_age  is greater than 26    
+     
+      and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "Z0000" 
+   Temp_3 = "Invalid Scenario "  
+
+   }
+
+
+@RuleF8
+{
+ Rule_ID = F8000
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+ 
+      And file1_RCNO_CURRENT_ALL.column29 = file3_MEMBERSHIP_KP_ALL.column2       # Coverage_Start_Date
+
+      And file1_RCNO_CURRENT_ALL.column32 <> file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date
+      And file1_RCNO_CURRENT_ALL.column32 + 31 = file3_MEMBERSHIP_KP_ALL.column3   # Coverage_End_Date
+ 
+
+      and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE502" 
+   Temp_3 = "Carrier data matches RCNO no Action Required"   
+
+   }
+
+
+@RuleF9
+{
+ Rule_ID = F9000
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+      And file1_RCNO_CURRENT_ALL.column32 <> file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date
+
+      and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE010" 
+   Temp_3 = "OPM to correct the coverage end date"   
+
+   }
+
+
+@RuleF10
+{
+ Rule_ID = F10000
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+    And RuleF9 does not apply to this file1 record
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+      And file1_RCNO_CURRENT_ALL.column32 <> file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date
+     # Matching on SSN to check existence of the member in 834 file
+      And there is at least 1 file5_ENROLL_834_ALL record such that :
+              file5_ENROLL_834_ALL.column 1  -Subsciber_SSN             = file1_RCNO_CURRENT_ALL.column 23 -PSHBS_Subscriber_SSN 
+         and  file5_ENROLL_834_ALL.COLUMN 2  -Coverage_Start_Date       = file1_RCNO_CURRENT_ALL.COLUMN 29 -PSHB_Coverage_Start_Date              
+         and  file5_ENROLL_834_ALL.COLUMN 3  -Coverage_End_Date         = file1_RCNO_CURRENT_ALL.COLUMN 32 -PSHB_Coverage_End_Date                
+         and  file5_ENROLL_834_ALL.COLUMN 4  -834_processed             = 'N'
+
+      and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE001" 
+   Temp_3 = "OPM to correct the coverage start date"   
+
+   }
+
+
+@RuleF12
+{
+ Rule_ID = F12000
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+    And RuleF9 does not apply to this file1 record
+    And RuleF10 does not apply to this file1 record
+    And RuleF11 does not apply to this file1 record
+
+    # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+      And (file1_RCNO_CURRENT_ALL.column29 <> file3_MEMBERSHIP_KP_ALL.column2           # Coverage_Start_Date
+            or file1_RCNO_CURRENT_ALL.column32 <> file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date)
+
+     # Matching on SSN to check existence of the member in 834 file
+      And there is at least 1 file5_ENROLL_834_ALL record such that :
+              file5_ENROLL_834_ALL.column 1  -Subsciber_SSN             = file1_RCNO_CURRENT_ALL.column 23 -PSHBS_Subscriber_SSN 
+         and  file5_ENROLL_834_ALL.COLUMN 2  -Coverage_Start_Date       = file1_RCNO_CURRENT_ALL.COLUMN 29 -PSHB_Coverage_Start_Date              
+         and  file5_ENROLL_834_ALL.COLUMN 3  -Coverage_End_Date         = file1_RCNO_CURRENT_ALL.COLUMN 32 -PSHB_Coverage_End_Date                
+         and  file5_ENROLL_834_ALL.COLUMN 4  -834_processed             = 'Y'
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE500" 
+   Temp_3 = "Carrier to investigate and reprocess the 834" 
+
+   }
+
+@RuleF13
+{
+ Rule_ID = F13000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+    And RuleF9 does not apply to this file1 record
+    And RuleF10 does not apply to this file1 record
+    And RuleF11 does not apply to this file1 record
+    And RuleF12 does not apply to this file1 record
+
+
+
+  # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+      And (file1_RCNO_CURRENT_ALL.column29 <> file3_MEMBERSHIP_KP_ALL.column2           # Coverage_Start_Date
+            or file1_RCNO_CURRENT_ALL.column32 <> file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date)
+
+     # Matching on SSN to check existence of the member in 834 file
+      And there is at least 1 file5_ENROLL_834_ALL record such that :
+              file5_ENROLL_834_ALL.column 1  -Subsciber_SSN             = file1_RCNO_CURRENT_ALL.column 23 -PSHBS_Subscriber_SSN 
+         and  file5_ENROLL_834_ALL.COLUMN 2  -Coverage_Start_Date       = file1_RCNO_CURRENT_ALL.COLUMN 29 -PSHB_Coverage_Start_Date              
+         and  file5_ENROLL_834_ALL.COLUMN 3  -Coverage_End_Date         = file1_RCNO_CURRENT_ALL.COLUMN 32 -PSHB_Coverage_End_Date                
+         and  file5_ENROLL_834_ALL.COLUMN 4  -834_processed             = 'N'
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE501" 
+   Temp_3 =  "Carrier to process the 834-enrollment transaction" 
+
+   }
+
+@RuleF14
+{
+ Rule_ID = F14000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+    And RuleF9 does not apply to this file1 record
+    And RuleF10 does not apply to this file1 record
+    And RuleF11 does not apply to this file1 record
+    And RuleF12 does not apply to this file1 record
+    And RuleF13 does not apply to this file1 record
+
+
+  # Match MEMBERSHIP by Last + First + SSN
+    And a record file3_MEMBERSHIP_KP_ALL  such that:
+           file1_RCNO_CURRENT_ALL.column 11  - PSHBS_Last_Name      = file3_MEMBERSHIP_KP_ALL.column 5  -Last_Name               
+      and  file1_RCNO_CURRENT_ALL.column 14  - PSHBS_First_Name     = file3_MEMBERSHIP_KP_ALL.column 4  -First_Name              
+      and  file1_RCNO_CURRENT_ALL.column 23  - PSHBS_Subscriber_SSN = file3_MEMBERSHIP_KP_ALL.column 16 -subsc_SSN 
+ 
+      And file1_RCNO_CURRENT_ALL.column29 = file3_MEMBERSHIP_KP_ALL.column2       # Coverage_Start_Date
+      And file1_RCNO_CURRENT_ALL.column32 = file3_MEMBERSHIP_KP_ALL.column3       # Coverage_End_Date
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE502" 
+   Temp_3 =  "Carrier data matches RCNO no Action Required"  
+
+   }
+
+@RuleF20
+{
+ Rule_ID = F20000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And RuleF1 does not apply to this file1 record
+    And RuleF2 does not apply to this file1 record
+    And RuleF4 does not apply to this file1 record
+    And RuleF5 does not apply to this file1 record
+    And RuleF6 does not apply to this file1 record
+    And RuleF7 does not apply to this file1 record
+    And RuleF8 does not apply to this file1 record
+    And RuleF9 does not apply to this file1 record
+    And RuleF10 does not apply to this file1 record
+    And RuleF11 does not apply to this file1 record
+    And RuleF12 does not apply to this file1 record
+    And RuleF13 does not apply to this file1 record
+    And RuleF14 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column11   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column14   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column20   # Member_SSN
+
+
+    # matching 834 record for this SSN + RCNO dates
+    And no record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column20      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column29      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column32      # Coverage_End_Date
+     And file3_MEMBERSHIP_KP_ALL.column 12 deceased equals "N"
+
+     And file3_MEMBERSHIP_KP_ALL.column 14 age is <= 26 
+      And file1_RCNO_CURRENT_ALL.column32 = file3_MEMBERSHIP_KP_ALL.column3   # Coverage_End_Date
+          treating December 31 of any year as null for file1_RCNO_CURRENT_ALL.column32
+
+      And file1_RCNO_CURRENT_ALL.column29 = file3_MEMBERSHIP_KP_ALL.column2   # Coverage_Start_Date
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "F"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE013" 
+   Temp_3 =  "OPM to investigate why 834 not sent to Carrier" 
+
+   }
+
+
+
+@RuleI1
+{
+ Rule_ID = I1000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # Subsciber_SSN
+
+
+      And current Date > file3_MEMBERSHIP_KP_ALL.column3   # Coverage_End_Date
+      and file1_RCNO_CURRENT_ALL.column33 = last day of the current year in yyyymmdd format
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "2" 
+   Temp_2 = "AC002" 
+   Temp_3 =  "OPM to match to ended coverage" 
+
+   }
+
+
+@RuleI2
+{
+ Rule_ID = I2000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+
+     and (file1_RCNO_CURRENT_ALL.column33 > file1_RCNO_CURRENT_ALL.column30 or file1_RCNO_CURRENT_ALL.column33 is null )
+          
+    # matching 834 record for this SSN + RCNO dates
+    And no record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column23      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "2" 
+   Temp_2 = "AC004" 
+   Temp_3 =  "No 834 Term or Cancel Received. OPM to investigate why 834 not sent to Carrier"  
+
+   }
+
+
+@RuleI3
+{
+ Rule_ID = I3000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+    And Rule I2 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+
+
+          
+    # matching 834 record for this SSN + RCNO dates
+    And no record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "4" 
+   Temp_2 = "CE001" 
+   Temp_3 =  "No 834 cancellation received. OPM to send 834 cancellation"  
+
+   }
+
+
+
+@RuleI4
+{
+ Rule_ID = I4000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+    And Rule I2 does not apply to this file1 record
+    And Rule I3 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+
+     and (file1_RCNO_CURRENT_ALL.column33 > file1_RCNO_CURRENT_ALL.column30 or file1_RCNO_CURRENT_ALL.column33 is null )
+  
+
+          
+    # matching 834 record for this SSN + RCNO dates
+    And record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+     and file5_ENROLL_834_ALL.Column4 = 'Y'  # processed
+ 
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "2" 
+   Temp_2 = "AC500" 
+   Temp_3 =  "834 Enrollment Processing Issue. Carrier to investigate and reprocess the 834"  
+
+   }
+
+@RuleI5
+{
+ Rule_ID = I5000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+    And Rule I2 does not apply to this file1 record
+    And Rule I3 does not apply to this file1 record    
+    And Rule I4 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+         
+    # matching 834 record for this SSN + RCNO dates
+    And record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+     and file5_ENROLL_834_ALL.Column4 = 'Y'  # processed
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "4" 
+   Temp_2 = "CE500" 
+   Temp_3 =  "834 Enrollment Processing Issue. Carrier to investigate and reprocess the 834"
+
+   }
+
+
+@RuleI6
+{
+ Rule_ID = I6000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+    And Rule I2 does not apply to this file1 record
+    And Rule I3 does not apply to this file1 record    
+    And Rule I4 does not apply to this file1 record
+    And Rule I5 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+
+     and (file1_RCNO_CURRENT_ALL.column33 > file1_RCNO_CURRENT_ALL.column30 or file1_RCNO_CURRENT_ALL.column33 is null )
+         
+    # matching 834 record for this SSN + RCNO dates
+    And record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+     and file5_ENROLL_834_ALL.Column4 = 'N'  # processed
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "2" 
+   Temp_2 = "AC501" 
+   Temp_3 =  "834 Cancelation / Termination Awaiting Processing. Carrier to cancel / term coverage"
+
+   }
+
+
+@RuleI7
+{
+ Rule_ID = I7000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule I1 does not apply to this file1 record
+    And Rule I2 does not apply to this file1 record
+    And Rule I3 does not apply to this file1 record    
+    And Rule I4 does not apply to this file1 record
+    And Rule I5 does not apply to this file1 record
+    And Rule I6 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column5 = file1_RCNO_CURRENT_ALL.column12   # Last_Name
+     And file3_MEMBERSHIP_KP_ALL.column4 = file1_RCNO_CURRENT_ALL.column15   # First_Name
+     And file3_MEMBERSHIP_KP_ALL.column16 = file1_RCNO_CURRENT_ALL.column23   # subscriber_SSN
+
+  
+         
+    # matching 834 record for this SSN + RCNO dates
+    And record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+     and file5_ENROLL_834_ALL.Column4 = 'N'  # processed
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "I"]
+
+   varD = RULE_ID
+   Temp_1 =  "4" 
+   Temp_2 = "CE501" 
+   Temp_3 =  "834 cancellation awaiting processing. Carrier to process the 834 cancellation"
+
+   }
+
+@RuleN0
+{
+ Rule_ID = N0000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL not exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+               
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "KICKO" 
+   Temp_3 = "MRN not found on a N record" 
+
+   }
+
+
+@RuleN1
+{
+ Rule_ID = N1000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    AND Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and (file3_MEMBERSHIP_KP_ALL.column10 <> file1_RCNO_CURRENT_ALL.column8 #Annuitant
+         or  file3_MEMBERSHIP_KP_ALL.column10 not populated)
+     and file1_RCNO_CURRENT_ALL.column8 is populated
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM501" 
+   Temp_3 = "Carrier to update member field" 
+
+   }
+
+@RuleN2
+{
+ Rule_ID = N2000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    AND Rule N0 does not apply to this file1 record
+ 
+
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and (file3_MEMBERSHIP_KP_ALL.column11 <> file1_RCNO_CURRENT_ALL.column62 # payroll office
+          or file3_MEMBERSHIP_KP_ALL.column11 not populated)
+     and file1_RCNO_CURRENT_ALL.colum62 is populated
+    
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM508" 
+   Temp_3 = "Carrier to update member field"  
+
+   }
+
+@RuleN3
+{
+ Rule_ID = N3000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    AND Rule N0 does not apply to this file1 record
+    And Rule N1 does not apply to this file1 record
+
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and (file3_MEMBERSHIP_KP_ALL.column8 <> file1_RCNO_CURRENT_ALL.column65 #Relation ship
+         or file3_MEMBERSHIP_KP_ALL.column8 not populated)
+     and file1_RCNO_CURRENT_ALL.colum65 is populated
+
+          
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM509" 
+   Temp_3 = "Carrier to update member field" 
+
+   }
+
+
+@RuleN4
+{
+ Rule_ID = N4000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    AND Rule N0 does not apply to this file1 record
+ 
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column5 <> file1_RCNO_CURRENT_ALL.column11 ignoring case #Last name
+
+     and (file3_MEMBERSHIP_KP_ALL.column5 begins with file1_RCNO_CURRENT_ALL.column11 ignoring case #Last name
+          or file1_RCNO_CURRENT_ALL.column11 = "NEWBORN"
+          or file3_MEMBERSHIP_KP_ALL.column17 = 'Y')
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM502" 
+   Temp_3 = "OPM to update member field" 
+
+   }
+
+@RuleN5
+{
+ Rule_ID = N5000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and file3_MEMBERSHIP_KP_ALL.column4 does not contain in file1_RCNO_CURRENT_ALL.column14 ignoring case #first name
+
+     and file3_MEMBERSHIP_KP_ALL.column4 <> file1_RCNO_CURRENT_ALL.column14 ignoring case #First name
+
+     and (file3_MEMBERSHIP_KP_ALL.column4 begins with file1_RCNO_CURRENT_ALL.column14 ignoring case #First name
+          or file1_RCNO_CURRENT_ALL.column11 = "NEWBORN"
+          or file3_MEMBERSHIP_KP_ALL.column17 = 'Y')
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM503" 
+   Temp_3 = "OPM to update member field" 
+
+   }
+
+@RuleN4-1
+{
+ Rule_ID = N4000-1 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    AND Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column5 <> file1_RCNO_CURRENT_ALL.column11 ignoring case #last name
+
+ 
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM001" 
+   Temp_3 = "OPM to update member field" 
+
+   }
+
+@RuleN5-1
+{
+ Rule_ID = N5000-1 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and file3_MEMBERSHIP_KP_ALL.column4 does not contain in file1_RCNO_CURRENT_ALL.column14 ignoring case #first name
+
+     and file3_MEMBERSHIP_KP_ALL.column4 <> file1_RCNO_CURRENT_ALL.column14 ignoring case #First name
+
+    
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM002" 
+   Temp_3 = "OPM to update member field" 
+
+   }
+
+@RuleN6
+{
+ Rule_ID = N6000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and file3_MEMBERSHIP_KP_ALL.column6 <> file1_RCNO_CURRENT_ALL.column20 #SSN  ----Member SSN
+     and file3_MEMBERSHIP_KP_ALL.column8 <>  "S" #relationship 
+     and file3_MEMBERSHIP_KP_ALL.column6 not null
+
+     and file1_RCNO_CURRENT_ALL.column20 length <>  9
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM003" 
+   Temp_3 = "OPM to update member field" 
+
+   }
+
+@RuleN7
+{
+ Rule_ID = N7000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+     and file3_MEMBERSHIP_KP_ALL.column6 <> file1_RCNO_CURRENT_ALL.column23 # Subsc_ssn
+     and file1_RCNO_CURRENT_ALL.column23 length <> 9
+     and file3_MEMBERSHIP_KP_ALL.column8 = "S"  #relationship 
+     and file3_MEMBERSHIP_KP_ALL.column6 not null
+  
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM004" 
+   Temp_3 = "OPM to update member field"  
+
+   }
+
+@RuleN8
+{
+ Rule_ID = N8000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column6 <> file1_RCNO_CURRENT_ALL.column20 # Member SSN 
+
+     and file1_RCNO_CURRENT_ALL.column20 length = 9
+     and file1_RCNO_CURRENT_ALL.column20 <> '000000000'
+     and file3_MEMBERSHIP_KP_ALL.column8 <> "S"  #relationship 
+
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM505" 
+   Temp_3 = "Carrier to update member field"   
+
+   }
+
+@RuleN9
+{
+ Rule_ID = N9000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column6 <> file1_RCNO_CURRENT_ALL.column23 # subscriber SSN 
+
+     and file1_RCNO_CURRENT_ALL.column20 length = 9
+     and file1_RCNO_CURRENT_ALL.column20 <> '000000000'
+     and file3_MEMBERSHIP_KP_ALL.column8 = "S"  #relationship 
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM506" 
+   Temp_3 = "Carrier to update member field"   
+
+   }
+
+
+@RuleN10
+{
+ Rule_ID = N10000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+ 
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column7 <> file1_RCNO_CURRENT_ALL.column71 # Gender 
+     and file3_MEMBERSHIP_KP_ALL.column7 <> "U"
+     and file3_MEMBERSHIP_KP_ALL.column7 not null
+     and (file1_RCNO_CURRENT_ALL.column71 = null or file1_RCNO_CURRENT_ALL.column71 = "U")
+    
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM006" 
+   Temp_3 = "OPM to update member field"   
+
+   }
+
+@RuleN11 --same as n10 verify
+{
+ Rule_ID = N11000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+ 
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+     and file3_MEMBERSHIP_KP_ALL.column7 <> file1_RCNO_CURRENT_ALL.column71 # Gender 
+     
+     and (file1_RCNO_CURRENT_ALL.column71 not null and file1_RCNO_CURRENT_ALL.column71 <> "U")
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "3" 
+   Temp_2 = "DM510" 
+   Temp_3 = "Carrier to update member field"   
+
+   }
+
+@RuleN12 
+{
+ Rule_ID = N12000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+  And (
+             file3_MEMBERSHIP_KP_ALL.column 9 does not equal file1_RCNO_CURRENT_ALL.column26 #plan code
+         Or  file3_MEMBERSHIP_KP_ALL.column2  does not equal file1_RCNO_CURRENT_ALL.column29
+         Or (
+                file3_MEMBERSHIP_KP_ALL.column3 not equal file1_RCNO_CURRENT_ALL.column 32
+           And file1_RCNO_CURRENT_ALL.column 29 is after  file3_MEMBERSHIP_KP_ALL.column 2 #coverage start date
+            )
+          )
+   
+     And no record in file5_ENROLL_834_ALL exists such that:
+         file5_ENROLL_834_ALL.column1 = file1_RCNO_CURRENT_ALL.column21      # SSN
+     And file5_ENROLL_834_ALL.column2 = file1_RCNO_CURRENT_ALL.column30      # Coverage_Start_Date
+     And file5_ENROLL_834_ALL.column3 = file1_RCNO_CURRENT_ALL.column33      # Coverage_End_Date
+
+       
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "KICKO" 
+   Temp_3 = "Business to review"    
+
+   }
+
+@RuleN13
+{
+ Rule_ID = N13000 
+condition 
+  [Given an RCNO_CURRENT record exists
+    And Rule A does not apply to this file1 record
+    And Rule B does not apply to this file1 record
+    And Rule N0 does not apply to this file1 record    
+ 
+
+   # Match MEMBERSHIP by Last + First + SSN
+     And a record in file3_MEMBERSHIP_KP_ALL exists such that:
+         file3_MEMBERSHIP_KP_ALL.column1 = file1_RCNO_CURRENT_ALL.column6   # MRN
+
+  And (
+             file3_MEMBERSHIP_KP_ALL.column 9 <> file1_RCNO_CURRENT_ALL.column26 #plan code
+         Or  file3_MEMBERSHIP_KP_ALL.column2  <> file1_RCNO_CURRENT_ALL.column29 #coverage start date
+         Or  file3_MEMBERSHIP_KP_ALL.column3  <> file1_RCNO_CURRENT_ALL.column 32
+             
+          )
+   
+
+       
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE501" 
+   Temp_3 = "Carrier to process the 834-enrollment transaction"   
+
+   }
+
+
+     and  file1_RCNO_CURRENT_ALL.column4 equals "N"]
+
+   varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "AE501" 
+   Temp_3 =  "Carrier to process the 834-enrollment transaction"    
+
+   }
+
+ 
+
+  # =====================================================================
+  # Default Rule
+  # =====================================================================
+
+@DefaultRule
+{ 
+Rule_ID = No_rule99999
+Condition
+
+ [  Given a file1_RCNO_CURRENT_ALL record exists
+    And No above other rule applied
+
+ ]
+    varD = RULE_ID
+   Temp_1 =  "1" 
+   Temp_2 = "0000" 
+   Temp_3 =  "No Rules Applied"    
+} 
+
+
+   
+# Creating file7_RCNA_ALL after rules are evaluated
+
+For each file1_RCNO_CURRENT_ALL record:
+
+  # Decide if a file7 row is needed (e.g., if any rule applied)
+  If varD <>:
+    Then create a new file7_RCNA_ALL row using the file7_RCNA_ALL schema (74 columns)
+
+      # Copy source columns
+      And copy columns 1 through 73 from file1_RCNO_CURRENT_ALL
+          into columns 1 through 73 of file7_RCNA_ALL
+
+      # Populate derived columns from variables
+      And set file7_RCNA_ALL.column74 =  Temp_1
+      And set file7_RCNA_ALL.column75 =  Temp_2
+      And set file7_RCNA_ALL.column76 =  Temp_3
+      And set file7_RCNA_ALL.column77 =  Temp_4
+
+      
+
+      # No additional columns
+      And do not add any other columns beyond the copied 73 columns
+          and one derived column
+
+      # Preserve column order
+      And preserve column order so that:
+        | position | description                        |
+        | 1-73     | copied from file1_RCNO_CURRENT_ALL |
+        | 74       | PRIORITY                           |
+        | 74       | PSHB_CODE                          |
+        | 74       | CODE_DESC                          |
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+  # =====================================================================
+  # Output validation, explanation, and error handling
+  # =====================================================================
+
+   @Validation
+  Scenario: Validate and review RCNA output
+    Given RCNA_CURRENT.xlsx has been generated with sheet "DERIVED_DATA"
+    Then display all records from RCNA_CURRENT.DERIVED_DATA
+    And display the total count of records in RCNA_CURRENT.DERIVED_DATA
+    And for every rule (Rule A, Rule B, Rule F-1, DefaultRule) and every file1 input row, 
+       explain why the rule did not apply when it was not selected
+    And perform error analysis on all RCNA rows and rule applications
+    And reprocess any error records according to the same deterministic rule order (RuleA, RuleB, RuleF1,RuleF2,RuleF3,RuleF4,RuleF5,RuleF6,DefaultRule)
+    And ensure that each RCNA output row references exactly one executed rule 
+    And ensure that no rule decision is silently skipped
+    And ensure that no output value is inferred or defaulted
+    And if any validation step fails
+      Then discard the current RCNA output
+      And re-execute the RCNA File Creation process from the beginning using the same input files

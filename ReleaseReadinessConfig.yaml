@@ -1,0 +1,45 @@
+---
+artifactTags: 
+  artifactReleaseVersion: #New Artifact version to be deployed  ** for Java apps - this should match the version provided in the POM.xml and for nodeJS apps version in Package.json
+  artifactBackOutVersion: #Current Artifact version in prod for back-out if required
+  artifactConfigName: #Current Artifact's config name 
+  artifactConfigBranch: #Current Artifact's config's branch name
+  artifactConfigReleaseVersion: #New Artifact version to be deployed. Provide the current version in prod if no config changes
+  artifactConfigBackOutVersion: #Provide the backout version of artifact config in prod 
+snowDetails:
+  ScheduledDate: #Production Release Date
+  CI: #Service-Now Configuration Item
+  assignmentGroup: #Service Now Assignment Group
+  assignedTo: #NUID of the repo owner and should be part of the assignment group
+  requestedFor: # can be same as assigned to or squad owner.
+  ChangeTasks: #Tasks provided below are for reference only and add/remove as required
+    implementation: #Task identifier for the Bot to add to service-now
+        changeTask: #Type of Task - ex: implementation or verify or planning
+        description: #Service Now CTASK description
+        shortDescription: #Service Now CTASK - Some description about the change task.
+        assignmentGroup: #CTASK Assignment Group - Who is responsible for this task
+        assignedTo: #NUID of person part of the above assignment group. If the responsible team is external, value can be just ""
+    apigee: #Add this only if the CTASK for apigee is required
+        changeTask:  #task type - Implementation        
+        description: # Description about the change 
+        shortDescription: #Description about the change 
+        assignmentGroup: EPS API SUPPORT
+        assignedTo: "" #leave it as is and apigee team will assign a person.
+jiraDetails:
+  jiraProjectId: #Jira project name ex: DPP for Digital Payments Platform Squad
+  rmProjectId:  #Release Teams Jira Project ex: RM 
+  fixVersion: #Optional
+  checker: #User NUID
+  approver: #User NUID
+  environments: #Enviroments where the artifacts will be deployed
+    DEV: #ex: dev
+    PERF: #ex: perf
+    QA: #ex: qa
+    Pre-Prod: #ex: uat
+    Prod: #ex: prod
+    Dr: #ex: dr
+Emergency: #Optional and not enabled for use
+sreSloId: #SRE error budget field
+syntheticId: #SRE blue triangle  field
+qTestFolder: #Qtest 
+justification: #Free text required for Service-Now

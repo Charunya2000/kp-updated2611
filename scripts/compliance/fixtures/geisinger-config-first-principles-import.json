@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "type": "GeisingerConfig",
+      "title": "First Principles Runtime Routing Config",
+      "collectionName": "Document Conversation",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "documentText": "Runtime routing config for first-principles canary rollout.",
+      "prepEngine": "first-principles",
+      "conversationEngine": "first-principles",
+      "comparisonEngine": "first-principles",
+      "firstPrinciplesSearchEndpointKey": "host.<env>-aiportal-web-2.aisvc.aksnp.azure.kp.org.searchEndpoint.new.t3",
+      "firstPrinciplesSearchQueryKey": "host.<env>-aiportal-web-2.aisvc.aksnp.azure.kp.org.aisearch.new.t3.api.key",
+      "firstPrinciplesSearchUploadKey": "host.<env>-aiportal-web-2.aisvc.aksnp.azure.kp.org.aiupload.new.t3.api.key",
+      "firstPrinciplesCompareJson": "{\"sampleSize\":300,\"nearDedupThreshold\":0.92,\"gapRescueThreshold\":0.65,\"enableNearDedup\":true,\"enableGapRescue\":true}",
+      "rolloutScope": {
+        "teamAllowlist": [
+          "geisinger"
+        ],
+        "lobAllowlist": [
+          "Commercial"
+        ]
+      }
+    }
+  ]
+}

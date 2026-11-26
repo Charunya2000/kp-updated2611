@@ -1,0 +1,27 @@
+{
+  "job": {
+    "jobType": "GeisingerDocumentPreparation",
+    "maxConcurrency": 10,
+    "defaultConcurrency": 1
+  },
+  "discovery": {
+    "defaultRootFolder": "Shared Documents/Regulatory and Contractual Documents",
+    "preparableExtensions": [
+      "pdf",
+      "docx"
+    ],
+    "requireSingleLobWhenFileNameFilterPresent": true
+  },
+  "collections": {
+    "conversationCollectionName": "user_collection"
+  },
+  "preparationVersion": {
+    "envVar": "GEISINGER_PREPARATION_VERSION",
+    "defaultValue": "1"
+  },
+  "sharePoint": {
+    "domainToggleEnvVar": "USE_VAULT",
+    "vaultDomain": "geisinger.sharepoint.com",
+    "legacyDomain": "sp-cloud.kp.org"
+  }
+}

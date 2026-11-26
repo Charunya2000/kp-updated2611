@@ -1,0 +1,45 @@
+{
+  "conversation": [
+    {
+      "id": "conv-section-722-recall",
+      "name": "Section 7.2.2 Recall",
+      "conversationId": "fixture-conversation-001",
+      "query": "What is required in second level complaint process?",
+      "expect": {
+        "minRequirementResults": 2,
+        "minFusedEvidence": 3,
+        "mustIncludeSection": "7.2.2",
+        "mustIncludeCitationText": "CHIP Procedures Handbook Dec 2018.pdf"
+      }
+    },
+    {
+      "id": "conv-timeline-citation",
+      "name": "Timeline Citation Grounding",
+      "conversationId": "fixture-conversation-001",
+      "query": "How many days does the MCO have for second level complaint decision notice?",
+      "expect": {
+        "minRequirementResults": 2,
+        "minFusedEvidence": 3,
+        "mustIncludeSection": "7.2.2",
+        "mustIncludeCitationText": "chars"
+      }
+    }
+  ],
+  "comparison": [
+    {
+      "id": "compare-delta-timeline",
+      "name": "Comparison Delta Timeline",
+      "leftConversationId": "fixture-conversation-a",
+      "rightConversationId": "fixture-conversation-b",
+      "query": "second level complaint requirements",
+      "expect": {
+        "minAligned": 1,
+        "minGapsTotal": 2,
+        "requireSummaryTerms": [
+          "Matches",
+          "Gaps"
+        ]
+      }
+    }
+  ]
+}

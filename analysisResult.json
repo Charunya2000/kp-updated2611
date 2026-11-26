@@ -1,0 +1,606 @@
+{
+  "tables": [
+    {
+      "id": "table_MEMBER_OWNER_TAP_PERSON_ENTITLEMENT",
+      "concept": "Person Entitlements",
+      "alternate_forms": [
+        "Individual Benefits",
+        "Member Rights",
+        "Person Memberships",
+        "User Privileges",
+        "Personal Entitlement Information"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_ENTITLEMENT",
+      "column_name": null,
+      "description": "This table represents the various entitlements or rights that a person holds within the organization, including the details of when these entitlements are valid, what type they are, and any related metadata.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What entitlements does a person have?",
+        "Can you show me the benefits assigned to a member?",
+        "What are the active privileges for an individual?",
+        "List all rights a user currently holds.",
+        "How can I view personal entitlement details for a person?"
+      ],
+      "score": 0.03226646035909653
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_OBSOLETE_PERSON",
+      "concept": "Obsolete Person Records",
+      "alternate_forms": [
+        "Inactive Person Data",
+        "Archived Member Information",
+        "Old Membership Profiles",
+        "Person Data History",
+        "Former Member Records"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_OBSOLETE_PERSON",
+      "column_name": null,
+      "description": "This table stores information about individuals whose records are considered obsolete or inactive within the membership database. It includes details on audit trails, identification changes, and timestamps related to the status of the person's record.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "How can I find data on members who have been marked as obsolete?",
+        "What are the reasons a person's record would be considered inactive?",
+        "Can you show me the history of changes for obsolete member profiles?",
+        "Where do I look for archived information on past members?",
+        "How do I access audit trails for obsolete person data?"
+      ],
+      "score": 0.0314980149269104
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_PERSON_COVERAGE_RIDER",
+      "concept": "Person Coverage Riders",
+      "alternate_forms": [
+        "Coverage Rider Details",
+        "Individual Policy Add-ons",
+        "Rider Benefits for Person",
+        "Extra Coverage Options",
+        "Policy Rider Information"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE_RIDER",
+      "column_name": null,
+      "description": "This table contains information about additional coverage options, known as riders, that are associated with individual insurance policies held by persons. It tracks the effective dates, status, and details of these riders to manage policy enhancements.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What rider benefits are available for a specific person?",
+        "How can I view the extra coverage options for an individual's policy?",
+        "Can you show me the details of the coverage riders for a person's insurance?",
+        "What are the start and end dates for the rider benefits on a person's policy?",
+        "Is there a record of updates made to a person's coverage riders?"
+      ],
+      "score": 0.031054403632879257
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_PERSON",
+      "concept": "Person Information",
+      "alternate_forms": [
+        "Individual Details",
+        "Member Profile",
+        "Personal Data",
+        "Identity Record",
+        "Personal Information"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON",
+      "column_name": null,
+      "description": "This table stores comprehensive personal data about individuals, including demographic information, legal identifiers, and communication preferences. It is primarily used to maintain records of members within an organization or community.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What are the personal details for a given member?",
+        "Can you give me the profile information for John Doe?",
+        "How do I find the birth city of an individual?",
+        "What is the preferred language of the person with ID 123?",
+        "Show me the ethnicity and nationality of a member."
+      ],
+      "score": 0.03055555745959282
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_PERSON_SOURCE_DEMOGRAPHIC",
+      "concept": "Person Demographics",
+      "alternate_forms": [
+        "Individual Information",
+        "Member Details",
+        "Personal Data",
+        "User Profile"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_SOURCE_DEMOGRAPHIC",
+      "column_name": null,
+      "description": "This table represents the demographic and personal information of individuals, including contact details, identity attributes, and social identifiers, used for membership management and services.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "How can I find the birth dates of all members?",
+        "What is the gender distribution of our users?",
+        "Can you provide the addresses of individuals in a specific city?",
+        "Which members have provided their email addresses?",
+        "What ethnic backgrounds are represented in our member database?"
+      ],
+      "score": 0.02955133654177189
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_COVERAGE_ADDRESS",
+      "concept": "Coverage Address",
+      "alternate_forms": [
+        "Insurance Coverage Address",
+        "Policy Coverage Address",
+        "Member Address for Coverage",
+        "Coverage Location",
+        "Address for Coverage"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE_ADDRESS",
+      "column_name": null,
+      "description": "This table contains address information related to insurance coverage. It provides details such as the type of address, geographical location, and validity period, helping track where coverage is applicable for members or policies.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What is the address for this insurance coverage?",
+        "Can you show me the coverage location details?",
+        "What city is the coverage address located in?",
+        "Is there a bad address flag for any coverage?"
+      ],
+      "score": 0.032522473484277725
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_PERSON_COVERAGE",
+      "concept": "Person Coverage Information",
+      "alternate_forms": [
+        "Coverage Details",
+        "Insurance Coverage",
+        "Member Coverage",
+        "Coverage Records",
+        "Coverage History"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE",
+      "column_name": null,
+      "description": "This table contains detailed information about the coverage afforded to individuals, including their enrollment and application details, coverage effective dates, reasons for coverage changes, and relationships to coverage subscribers. It is used to track and manage insurance coverage for members.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "Can you show me the coverage details for a specific person?",
+        "What is the insurance coverage history for member ID 12345?",
+        "How do I find the effective start date of a person's coverage?",
+        "What reasons are listed for changes to a person's coverage?",
+        "Who is covered under this insurance policy and what are their roles?"
+      ],
+      "score": 0.0320020467042923
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_COVERAGE",
+      "concept": "Insurance Coverage Details",
+      "alternate_forms": [
+        "Coverage Information",
+        "Policy Coverage",
+        "Insurance Policy Details",
+        "Member Coverage",
+        "Coverage Data"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE",
+      "column_name": null,
+      "description": "This table captures comprehensive details about insurance coverage for members, including policy terms, effective dates, reasons for enrollment or termination, and subscriber information. It is essential for tracking the insurance coverage status and history of individuals under various plans.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What is the current coverage status for a member?",
+        "Can you provide details on the insurance policy terms for subscriber ID 12345?",
+        "How has the coverage changed for this member over time?",
+        "What are the reasons for coverage termination for policy ID 67890?",
+        "Who is the carrier for the current insurance coverage?"
+      ],
+      "score": 0.03159204125404358
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_COVERAGE_SPLIT_COVERAGE",
+      "concept": "Coverage Allocation Details",
+      "alternate_forms": [
+        "Coverage Split Information",
+        "Coverage Division Records",
+        "Coverage Separation Data",
+        "Insurance Coverage Breakdown"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE_SPLIT_COVERAGE",
+      "column_name": null,
+      "description": "This table represents the details of how insurance coverage is divided or allocated among different parties. It tracks changes in coverage allocation and maintains records of updates and insertions related to the coverage splits.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "How is the insurance coverage split between different policies?",
+        "Can you show me the details of coverage allocation?",
+        "What records exist for changes in coverage allocation?",
+        "Who updated the coverage split information most recently?",
+        "What are the timestamps for the latest coverage allocation updates?"
+      ],
+      "score": 0.030117753893136978
+    },
+    {
+      "id": "table_MEMBER_OWNER_TAP_COVERAGE_PREMIUM_RATE",
+      "concept": "Coverage Premium Rates",
+      "alternate_forms": [
+        "Insurance Premium Rates",
+        "Coverage Pricing Details",
+        "Policy Premium Rates",
+        "Premium Rate Information"
+      ],
+      "entity_type": "table",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE_PREMIUM_RATE",
+      "column_name": null,
+      "description": "This table contains detailed information about the premium rates associated with different insurance coverages. It includes data on various financial responsibilities and amounts relevant to exchanges and states, as well as timestamps for record updates.",
+      "confidence": 0.9,
+      "example_phrases": [
+        "What are the premium rates for specific coverages?",
+        "How has the coverage premium rate changed over time?",
+        "Can you show me the premium rate details for the current insurance plan?",
+        "What is the employer's responsibility amount in the premium rate?",
+        "How do the state amounts affect the overall coverage premium?"
+      ],
+      "score": 0.02792120911180973
+    }
+  ],
+  "columns": [
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_SOURCE_DEMOGRAPHIC_NAME",
+      "concept": "Person Name",
+      "alternate_forms": [
+        "Full Name",
+        "Individual Name",
+        "Name of Person",
+        "Customer Name"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_SOURCE_DEMOGRAPHIC",
+      "column_name": "NAME",
+      "description": "This column represents the name of the person as stored in the demographic database for member owners. It is used to identify individuals in relation to personal information and records.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the name of the person associated with this record?",
+        "Can you show me the full name of the customer?",
+        "How do I find the individual's name in the demographic data?",
+        "What name is listed for the member in this database?"
+      ],
+      "score": 0.03333333507180214
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_COVERAGE_AFFILIATION_AFFILIATED_PERSON_FULL_NAME",
+      "concept": "Full Name of Affiliated Person",
+      "alternate_forms": [
+        "Affiliated Person's Name",
+        "Name of Affiliated Person",
+        "Affiliated Individual's Full Name",
+        "Complete Name of Person Affiliated"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE_AFFILIATION",
+      "column_name": "AFFILIATED_PERSON_FULL_NAME",
+      "description": "This column represents the complete name of a person who is affiliated with a particular coverage in the organization's membership system. It is used for identifying and referencing individuals who are linked to specific coverage plans.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the full name of the person affiliated with this coverage?",
+        "Can you provide the name of the affiliated individual for coverage ID 123?",
+        "How do I find the complete name of the person associated with this coverage plan?",
+        "Who is the affiliated person for this coverage?"
+      ],
+      "score": 0.03021353855729103
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_COMMUNICATION_TRACKING_CONTACT_NAME",
+      "concept": "Contact Name",
+      "alternate_forms": [
+        "Name of Contact",
+        "Person Name",
+        "Client Name",
+        "Customer Name"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COMMUNICATION_TRACKING",
+      "column_name": "CONTACT_NAME",
+      "description": "Represents the name of the individual or entity that is the point of contact in communication tracking records.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the contact name for our latest communication?",
+        "Can you find the name of the person we communicated with last week?",
+        "Who is the contact for this communication record?",
+        "Please show me the client name in the communication tracking."
+      ],
+      "score": 0.029726775363087654
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_COVERAGE_SUBSCRIBER_NAME",
+      "concept": "Subscriber Name",
+      "alternate_forms": [
+        "Customer Name",
+        "Member Name",
+        "Subscriber Full Name",
+        "Client Name"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE",
+      "column_name": "SUBSCRIBER_NAME",
+      "description": "This column holds the full name of the individual or entity subscribed to the coverage plan, identifying the policyholder or account owner within the system.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the name of the subscriber for this coverage?",
+        "Can you show me the subscriber name associated with this policy?",
+        "Who is the member listed under this coverage?",
+        "I need the customer name for this subscription."
+      ],
+      "score": 0.02417200803756714
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_DOCUMENT_INFO_PERSON_ID",
+      "concept": "Person Identifier",
+      "alternate_forms": [
+        "Person ID",
+        "Individual ID",
+        "Member ID",
+        "User ID",
+        "Identification Number"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_DOCUMENT_INFO",
+      "column_name": "PERSON_ID",
+      "description": "The unique identifier assigned to a person or member within the system, used to track interactions and documents associated with them.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the person identifier for this document?",
+        "Can you find the user ID linked to this record?",
+        "How do I locate the member ID for a specific person?",
+        "What identification number is associated with this person?",
+        "Where can I see the individual ID for this document?"
+      ],
+      "score": 0.0228660237044096
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_STAGING_COMPANION_SUBSCRIBER_DATE_OF_BIRTH",
+      "concept": "Subscriber's Date of Birth",
+      "alternate_forms": [
+        "Birthdate of Subscriber",
+        "Subscriber DOB",
+        "Subscriber Birthday",
+        "Subscriber's Birth Date"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_STAGING_COMPANION",
+      "column_name": "SUBSCRIBER_DATE_OF_BIRTH",
+      "description": "The date of birth of a subscriber, used for age verification, eligibility checks, and demographic analysis.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the date of birth of this subscriber?",
+        "Can you show me the subscriber's birthdate?",
+        "How old is the subscriber based on their date of birth?",
+        "When was the subscriber born?"
+      ],
+      "score": 0.03279569745063782
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_SOURCE_DEMOGRAPHIC_BIRTH_DATE",
+      "concept": "Date of Birth",
+      "alternate_forms": [
+        "Birthdate",
+        "Birthday",
+        "DOB",
+        "Birth Date"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_SOURCE_DEMOGRAPHIC",
+      "column_name": "BIRTH_DATE",
+      "description": "The date on which a person was born, used for identifying age and verifying identity within the member database.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the date of birth for member ID 12345?",
+        "Can you show me the birthdate of John Doe?",
+        "I need the birthday details for all members in the system.",
+        "How old is the person with DOB on 1990-01-01?",
+        "Find members born after January 1st, 2000."
+      ],
+      "score": 0.03229166567325592
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_BIRTH_DATE",
+      "concept": "Date of Birth",
+      "alternate_forms": [
+        "DOB",
+        "Birthdate",
+        "Birthday",
+        "Date born"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON",
+      "column_name": "BIRTH_DATE",
+      "description": "The Date of Birth column captures the specific date when a person was born. It is crucial for age calculations, eligibility assessments, and other personal history evaluations within the business context.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the date of birth for member John Doe?",
+        "Can you find the DOB of the person with membership ID 123?",
+        "I need to know the birthdate of all members who joined last year.",
+        "How old is the member whose birthday is on January 15, 1985?"
+      ],
+      "score": 0.03226646035909653
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_STAGING_COMPANION_MEMBER_DATE_OF_BIRTH",
+      "concept": "Member's Birth Date",
+      "alternate_forms": [
+        "Member's Date of Birth",
+        "Member Birthdate",
+        "Date of Birth for Member",
+        "DOB of Member"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_STAGING_COMPANION",
+      "column_name": "MEMBER_DATE_OF_BIRTH",
+      "description": "The birth date of a member, which is used for age verification, eligibility assessments, and demographic analysis.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the member's birth date?",
+        "Can you show me the date of birth for this member?",
+        "How old is the member based on their birthdate?",
+        "I need to verify the member's age; can I get their date of birth?",
+        "List members born on a specific date."
+      ],
+      "score": 0.03201844170689583
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_STAGING_COMPANION_EMPI_DOB_FROM_EMPI",
+      "concept": "Date of Birth",
+      "alternate_forms": [
+        "Birthday",
+        "Birthdate",
+        "DOB"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_STAGING_COMPANION_EMPI",
+      "column_name": "DOB_FROM_EMPI",
+      "description": "This column represents the date of birth of individuals as recorded in the EMPI (Enterprise Master Patient Index), which is used to uniquely identify patients for healthcare and insurance purposes.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the date of birth for this member?",
+        "Can you provide the birthday of the patient?",
+        "Show me the birthdate associated with this EMPI record.",
+        "How old is the person based on their DOB?"
+      ],
+      "score": 0.03125763311982155
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_COVERAGE_EFFECTIVE_START_DATE",
+      "concept": "Coverage Start Date",
+      "alternate_forms": [
+        "Policy Start Date",
+        "Start Date of Coverage",
+        "Insurance Start Date",
+        "Begin Date of Coverage"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE",
+      "column_name": "EFFECTIVE_START_DATE",
+      "description": "The date on which a member's insurance coverage becomes active. It marks the beginning of the coverage period for the insurance policy.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "When does the coverage start for this member?",
+        "Can you tell me the effective start date of the policy?",
+        "What is the start date for the insurance coverage?",
+        "On what date does the member's coverage begin?",
+        "I need the policy start date for this member."
+      ],
+      "score": 0.032522473484277725
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_COVERAGE_ATTRIBUTE_EFFECTIVE_START_DATE",
+      "concept": "Coverage Start Date",
+      "alternate_forms": [
+        "Start Date of Coverage",
+        "Insurance Coverage Begin Date",
+        "Date Coverage Starts",
+        "Effective Date of Coverage"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE_ATTRIBUTE",
+      "column_name": "EFFECTIVE_START_DATE",
+      "description": "The Coverage Start Date represents the date when an individual's insurance coverage becomes active, marking the beginning of the protection period under a particular insurance plan.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "When does my insurance coverage begin?",
+        "Can you tell me the start date for the coverage?",
+        "What is the effective date for my insurance coverage?",
+        "On what date does my coverage start?"
+      ],
+      "score": 0.0317540317773819
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_COVERAGE_COVERAGE_START_DATE",
+      "concept": "Coverage Start Date",
+      "alternate_forms": [
+        "Start Date of Coverage",
+        "Beginning of Coverage",
+        "Coverage Commencement Date"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_COVERAGE",
+      "column_name": "COVERAGE_START_DATE",
+      "description": "The date when a member's insurance coverage begins. This is crucial for determining active coverage periods and eligibility for services.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "When does my coverage start?",
+        "What is the start date for my insurance coverage?",
+        "How can I find out the beginning date of my coverage?",
+        "Tell me the coverage commencement date."
+      ],
+      "score": 0.0313725508749485
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_STAGING_COMPANION_CVRG_ATTR_EFFECTIVE_START_DATE",
+      "concept": "Coverage Start Date",
+      "alternate_forms": [
+        "Start Date of Coverage",
+        "Beginning Date for Coverage",
+        "Coverage Effective Date",
+        "Coverage Initiation Date"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_STAGING_COMPANION_CVRG_ATTR",
+      "column_name": "EFFECTIVE_START_DATE",
+      "description": "The date when a specific insurance coverage becomes active for a member. This marks the start of the period during which the coverage terms apply.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "What is the coverage start date for my policy?",
+        "When does my insurance coverage begin?",
+        "Can you tell me the effective start date of my coverage?",
+        "When is the start date for my insurance coverage?"
+      ],
+      "score": 0.03100961446762085
+    },
+    {
+      "id": "column_MEMBER_OWNER_TAP_PERSON_COVERAGE_RIDER_EFFECTIVE_START_DATE",
+      "concept": "Coverage Start Date",
+      "alternate_forms": [
+        "Policy Start Date",
+        "Start Date of Coverage",
+        "Effective Coverage Date",
+        "Insurance Start Date",
+        "Beginning Date of Coverage"
+      ],
+      "entity_type": "column",
+      "schema_name": "MEMBER_OWNER",
+      "table_name": "TAP_PERSON_COVERAGE_RIDER",
+      "column_name": "EFFECTIVE_START_DATE",
+      "description": "The date when the coverage or insurance policy becomes active for a member or owner. It marks the beginning of the period during which benefits can be claimed under the policy.",
+      "confidence": 0.85,
+      "example_phrases": [
+        "When does the coverage start for this member?",
+        "What is the policy start date for my insurance?",
+        "Can you tell me the effective date of my coverage?",
+        "I need to know the beginning date of my insurance coverage.",
+        "What date does the insurance become active?"
+      ],
+      "score": 0.029571646824479103
+    }
+  ],
+  "schemas": [],
+  "conditions": [
+    "coverage start date is June 1st, 2023"
+  ]
+}

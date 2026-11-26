@@ -1,0 +1,37 @@
+'use client';
+
+import { createContext, useContext, useReducer } from 'react';
+import smartNoteReducer from './SmartNoteReducer';
+import PropTypes from 'prop-types';
+
+const SmartNoteContext = createContext(null);
+const SmartNoteDispatchContext = createContext(null);
+
+const initialState = null;
+
+export function SmartNoteProvider({ children }) {
+  const [state, dispatch] = useReducer(
+    smartNoteReducer,
+    initialState
+  );
+
+  return (
+    <SmartNoteContext.Provider value={state}>
+      <SmartNoteDispatchContext.Provider value={dispatch}>
+        {children}
+      </SmartNoteDispatchContext.Provider>
+    </SmartNoteContext.Provider>
+  );
+}
+
+export function useSmartNote() {
+  return useContext(SmartNoteContext);
+}
+
+export function useSmartNoteDispatch() {
+  return useContext(SmartNoteDispatchContext);
+}
+
+SmartNoteProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

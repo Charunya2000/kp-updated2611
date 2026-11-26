@@ -1,0 +1,15 @@
+(async () => {
+  const { testGetSmartNote } = await import('./utils/manualNodeCommands.js');
+  await testGetSmartNote();
+})();
+
+(async () => {
+  const { testCreateSmartNote } = await import('./utils/manualNodeCommands.js');
+  await testCreateSmartNote();
+})();
+
+(async () => {
+  const {setProcessEnvironment} = await import ('./scripts/configActions.js');
+  const { listNUIDsInEachRole } = await import('./utils/manualNodeCommands.js');
+  await listNUIDsInEachRole();
+})();

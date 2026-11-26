@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "cfg-conversation-retrieval-v2",
+      "type": "GeisingerConfig",
+      "title": "conversation-retrieval-v2.json",
+      "documentText": "{\"indexName\":\"geisinger-002\",\"searchFields\":[\"content\",\"title\",\"smart_file_name\"],\"selectFields\":[\"id\",\"smartnote_id\",\"smart_file_name\",\"smart_file_type\",\"title\",\"content\",\"page\",\"createdAt\"],\"strategy\":{\"keywordTop\":60,\"semanticTop\":60,\"maxVariants\":4,\"maxLobBatches\":8,\"maxConversationIdsPerBatch\":120,\"maxCandidatesAfterMerge\":220,\"selectedDocEvidenceCount\":16,\"allLobEvidenceCount\":28,\"perDocumentCapAllLob\":4},\"scopeRules\":{\"selectedDocument\":\"Force smartnote_id to selected GeisingerConversation id\",\"allDocsInLob\":\"Resolve prepared GeisingerConversation ids by LOB alias in team-<teamName>-db.user_collection\"}}",
+      "inferredLob": "All",
+      "purpose": "SearchConfig",
+      "collectionName": "Document Conversation"
+    },
+    {
+      "id": "cfg-conversation-ranking-v2",
+      "type": "GeisingerConfig",
+      "title": "conversation-ranking-v2.json",
+      "documentText": "{\"scoreWeight\":1,\"exactSectionBoost\":3.5,\"titleTermBoost\":1.2,\"contentTermBoost\":0.4,\"exactPromptBoost\":2,\"queryVariantBoost\":{\"exact\":0.8,\"normalized\":0.5,\"sectionOnly\":0.7,\"quotedClause\":0.3},\"notes\":[\"Use deterministic ranking over merged keyword+semantic candidates\",\"Apply late-stage evidence selection to avoid dropping relevant chunks early\"]}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Conversation"
+    },
+    {
+      "id": "cfg-conversation-answer-v2",
+      "type": "GeisingerConfig",
+      "title": "conversation-answer-v2.md",
+      "documentText": "# Conversation Answer V2\n\nSystem prompt:\n\nYou are a healthcare compliance analyst. Answer only from provided evidence snippets.\nIf evidence is insufficient, say so explicitly and list what is missing.\nAlways cite evidence as [file:page].\n\nGeneration settings:\n- model: gpt-4o\n- temperature: 0.2\n- max_completion_tokens: 1200\n\nAnswer requirements:\n1. Provide a direct answer first.\n2. Include key supporting points with citations.\n3. If unsupported, state limitations and what evidence would resolve uncertainty.\n",
+      "inferredLob": "All",
+      "purpose": "ChatCompletionConfig",
+      "collectionName": "Document Conversation"
+    },
+    {
+      "id": "cfg-conversation-format-v2",
+      "type": "GeisingerConfig",
+      "title": "conversation-format-v2.md",
+      "documentText": "# Conversation Format V2\n\nPrimary response template (aligned to legacy behavior):\n\n```md\n## Document Overview\n\n**Document:** ${documentDisplay}\n\n---\n\n**Your Question:**\n_${userPrompt}_\n\n---\n\n**What I found:**\n\n${conversationResponse}\n```\n\nNotes:\n- For selected-document mode, `documentDisplay` should be `[${fileAName}](${url})`.\n- For all-docs-in-LOB mode, append `### Documents Used` after the template.\n- For all-docs-in-LOB mode, `documentDisplay` should be plain text (no hyperlink).\n- `url` should include `?target=_blank` and append `#page=<top evidence page>` when available.\n- Inline citations like `[file:page]` should be linkified to the corresponding `url#page=<page>` when a document URL is available.\n- Evidence snippets are not shown by default in final markdown.\n",
+      "inferredLob": "All",
+      "purpose": "FormatConfig",
+      "collectionName": "Document Conversation"
+    },
+    {
+      "id": "cfg-conversation-runtime-v2",
+      "type": "GeisingerConfig",
+      "title": "conversation-runtime-v2.json",
+      "documentText": "{\"search\":{\"indexName\":\"geisinger-002\"},\"data\":{\"collectionName\":\"user_collection\"},\"embedding\":{\"model\":\"text-embedding-ada-002\",\"deployment\":\"gpt-4o-aisvc\",\"apiVersion\":\"2023-05-15\"},\"preparationVersion\":{\"envVar\":\"GEISINGER_PREPARATION_VERSION\",\"defaultValue\":\"1\"},\"scope\":{\"maxUsedDocumentsInResponse\":12,\"allDocsInLobEnabled\":true,\"normalizeAcaToMarketplace\":true},\"progress\":{\"initialMessage\":\"Running conversation retrieval and analysis...\"},\"debug\":{\"searchLogging\":{\"enabled\":true,\"maxResults\":8}}}",
+      "inferredLob": "All",
+      "purpose": "GeneralConfig",
+      "collectionName": "Document Conversation"
+    },
+    {
+      "id": "cfg-conversation-v2-config-manifest",
+      "type": "GeisingerConfig",
+      "title": "conversation-v2-config-manifest.md",
+      "documentText": "# Conversation V2 Config Manifest\n\nRoute validated: `app/api/[teamName]/[assistantName]/smartNote/[smartNoteId]/submitAssistant/complianceai/conversationai/route.js`\n\n## Route Validation Summary\n- The route itself contains no behavior knobs; it normalizes request fields and delegates to `complianceConversationGraphV2`.\n- Effective config surface is in `app/services/langgraphs/compliance/complianceConversationService2.js`.\n\n## Current Runtime Config Sources\n- Hard-coded object: `HARD_CODED_CONVERSATION_CONFIG`.\n- Environment variables:\n- `GEISINGER_PREPARATION_VERSION`\n- `USE_VAULT`\n- `envName` and dynamic host-based keys for embeddings/search endpoints and keys.\n\n## Existing File-Backed Assets (Not Yet Runtime-Wired)\n- `conversation-retrieval-v2.json`\n- `conversation-ranking-v2.json`\n- `conversation-answer-v2.md`\n- `conversation-format-v2.md`\n- `conversation-runtime-v2.json`\n",
+      "inferredLob": "All",
+      "purpose": "Background",
+      "collectionName": "Document Conversation"
+    }
+  ]
+}

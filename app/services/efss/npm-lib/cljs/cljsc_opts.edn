@@ -1,0 +1,1 @@
+{:output-dir "target/js", :target :nodejs, :main org.kp.kpmc.core, :output-to "target/js/index.js", :optimizations :none, :npm-deps {:oracledb "6.8.0"}, :aot-cache true}

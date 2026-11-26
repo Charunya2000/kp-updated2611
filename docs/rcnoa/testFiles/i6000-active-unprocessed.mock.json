@@ -1,0 +1,41 @@
+{
+  "fixtureId": "i6000-active-unprocessed",
+  "version": "1.0.0",
+  "businessDate": "20260810",
+  "membershipRecords": [
+    [
+      "MRN001",
+      "20260101",
+      "20261231",
+      "ALEX",
+      "TESTER",
+      "111223333",
+      "F",
+      "18",
+      "ABC",
+      "ANN001",
+      "PO123",
+      "N",
+      "N",
+      "46",
+      "Y",
+      "111223333",
+      "",
+      "19800102",
+      ""
+    ]
+  ],
+  "recent834Records": [
+    [
+      "111223333",
+      "20260101",
+      "20260731",
+      "N"
+    ]
+  ],
+  "priorRcnaRecords": [],
+  "expected": {
+    "ruleId": "I6000",
+    "code": "AC501"
+  }
+}

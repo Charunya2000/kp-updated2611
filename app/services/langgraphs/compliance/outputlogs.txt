@@ -1,0 +1,370 @@
+
+> aiportalsn@3.0.128 dev
+> node server.js
+
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 760ms
+> Ready on http://localhost:3000/
+ ○ Compiling / ...
+ ✓ Compiled / in 13.3s
+ GET / 200 in 15136ms
+ ○ Compiling /api/smartNotes/selectedUserRole ...
+ ✓ Compiled /api/smartNotes/selectedUserRole in 3.5s
+ GET /api/auth/session 200 in 5419ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"KP Smart Notes\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"KP Smart Notes","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+ ○ Compiling /api/user/role ...
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+ ✓ Compiled /api/user/role in 945ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SharePointFile\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+ GET /api/smartNote/template?selectedUserRole=KP%20Smart%20Notes 200 in 6717ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+ GET /api/auth/session 200 in 1272ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=KP%20Smart%20Notes 200 in 7184ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"userRole","userNUID":"A257371"}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"role","_id":{"$in":["684383268f03c248199ee1b3","684383268f03c248199ee1b9","684383268f03c248199ee1b2","684383268f03c248199ee1b1","684383268f03c248199ee1ba","685d58505168e0ed1aee7cb6","684383268f03c248199ee1b8","684383268f03c248199ee1bf","68879c64b58fd5e9f31a85b1","688d2d184af489f08d4e0be5","68c94a7051f282efc607e4ff"]}}}}
+ GET /api/user/role 200 in 1870ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"KP Smart Notes","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SharePointFile\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+ GET /api/smartNote/template?selectedUserRole=KP%20Smart%20Notes 200 in 1656ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"KP Smart Notes\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"userRole","userNUID":"A257371"}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"role","_id":{"$in":["684383268f03c248199ee1b3","684383268f03c248199ee1b9","684383268f03c248199ee1b2","684383268f03c248199ee1b1","684383268f03c248199ee1ba","685d58505168e0ed1aee7cb6","684383268f03c248199ee1b8","684383268f03c248199ee1bf","68879c64b58fd5e9f31a85b1","688d2d184af489f08d4e0be5","68c94a7051f282efc607e4ff"]}}}}
+ GET /api/user/role 200 in 1133ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=KP%20Smart%20Notes 200 in 1584ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"KP Smart Notes","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"KP Smart Notes\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SharePointFile\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+ GET /api/smartNote/template?selectedUserRole=KP%20Smart%20Notes 200 in 1588ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=KP%20Smart%20Notes 200 in 1409ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"KP Smart Notes","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"KP Smart Notes\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SharePointFile\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+ GET /api/smartNote/template?selectedUserRole=KP%20Smart%20Notes 200 in 1206ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=KP%20Smart%20Notes 200 in 1174ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"KP Smart Notes","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"KP Smart Notes\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SharePointFile\",\"nuid\":\"C597732\",\"parentId\":\"73ad289d-a228-4d9b-9072-d8450611599a\"}"}}
+ GET /api/smartNote/template?selectedUserRole=KP%20Smart%20Notes 200 in 1234ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7285370e-67b9-4b66-b001-4c4e316d54fa\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"e483a4db-f6fd-4b1b-b9fb-bfa22f963301\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"44d17fb7-9e05-425f-8341-6de92be02039\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4316e215-15f5-4d9f-9462-281d6183e8e3\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"7c59817c-c43e-41a7-ba62-9b6ebede2c55\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"4e7103b1-b66d-43c5-b99a-58e4b7e0cb97\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=KP%20Smart%20Notes 200 in 1182ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SmartNote\",\"nuid\":\"A257371\",\"parentId\":{\"$exists\":true},\"selectedUserRole\":\"complianceAI2\",\"app\":\"SmartNotes\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"DesignReference\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"SmartNoteTemplate","selectedUserRole":"complianceAI2","$or":[{"shared":"assistant"},{"shared":"individuals","sharedWith":"A257371"},{"shared":"individuals","nuid":"A257371"}]}}}
+ GET /api/smartNote/template?selectedUserRole=complianceAI2 200 in 928ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"JiraIssue\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedNote\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"SavedResponse\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"Source\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"UploadedDocument\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentCount","detail":"selectDocumentCount with {\"type\":\"ChatInteraction\",\"nuid\":\"A257371\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\"}"}}
+ GET /api/smartNotes/selectedUserRole?selectedUserRole=complianceAI2 200 in 1161ms
+ ○ Compiling /smartNote/[id] ...
+ ✓ Compiled /smartNote/[id] in 18.4s
+ GET /smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6 200 in 20316ms
+ ○ Compiling /api/smartNote/[smartNoteId] ...
+ ✓ Compiled /api/smartNote/[smartNoteId] in 1079ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocument","detail":"selectDocument with {\"type\":\"SmartNote\",\"parentId\":{\"$exists\":true},\"id\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6 200 in 3719ms
+ ○ Compiling /api/smartNote/[smartNoteId]/chatHistory/currentChatHistory ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/chatHistory/currentChatHistory in 697ms
+ GET /api/auth/session 200 in 808ms
+ GET /api/auth/session 200 in 974ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"ChatHistory\",\"parentId\":\"005a2195-18aa-4d60-8b4f-4f0e5f7deaf6\",\"current\":true,\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/currentChatHistory 200 in 4273ms
+ ○ Compiling /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat in 772ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"Chat\",\"parentId\":\"0c395446-242a-42c8-921f-f08af9894e0e\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat 200 in 3117ms
+ ○ Compiling /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction in 649ms
+ GET /api/auth/session 200 in 1160ms
+ GET /api/auth/session 200 in 845ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"ChatInteraction\",\"parentId\":\"cf00ac78-fbf3-4382-935f-549cec2e8a08\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction 200 in 4761ms
+ ○ Compiling /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction/[chatInteractionId]/suggestedPrompt ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction/[chatInteractionId]/suggestedPrompt in 860ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SuggestedPrompt\",\"parentId\":\"65c7bbe2-6220-433f-87e0-85ba5c092308\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/65c7bbe2-6220-433f-87e0-85ba5c092308/suggestedPrompt 200 in 3508ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SuggestedPrompt\",\"parentId\":\"65c7bbe2-6220-433f-87e0-85ba5c092308\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/65c7bbe2-6220-433f-87e0-85ba5c092308/suggestedPrompt 200 in 559ms
+ ○ Compiling /api/docIntelligence/converseDoc ...
+ ✓ Compiled /api/docIntelligence/converseDoc in 2.7s
+ GET /api/docIntelligence/converseDoc?inferredLob=ACA&status=Complete 200 in 3505ms
+ ○ Compiling /api/docIntelligence/compareDocs ...
+ ✓ Compiled /api/docIntelligence/compareDocs in 857ms
+ GET /api/docIntelligence/compareDocs?inferredLob=ACA&status=Complete 200 in 1307ms
+ POST /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction 200 in 883ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SuggestedPrompt\",\"parentId\":\"7320020a-3202-44df-85d0-6d63ab7af63b\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 200 in 1384ms
+ ○ Compiling /api/smartNote/[smartNoteId]/submitAssistant/complianceai/comparisonai ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/submitAssistant/complianceai/comparisonai in 3.4s
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocumentsExt","detail":{"type":"GeisingerConfig","collectionName":"Document Comparison"}}}
+(node:34480) MaxListenersExceededWarning: Possible EventTarget memory leak detected. 11 abort listeners added to [AbortSignal]. MaxListeners is 10. Use events.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+ POST /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/submitAssistant/complianceai/comparisonai 200 in 13897ms
+ ○ Compiling /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction/[chatInteractionId] ...
+ ✓ Compiled /api/smartNote/[smartNoteId]/chatHistory/[chatHistoryId]/chat/[chatId]/chatInteraction/[chatInteractionId] in 771ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 2.4s
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 404 in 3384ms
+ PUT /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b 200 in 5584ms
+{
+  kpmsg: {
+    id: 'AI_PORTAL_NOTEBOOK',
+    name: 'updateDocument',
+    detail: { query: [Object], document: [Object], result: [Object] }
+  }
+}
+ POST /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 200 in 2109ms
+ POST /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 200 in 2159ms
+ POST /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 200 in 2147ms
+ GET /api/auth/session 200 in 597ms
+ GET /api/auth/session 200 in 572ms
+ ✓ Compiled in 208ms
+{"kpmsg":{"id":"AI_PORTAL_NOTEBOOK","name":"selectDocuments","detail":"selectDocuments with {\"type\":\"SuggestedPrompt\",\"parentId\":\"7320020a-3202-44df-85d0-6d63ab7af63b\",\"nuid\":\"A257371\",\"app\":\"SmartNotes\"}"}}
+ GET /api/smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6/chatHistory/0c395446-242a-42c8-921f-f08af9894e0e/chat/cf00ac78-fbf3-4382-935f-549cec2e8a08/chatInteraction/7320020a-3202-44df-85d0-6d63ab7af63b/suggestedPrompt 200 in 1229ms
+ ✓ Compiled in 82ms
+ ✓ Compiled in 85ms
+ ✓ Compiled in 45ms
+ ✓ Compiled in 32ms
+ ○ Compiling /smartNote/[id] ...
+ ✓ Compiled /smartNote/[id] in 858ms
+ GET /smartNote/005a2195-18aa-4d60-8b4f-4f0e5f7deaf6 200 in 1749ms

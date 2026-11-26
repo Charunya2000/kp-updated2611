@@ -1,0 +1,34 @@
+flowchart TD
+    A["rcnoaProcessingService.processRcnoaRun()<br/>advanceStage('TRANSFORMING')"] --> B["rcnoaCore.js coordinator<br/>transformRcnoRowsWithWorkerIsolation()"]
+    B --> C["prepareReferenceData() ONCE<br/>normalize + index membership,<br/>recent834, priorRcna into Maps"]
+    C --> D["spawn rcnoaTransformWorker.js<br/>(worker_threads)"]
+    D --> E["send init message:<br/>businessDate, n12Code,<br/>prepared lookup Maps"]
+    E --> F["worker replies 'ready'"]
+    F --> G["Parent loop: for each source row"]
+    G --> H["set currentRowNumber + startedAt<br/>postMessage('transform-row', row)"]
+    H --> I["start rowBlockTimeoutMs timer<br/>e.g. 30-60s"]
+    I --> J{"Worker replies<br/>before timeout?"}
+    J -- "row-success" --> K["append working/outbound/audit<br/>processed++, succeeded++"]
+    J -- "row-failure (thrown error)" --> L["append to failures[]<br/>processed++, failed++"]
+    J -- "TIMEOUT: row still running" --> M["worker.terminate()<br/>log rcnoaRowTransformBlocked<br/>{runId, sourceRowNumber, elapsedMs}"]
+    M --> N["append to blockedRows[]<br/>processed++, blocked++"]
+    N --> O["respawn worker + re-init<br/>(reuses prepared Maps)"]
+    K --> P["flushProgress if row count<br/>or elapsed time threshold met"]
+    L --> P
+    O --> P
+    P --> Q["onProgress() -> transitionRcnoaRun()<br/>heartbeatAt refreshed frequently<br/>counts include real 'blocked'"]
+    Q --> R{"blockedRows > maxBlockedRows<br/>or blocked% > maxBlockedPercent?"}
+    R -- "No" --> S["continue to next row"]
+    S --> G
+    R -- "Yes" --> T["fail run intentionally:<br/>too many blocked rows to trust output"]
+    Q --> U{"more rows?"}
+    U -- "No" --> V["shutdown worker<br/>return workingRecords, outboundRecords,<br/>audit, failures, blockedRows"]
+    V --> W["Run proceeds to STAGING_RCNA<br/>with full row-number visibility<br/>into what blocked"]
+
+    style M fill:#fff3cd,stroke:#cc8800
+    style N fill:#fff3cd,stroke:#cc8800
+    style O fill:#fff3cd,stroke:#cc8800
+    style Q fill:#d4edda,stroke:#28a745
+    style C fill:#d4edda,stroke:#28a745
+    style W fill:#d4edda,stroke:#28a745
+    style T fill:#ffcccc,stroke:#cc0000

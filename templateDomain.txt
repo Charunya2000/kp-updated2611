@@ -1,0 +1,31 @@
+NUID
+  Role
+    Persona
+      Workflow
+
+WorkflowTemplate
+PersonaTemplate
+RoleTemplate
+
+TemplateDocument
+  Named
+  TemplateText
+  TemplateFields
+  Purpose
+
+Template
+  Role
+  Persona
+  Workflow
+
+TemplateUse (In app use of templates)
+  Purpose
+  Role
+  Persona
+  Workflow
+  Purpose
+  NamedCollection
+
+NamedTemplateCollection
+
+NamedTemplateCollectionTemplate

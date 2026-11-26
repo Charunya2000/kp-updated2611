@@ -1,0 +1,103 @@
+replicaCount: 1
+name: aiplatform
+labels:
+  app.kubernetes.io/managed-by-NUID: A257371
+image:
+  repository: aiplatform
+  tag: 0.1.21
+  pullPolicy: Always
+  labels:
+    app: frontend-or-api
+  containerPort: 8080
+env:
+  - name: LOG_LEVEL
+    value: ERROR
+  - name: KPCONFIG_ACCESSTOKEN
+    valueFrom:
+      secretKeyRef:
+        name: aiplatform
+        key: KPCONFIG_ACCESSTOKEN
+  - name: KPCONFIG_USER
+    valueFrom:
+      secretKeyRef:
+        name: aiplatform
+        key: KPCONFIG_USER
+  - name: KPCONFIG_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: aiplatform
+        key: KPCONFIG_PASSWORD
+  - name: KPCONFIG_URI
+    valueFrom:
+      secretKeyRef:
+        name: aiplatform
+        key: KPCONFIG_URI
+  - name: KPCONFIG_LABEL
+    value: master
+  - name: KPCONFIG_NAME
+    value: hpts-aisvc
+  - name: KPCONFIG_PROFILE
+    value: genai-port-client-psup
+
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /livenessprobe
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 60
+  timeoutSeconds: 5
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 60
+  timeoutSeconds: 5
+
+configmap:
+  enabled: false
+
+resources:
+  limits:
+    cpu: "1"
+    memory: 2Gi
+  requests:
+    cpu: "1"
+    memory: 2Gi
+
+service:
+  port: 80
+  targetPort: 8080
+
+virtualServer:
+  enabled: true
+  vss:
+    - host: psup-aiplatform-web-1.aisvc.aksp.azure.kp.org
+      type: live
+      clientMaxBodySize: 200m
+      upstream:
+        readTimeout: 180s
+        sendTimeout: 180s
+        connectTimeout: 60s
+      # Add SSE-specific settings
+      proxyBuffering: off
+      proxyReadTimeout: 3600s
+      proxyConnectTimeout: 60s
+      annotations:
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          proxy_set_header Connection "";
+          proxy_http_version 1.1;
+          # For SSE endpoints specifically
+          location ~* /api/smartNote/[^/]+/context/uploadedDocument {
+            proxy_buffering off;
+            proxy_read_timeout 3600s;
+            proxy_send_timeout 3600s;
+          }
+
+nameOverride: ""
+fullnameOverride: ""
+nodeSelector: {}
+tolerations: []
+affinity: {}

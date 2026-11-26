@@ -1,0 +1,17 @@
+{
+  "scoreWeight": 1,
+  "exactSectionBoost": 3.5,
+  "titleTermBoost": 1.8,
+  "contentTermBoost": 0.9,
+  "exactPromptBoost": 4,
+  "listRoleSignalBoost": 6,
+  "listHeadingBoost": 4,
+  "listStructureBoost": 2,
+  "listOffTopicPenalty": 8,
+  "variantBoost": {
+    "exact": 0.8,
+    "normalized": 0.5,
+    "sectionOnly": 0.7,
+    "quotedClause": 0.3
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "version": "1.0.0",
+  "fixtures": [
+    {
+      "id": "a100-perfect-match",
+      "label": "A100 - Perfect match",
+      "version": "1.0.0",
+      "rcnoFile": "a100-perfect-match.rcno",
+      "mockFile": "a100-perfect-match.mock.json",
+      "expectedRuleId": "A100",
+      "expectedCode": "MM"
+    },
+    {
+      "id": "b200-prior-reuse",
+      "label": "B200 - Reuse prior decision",
+      "version": "1.0.0",
+      "rcnoFile": "b200-prior-reuse.rcno",
+      "mockFile": "b200-prior-reuse.mock.json",
+      "expectedRuleId": "B200",
+      "expectedCode": "DM501"
+    },
+    {
+      "id": "f13000-processed-834",
+      "label": "F13000 - Missing membership, processed 834",
+      "version": "1.0.0",
+      "rcnoFile": "f13000-processed-834.rcno",
+      "mockFile": "f13000-processed-834.mock.json",
+      "expectedRuleId": "F13000",
+      "expectedCode": "AE500"
+    },
+    {
+      "id": "f14000-unprocessed-834",
+      "label": "F14000 - Missing membership, unprocessed 834",
+      "version": "1.0.0",
+      "rcnoFile": "f14000-unprocessed-834.rcno",
+      "mockFile": "f14000-unprocessed-834.mock.json",
+      "expectedRuleId": "F14000",
+      "expectedCode": "AE501"
+    },
+    {
+      "id": "i4000-active-processed",
+      "label": "I4000 - Active membership, processed 834",
+      "version": "1.0.0",
+      "rcnoFile": "i4000-active-processed.rcno",
+      "mockFile": "i4000-active-processed.mock.json",
+      "expectedRuleId": "I4000",
+      "expectedCode": "AC500"
+    },
+    {
+      "id": "i5000-inactive-processed",
+      "label": "I5000 - Inactive membership, processed 834",
+      "version": "1.0.0",
+      "rcnoFile": "i5000-inactive-processed.rcno",
+      "mockFile": "i5000-inactive-processed.mock.json",
+      "expectedRuleId": "I5000",
+      "expectedCode": "CE500"
+    },
+    {
+      "id": "i6000-active-unprocessed",
+      "label": "I6000 - Active membership, unprocessed 834",
+      "version": "1.0.0",
+      "rcnoFile": "i6000-active-unprocessed.rcno",
+      "mockFile": "i6000-active-unprocessed.mock.json",
+      "expectedRuleId": "I6000",
+      "expectedCode": "AC501"
+    },
+    {
+      "id": "i7000-inactive-unprocessed",
+      "label": "I7000 - Inactive membership, unprocessed 834",
+      "version": "1.0.0",
+      "rcnoFile": "i7000-inactive-unprocessed.rcno",
+      "mockFile": "i7000-inactive-unprocessed.mock.json",
+      "expectedRuleId": "I7000",
+      "expectedCode": "CE501"
+    },
+    {
+      "id": "n0000-missing-membership",
+      "label": "N0000 - MRN not found",
+      "version": "1.0.0",
+      "rcnoFile": "n0000-missing-membership.rcno",
+      "mockFile": "n0000-missing-membership.mock.json",
+      "expectedRuleId": "N0000",
+      "expectedCode": "KICKO"
+    },
+    {
+      "id": "n12000-manual-review",
+      "label": "N12000 - Manual business review",
+      "version": "1.0.0",
+      "rcnoFile": "n12000-manual-review.rcno",
+      "mockFile": "n12000-manual-review.mock.json",
+      "expectedRuleId": "N12000",
+      "expectedCode": "AE999"
+    },
+    {
+      "id": "complete-ab-rules",
+      "label": "Complete A/B rule coverage",
+      "version": "1.0.0",
+      "rcnoFile": "complete-ab-rules.rcno",
+      "mockFile": "complete-ab-rules.mock.json",
+      "rowCount": 2,
+      "ruleFamily": "ab",
+      "rcnaOnly": true,
+      "catalogCaseIds": [
+        "CAT-001-A100",
+        "CAT-002-B200"
+      ]
+    },
+    {
+      "id": "complete-f-rules",
+      "label": "Complete F rule coverage",
+      "version": "1.0.0",
+      "rcnoFile": "complete-f-rules.rcno",
+      "mockFile": "complete-f-rules.mock.json",
+      "rowCount": 15,
+      "ruleFamily": "f",
+      "rcnaOnly": true,
+      "catalogCaseIds": [
+        "CAT-003-F1300",
+        "CAT-004-F2400",
+        "CAT-005-F3500",
+        "CAT-006-F4600",
+        "CAT-007-F5700",
+        "CAT-008-F6800",
+        "CAT-009-F7000",
+        "CAT-010-F8000",
+        "CAT-011-F9000",
+        "CAT-012-F10000",
+        "CAT-013-F11000",
+        "CAT-014-F12000",
+        "CAT-015-F13000",
+        "CAT-016-F14000",
+        "CAT-017-F20000"
+      ]
+    },
+    {
+      "id": "complete-i-rules",
+      "label": "Complete I rule coverage",
+      "version": "1.0.0",
+      "rcnoFile": "complete-i-rules.rcno",
+      "mockFile": "complete-i-rules.mock.json",
+      "rowCount": 7,
+      "ruleFamily": "i",
+      "rcnaOnly": true,
+      "catalogCaseIds": [
+        "CAT-018-I1000",
+        "CAT-019-I2000",
+        "CAT-020-I3000",
+        "CAT-021-I4000",
+        "CAT-022-I5000",
+        "CAT-023-I6000",
+        "CAT-024-I7000"
+      ]
+    },
+    {
+      "id": "complete-n-rules",
+      "label": "Complete N rule coverage",
+      "version": "1.0.0",
+      "rcnoFile": "complete-n-rules.rcno",
+      "mockFile": "complete-n-rules.mock.json",
+      "rowCount": 22,
+      "ruleFamily": "n",
+      "rcnaOnly": true,
+      "catalogCaseIds": [
+        "CAT-025-N0000",
+        "CAT-026-N1000",
+        "CAT-027-N2000",
+        "CAT-028-N3000",
+        "CAT-029-N4000",
+        "CAT-030-N5000",
+        "CAT-031-N4000_1",
+        "CAT-032-N5000_1",
+        "CAT-033-N5000_2",
+        "CAT-034-N6000",
+        "CAT-035-N7000",
+        "CAT-036-N8000",
+        "CAT-037-N9000",
+        "CAT-038-N91000",
+        "CAT-039-N92000",
+        "CAT-040-N10000",
+        "CAT-041-N11000",
+        "CAT-042-N12000",
+        "CAT-043-N13000",
+        "CAT-044-N14000",
+        "CAT-045-N15000",
+        "CAT-046-N16000"
+      ]
+    },
+    {
+      "id": "complete-fallback-rules",
+      "label": "Complete fallback rule coverage",
+      "version": "1.0.0",
+      "rcnoFile": "complete-fallback-rules.rcno",
+      "mockFile": "complete-fallback-rules.mock.json",
+      "rowCount": 5,
+      "ruleFamily": "fallback",
+      "rcnaOnly": true,
+      "catalogCaseIds": [
+        "CAT-047-AE_1",
+        "CAT-048-AC_2",
+        "CAT-049-DM_3",
+        "CAT-050-CE_4",
+        "CAT-051-No_rule99999"
+      ]
+    }
+  ]
+}

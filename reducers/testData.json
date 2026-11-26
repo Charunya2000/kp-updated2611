@@ -1,0 +1,214 @@
+[
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440000",
+    "team": "HPPDM",
+    "createdNUID": "A257371",
+    "title": "Get pharmacy directory from FACDIR",
+    "savedNotes": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440890",
+        "title": "Capture pharmacy requirements",
+        "content": "## Requirements:\n* Pharmacy connection via https.\n* Request can be sent to pharmacy to obtain directory.\n* Request can be sent to update current pharmacy directory."
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440260",
+        "title": "Sample http request",
+        "content": "https://kp.pharmacy.kp.org/api/directory/[region]/full"
+      }
+    ],
+    "uploadedDocuments": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440014",
+        "type": "Office PowerPoint document",
+        "name": "MyPresentation.pptx",
+        "uploadDate": "2024-12-12T15:30:00Z"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440936",
+        "type": "Text document",
+        "name": "MeetingNotes_2024_12_12.txt",
+        "uploadDate": "2024-12-10T07:30:00Z"
+      }
+    ],
+    "savedResponses": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440672",
+        "promptType": "Create User Story",
+        "promptText": "Please create a user story regarding retrieval pharmacy directory.",
+        "responseText": "**Title:** User Registration\n**As a** new user,  \n**I want to** create an account,  \n**So that** I can access the platform's features.\n**Acceptance Criteria:**\n1. The user should be able to navigate to the registration page from the homepage.\n2. The registration form should include fields for username, email, and password.\n3. The user should receive an error message if any required fields are left blank.\n4. The user should receive an error message if the email format is invalid.\n5. The user should receive an error message if the password does not meet the security requirements (e.g., minimum length, special characters).\n6. Upon successful registration, the user should receive a confirmation email.\n7. The user should be redirected to the login page after successful registration.\n\nWould you like more examples or details on a specific part of the user story?"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440719",
+        "promptType": "Direct",
+        "promptText": "What is a pharmacy directory?",
+        "responseText": "A pharmacy directory is a comprehensive list of pharmacies within a specific network or area."
+      }
+    ],
+    "designReferences": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440957",
+        "type": "Office Word document",
+        "name": "Membership Admin Desk Level Procedure bullet points Manual Eligibility.docx",
+        "url": "https://sp-cloud.kp.org/:w:/r/sites/KPMCPgm/_layouts/15/Doc.aspx?sourcedoc=%7B7D30CF64-ED75-41AB-BC87-AF4345375872%7D&file=Membership%20Admin%20Desk%20Level%20Procedure%20bullet%20points%20Manual%20Eligibility.docx&action=default&mobileredirect=true"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440394",
+        "type": "Office Spreadsheet document",
+        "name": "MOC Commercial - Cutover Approach - Options v4.xlsx",
+        "url": "https://sp-cloud.kp.org/:x:/r/sites/KPMCPgm/_layouts/15/Doc.aspx?sourcedoc=%7BE0FF3405-E743-4D20-89E0-6FC6AA58FD97%7D&file=MOC%20Commercial%20-%20Cutover%20Approach%20-%20Options%20v4.xlsx&action=default&mobileredirect=true"
+      }
+    ],
+    "jiraIssues": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-194827345811",
+        "issueType": "Epic",
+        "jiraKey": "KPMC-42156",
+        "description": "I'm a sample description.",
+        "summary": "I'm a sample summary."
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-194827345812",
+        "issueType": "User Story",
+        "jiraKey": "KPMC-42164",
+        "description": "I'm a another sample description.",
+        "summary": "I'm a another sample summary."
+      }
+    ],
+    sources: [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440890",
+        "selected": true,
+        "sourceType": SmartNoteTypes.NOTE
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440936",
+        "selected": false,
+        "sourceType": SmartNoteTypes.UPLOADED_DOC
+      }
+    ],
+    "suggestedPrompts": [
+      "Provide a summary of the uploaded document.",
+      "Create an FAQ from uploaded document.",
+      "Create a glossary from uploaded document."
+    ],
+    "prelude": "The process of getting the pharmacy directory from FACDIR involves multiple interface interactions with health care provider hospitals:\n- An authentication request / response.\n- A call to get the list of provider hospitals available.\n- A final call to get the directory of a specific provider hospital.",
+    "chatInteractions": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655443267",
+        "request": "What is manual eligibility?",
+        "response": "Some thoughts:\n- Manual eligibility is eligibility determined within the application process taken up by the consumer.\n- Automated eligibility can be determined automatically at renewal."
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655447444",
+        "request": "What is a subscription premium?",
+        "response": "A subscription premium is the amount the subscriber is obligated to pay each month.."
+      }
+    ]
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440001",
+    "team": "HPPDM",
+    "createdNUID": "A257371",
+    "title": "Stage and Harmonize Regional Trigger files",
+    "savedNotes": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440962",
+        "title": "List of Trigger files",
+        "content": "## Trigger Files\n* IncomingDirectory[Region]_[Timestamp].txt\n* OutgoingDirectory[Region]_[Timestamp].txt\n* ErrorDirectory[Region]_[Timestamp].txt\n"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440466",
+        "title": "Trigger file header",
+        "content": "region    timstamp   recordCount"
+      }
+    ],
+    "uploadedDocuments": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440286",
+        "type": "Office Excel document",
+        "name": "SampleTriggerFiles.xlsx",
+        "uploadDate": "2024-11-08T15:30:00Z"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440334",
+        "type": "Office Word document",
+        "name": "Meeting Summary.docx",
+        "uploadDate": "2024-09-10T14:30:00Z"
+      }
+    ],
+    "savedResponses": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440991",
+        "promptType": "Create Automated Test",
+        "promptText": "Please create an automated Selenium test covering receiving trigger files.",
+        "responseText": "import org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.chrome.ChromeDriver;\n\npublic class SampleSeleniumScript {\n    public static void main(String[] args) {\n        // Set the path to the ChromeDriver executable\n        System.setProperty(\"webdriver.chrome.driver\", \"path/to/chromedriver\");\n\n        // Create a new instance of the Chrome driver\n        WebDriver driver = new ChromeDriver();\n\n        // Navigate to a website\n        driver.get(\"https://www.example.com\");\n\n        // Get the title of the page\n        String pageTitle = driver.getTitle();\n\n        // Print the title of the page\n        System.out.println(\"Page title is: \" + pageTitle);\n\n        // Verify the title of the page\n        if (pageTitle.equals(\"Example Domain\")) {\n            System.out.println(\"Test Passed!\");\n        } else {\n            System.out.println(\"Test Failed!\");\n        }\n\n        // Close the browser\n        driver.quit();\n    }\n}\n"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440422",
+        "promptType": "Direct",
+        "promptText": "when are trigger files received?",
+        "responseText": "Trigger files are received starting at 12:00am each weekday except Monday."
+      }
+    ],
+    "designReferences": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440783",
+        "type": "Office Word document",
+        "name": "4.1.3 Fully Insured Policy to Cash.Process One Time Automatic Payment.docx",
+        "url": "https://sp-cloud.kp.org/:w:/r/sites/KPMCPgm/_layouts/15/Doc.aspx?sourcedoc=%7B535F91ED-ED18-4DC9-9DB0-EBE272A3DB3D%7D&file=4.1.2%20Fully%20Insured%20Policy%20to%20Cash.Process%20Scheduled%20Automatic%20Payment.docx&action=default&mobileredirect=true"
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440200",
+        "type": "Office Spreadsheet document",
+        "name": "Application support cases v4-Roles and Responsibilities.xlsx",
+        "url": "https://sp-cloud.kp.org/:x:/r/sites/KPMCPgm/_layouts/15/Doc.aspx?sourcedoc=%7B14FE2B2A-F43A-42BE-BCB8-9D5A02E04761%7D&file=Application%20support%20cases%20v4-Roles%20and%20Responsibilities.xlsx&action=default&mobileredirect=true"
+      }
+    ],
+    "jiraIssues": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-194827345813",
+        "issueType": "Epic",
+        "jiraKey": "KPMC-42156",
+        "description": "I'm a third sample description.",
+        "summary": "I'm a third sample summary."
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-194827345814",
+        "issueType": "User Story",
+        "jiraKey": "KPMC-42164",
+        "description": "I'm fourth sample description.",
+        "summary": "I'm fourth sample summary."
+      }
+    ],
+    sources: [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440991",
+        "selected": true,
+        "sourceType": SmartNoteTypes.SAVED_RESPONSE
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655440200",
+        "selected": false,
+        "sourceType": SmartNoteTypes.REFERENCE
+      }
+    ],
+    "suggestedPrompts": [
+      "Create a user story.",
+      "Create a test case.",
+      "Create an automated test."
+    ],
+    "prelude": "When agencies work together they often need to trigger critical activities. These triggers are implemented via interface services that exchange trigger files. The following steps take place:\n- The source agency creates appropriate file that defines the trigger which should include:\n  - The name of the source agency.\n  - The name of the target agency.\n  - The date of the trigger.\n  - Whether or not an acknowledgement return file is required.\n- The source agency sends the trigger file to the target agency.\n- The target agency takes the appropriate action.\n- The target agency returns an acknowledgement file.",
+    "chatInteractions": [
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655433654",
+        "request": "What is ORMB?",
+        "response": "ORMB is an acronym standing for **Oracle Revenue Management and Billing**. It's a software product designed to help health care companies track premium payments and membership."
+      },
+      {
+        "_id": "550e8400-e29b-41d4-a716-446655464123",
+        "request": "What is CAM?",
+        "response": "CAM is an acronym that stands for *Cutover and Migration*. It is the process of migrating KP regions to ORMB."
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "search": {
+    "indexName": "geisinger-002"
+  },
+  "data": {
+    "collectionName": "user_collection"
+  },
+  "embedding": {
+    "model": "text-embedding-ada-002",
+    "deployment": "gpt-4o-aisvc",
+    "apiVersion": "2023-05-15"
+  },
+  "preparationVersion": {
+    "envVar": "GEISINGER_PREPARATION_VERSION",
+    "defaultValue": "1"
+  },
+  "scope": {
+    "maxUsedDocumentsInResponse": 12,
+    "allDocsInLobEnabled": true,
+    "normalizeAcaToMarketplace": true
+  },
+  "progress": {
+    "initialMessage": "Running conversation retrieval and analysis..."
+  },
+  "debug": {
+    "searchLogging": {
+      "enabled": true,
+      "maxResults": 8
+    }
+  }
+}
